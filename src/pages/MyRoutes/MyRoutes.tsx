@@ -11,7 +11,7 @@ interface IMyRoutes{
 export default function MyRoutes({children} : IMyRoutes) {
   return (
     <BrowserRouter>
-        <div className='wrapper' style={{overflow: 'hidden'}}>
+        <div className='wrapper' style={{ overflow: 'hidden' }}>
           <Header/>
           <Search/>
           <App/>

@@ -20,12 +20,14 @@ export default function Header() {
                         <Link to='/security'><h2>Безопасная сделка</h2></Link>
                         <Link to='/rules'><h2>Правила пользования</h2></Link>
                     </div>
-                    <div style={{position: 'relative', height: '20px'}}>
-                        <IconSelector onClick={() => console.log('add to favorite')} className={styles.header__favorite} id='heart'/>
-                        <span className={styles.header__counter}>6</span>
+                    <div className={styles.header__actives}>
+                        <div style={{position: 'relative', height: '20px'}}>
+                            <IconSelector onClick={() => console.log('add to favorite')} className={styles.header__favorite} id='heart'/>
+                            <span className={styles.header__counter}>6</span>
+                        </div>
+                        <IconSelector onClick={() => console.log('my account')} className={styles.header__person} id='person'/>
+                        <Button text='Продать' className='header__button'/>
                     </div>
-                    <IconSelector onClick={() => console.log('my account')} className={styles.header__person} id='person'/>
-                    <Button text='Продать' className='header__button'/>
                 </div>
             </div>
         </nav>

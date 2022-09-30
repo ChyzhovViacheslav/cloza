@@ -1,13 +1,14 @@
 .footer {
+    background-color: inherit;
     &__body {
         padding: 32px 0px;
     }
     &__categories {
         display: flex;
         justify-content: space-between;
-    }
-    &__item_title {
-    }
+        }
+        &__item_title {
+        }
     &__text {
         margin-top: 23px;
         display: flex;

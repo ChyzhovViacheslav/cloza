@@ -1,0 +1,20 @@
+.slider{
+    font-size: 16px;
+    &__item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.item_1{
+    background-color: aqua;
+}
+.item_2{
+    background-color: brown;
+}
+.item_3{
+    background-color: yellowgreen;
+}
+.item_4{
+    background-color: green;
+}
