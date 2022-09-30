@@ -1,0 +1,25 @@
+.search{
+    background-color: var(--text-title);
+    &__body{
+        height: 60px;
+        display: flex;
+        align-items: center;
+    }
+    &__ico{
+        background-color: inherit;
+        width: 18px;
+        height: 18px;
+        path{
+            fill: var(--white-bg);
+        }
+    }
+    &__input{
+        margin-left: 12px;
+        background-color: inherit;
+        width: 100%;
+        font-family: 'PTRoot';
+        font-size: 20px;
+        line-height: 25px;
+        color: var(--white-bg);
+    }
+}
