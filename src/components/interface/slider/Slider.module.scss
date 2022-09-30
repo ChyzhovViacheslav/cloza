@@ -1,20 +1,44 @@
 .slider{
     font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     &__item{
         display: flex;
         align-items: center;
-        justify-content: center;
+        padding: 32px;
+    }
+}
+.item{
+    p{
+        margin-top: 16px;
+        margin-bottom: 16px;
+        font-size: var(--text-title);
+        font-weight: 700;
+        line-height: 25px;
+        font-size: 20px;
+    }
+    &__text{
+        font-size: 16px;
+        color: var(--main-color);
+    }
+    &__btn{
+        margin-top: 32px;
     }
 }
 .item_1{
-    background-color: aqua;
+    // background: url(../../../assets/images/slider.png) no-repeat right;
+    background-color: red;
 }
 .item_2{
-    background-color: brown;
+    // background: url(../../../assets/images/slider.png) no-repeat right;
+    background-color: green;
 }
 .item_3{
-    background-color: yellowgreen;
+    background-color: blue;
+    // background: url(../../../assets/images/slider.png) no-repeat right;
 }
 .item_4{
-    background-color: green;
+    background-color: yellow;
+    // background: url(../../../assets/images/slider.png) no-repeat right;
 }

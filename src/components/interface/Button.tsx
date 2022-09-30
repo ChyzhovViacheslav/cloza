@@ -4,7 +4,7 @@ import './Button.scss'
 
 type IButton = {
     text: string;
-    className: string;
+    className?: string;
     id?: string;
     onClick?: () => void;
 }
