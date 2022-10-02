@@ -95,8 +95,18 @@ h3{
   color: var(--text-title);
   font-weight: 500;
 }
+h4{
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 700;
+  color: var(--text-title);
+}
 p{
   font-family: 'PTRoot';
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--text-title);
 }
 span{
   font-family: 'PTRoot';
@@ -105,7 +115,12 @@ span{
   max-width: 1140px;
   margin: 0 auto;
 }
-
+#root{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 :root{
   --main-color: #7984C0;
   --main-red: #EB5783;

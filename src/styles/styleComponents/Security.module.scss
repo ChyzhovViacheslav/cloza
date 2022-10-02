@@ -1,0 +1,132 @@
+.sec{
+    &__body{
+        padding: 32px 0px 64px 0px;
+    }
+    &__steps{
+        margin-top: 48px;
+    }
+    &__ico_items{
+        display: flex;
+        justify-content: space-around;
+        margin-top: 48px;
+    }
+    &__item_text{
+        margin-top: 46px;
+        p{
+            line-height: 22px;
+            color: var(--text-paragraph);
+        }
+    }
+    &__item{
+        text-align: center;
+    }
+    &__ico{
+        path{
+            transition: all 0.3s ease-in-out;
+        }
+        circle{
+            transition: all 0.3s ease-in-out;
+        }
+        &:hover{
+            transform: scale(1);
+        }
+    }
+    &__ico_title{
+        width: 220px;
+        margin-top: 24px;
+        h4{
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 23px;
+        }
+    }
+    &__body_ico{
+        &:hover{
+            .sec__ico{
+                path{
+                    fill: var(--white-bg);
+                }
+                circle:nth-child(1){
+                    fill: var(--main-color);
+                }
+                circle:nth-child(2){
+                    fill: #fff;
+                }
+            }
+        }
+    }
+    &__benefits{
+        margin-top: 64px;
+    }
+    &__benefits_items{
+        margin-top: 48px;
+        display: flex;
+        column-gap: 24px;
+    }
+    &__benefits_item{
+        padding: 32px;
+        border-radius: 16px;
+        border: 1px solid var(--gray-light);
+        flex-basis: 50%;
+    }
+    &__benefits_item_title{
+        display: flex;
+        align-items: center;
+        h4{
+            margin-left: 16px;
+        }
+    }
+    &__benefits_item_text{
+        margin-left: 64px;
+    }
+    &__how{
+        margin-top: 64px;
+    }
+    &__how_items{
+        margin-top: 48px;
+    }
+    &__how_item{
+        display: flex;
+        align-items: center;
+        margin-top: 24px;
+        &:nth-child(1){
+            margin-top: 0px;
+        }
+        &:hover{
+            .sec__how_item_sircle{
+                background-color: var(--main-color);
+                span{
+                    color: var(--white-bg);
+                }
+            }
+        }
+    }
+    &__how_line{
+        margin-top: 24px;
+    }
+    &__how_item_sircle{
+        width: 64px;
+        height: 64px;
+        border-radius: 100%;
+        border: 1px solid var(--main-color);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.3s ease-in-out;
+        span{
+            color: var(--main-color);
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 30px;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+    &__how_item_text{
+        margin-left: 24px;
+        font-size: 18px;
+        line-height: 23px;
+        color: #000000;
+    }
+}

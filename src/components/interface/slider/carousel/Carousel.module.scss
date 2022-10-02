@@ -63,7 +63,11 @@
         }
     }
     &__dots_active{
-        background-color: black;
+        height: 8px;
+        width: 8px;
+        border-radius: 100%;
+        background-color: var(--main-color);
+        cursor: pointer;
     }
     &:hover{
         .carousel__btn_left{

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import IconSelector from '../../assets/icons/icons';
 import styles from '../../styles/styleComponents/Footer.module.scss';
+import Line from '../interface/line/Line';
 
 export default function Footer() {
     return (
@@ -60,9 +61,8 @@ export default function Footer() {
                             <IconSelector onClick={() => { console.log('inst') }} id='inst' className={styles.footer__inst_ico} />
                         </div>
                     </div>
-
+                    <Line style={{marginTop: '32px'}}/>
                     <div className={styles.footer__terms}>
-                        <div className={styles.footer__border}></div>
                         <div className={styles.footer__terms_field}>
                             <div style={{flex: '1 1 auto'}}>
                                 <Link to=''><span>Пользовательское соглашение</span></Link> и <Link to=''><span>политика конфиденциальности</span></Link>
