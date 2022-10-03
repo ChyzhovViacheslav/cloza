@@ -6,12 +6,13 @@ type IButton = {
     text: string;
     className?: string;
     id?: string;
+    type?: any;
     onClick?: () => void;
 }
 
-export default function Button({ text, className, id, onClick }: IButton) {
+export default function Button({ text, className, id, type, onClick }: IButton) {
     return (
-        <button onClick={onClick} className={`${className} button`}>
+        <button type={type} onClick={onClick} className={`${className} button`}>
             <span>{text}</span>
             <IconSelector id={`${id}`} className='button__ico'/>
         </button>

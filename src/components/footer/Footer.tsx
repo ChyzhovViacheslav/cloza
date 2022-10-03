@@ -6,7 +6,7 @@ import Line from '../interface/line/Line';
 
 export default function Footer() {
     return (
-        <div className={styles.footer}>
+        <footer className={styles.footer}>
             <div className={`${styles.footer} _container`}>
                 <div className={styles.footer__body}>
                     <div className={styles.footer__categories}>
@@ -72,6 +72,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     )
 }

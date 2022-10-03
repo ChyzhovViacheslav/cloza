@@ -7,6 +7,7 @@ import Rules from './pages/Rules/Rules';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Security from './pages/Security/Security';
 import Faq from './pages/Faq/Faq';
+import Contacts from './pages/Contacts/Contacts';
 
 interface IApp {
   children?: any;
@@ -23,6 +24,7 @@ function App({ children }: IApp) {
             <Route path='/rules' element={<Rules />} />
             <Route path='/security' element={<Security/>}/>
             <Route path='/faq' element={<Faq/>}/>
+            <Route path='/contacts' element={<Contacts/>}/>
             <Route path='*' element={<Navigate to='/404' replace/>} />
             <Route path='/404' element={<PageNotFound/>}/>
           </Routes>
