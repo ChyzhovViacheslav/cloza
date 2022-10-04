@@ -8,6 +8,8 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Security from './pages/Security/Security';
 import Faq from './pages/Faq/Faq';
 import Contacts from './pages/Contacts/Contacts';
+import Terms from './pages/Terms/Terms';
+import Privacy from './pages/Privacy/Privacy';
 
 interface IApp {
   children?: any;
@@ -25,6 +27,8 @@ function App({ children }: IApp) {
             <Route path='/security' element={<Security/>}/>
             <Route path='/faq' element={<Faq/>}/>
             <Route path='/contacts' element={<Contacts/>}/>
+            <Route path='/terms' element={<Terms/>}/>
+            <Route path='/privacy' element={<Privacy/>}/>
             <Route path='*' element={<Navigate to='/404' replace/>} />
             <Route path='/404' element={<PageNotFound/>}/>
           </Routes>

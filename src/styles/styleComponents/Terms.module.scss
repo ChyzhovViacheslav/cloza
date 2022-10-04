@@ -1,0 +1,14 @@
+.terms{
+    &__body{
+        padding: 32px 0px 64px 0px;
+    }
+    &__text{
+        margin-top: 48px;
+        p{
+            margin-top: 32px;
+            &:nth-child(1){
+                margin-top: 0px;
+            }
+        }
+    }
+}

@@ -65,7 +65,7 @@ export default function Footer() {
                     <div className={styles.footer__terms}>
                         <div className={styles.footer__terms_field}>
                             <div style={{flex: '1 1 auto'}}>
-                                <Link to=''><span>Пользовательское соглашение</span></Link> и <Link to=''><span>политика конфиденциальности</span></Link>
+                                <Link to='/terms'><span>Пользовательское соглашение</span></Link> и <Link to='/privacy'><span>политика конфиденциальности</span></Link>
                             </div>
                             <p>©CLOZA 2022. Все права защищены</p>
                         </div>

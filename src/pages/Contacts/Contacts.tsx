@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
 import Button from '../../components/interface/Button'
@@ -7,6 +7,29 @@ import s from '../../styles/styleComponents/Contacts.module.scss'
 type Props = {}
 
 export default function Contacts({ }: Props) {
+    const [email, setEmail] = useState('')
+    const [emailDirty, setEmailDirty] = useState(false)
+    const [name, setName] = useState('')
+    const [nameDirty, setNameDirty] = useState(false)
+    const [message, setMessage] = useState('')
+    const [messageDirty, setMessageDirty] = useState(false)
+
+    const blurHandle = (e: any) => {
+        switch (e.target.name) {
+            case 'email':
+                setEmailDirty(true)
+                break;
+            case 'message':
+                setMessageDirty(true)
+                break;
+            case 'name':
+                setNameDirty(true)
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
         <div className={s.contacts}>
             <div className={s.contacts__body}>
@@ -23,8 +46,8 @@ export default function Contacts({ }: Props) {
                             <div className={s.contacts__text_field}>
                                 <p>ИП Чижов Вячеслав Евгениевич,</p>
                                 <p>ИНН 711613495293, ОГРНИП 320715400016540</p>
-                                <p>Адрес: 301657, г. Новомосковск, ул. Школьная, дом 17.</p>
-                                <p>Адрес для корреспонденции: г. Москва, ул. Домодедовская, дом 20 к2</p>
+                                <p>Адрес: 74900, г. Новая Каховка, ул. Гагарина, дом 10.</p>
+                                <p>Адрес для корреспонденции: г. Херсон, ул. Шевченко, дом 20 кв.3</p>
                             </div>
                             <h5>Telegram, Whatsapp, E-mail</h5>
                             <div className={s.contacts__text_field}>
@@ -54,23 +77,23 @@ export default function Contacts({ }: Props) {
                     <div className={s.contacts__column}>
                         <div className={s.contacts__send_form}>
                             <h5>Контактные данные</h5>
-                            <form id='contactsForm' className={s.contacts__form}>
+                            <form method='POST' action='./mail.php' id='contactsForm' className={s.contacts__form}>
                                 <label>
                                     <p>Имя</p>
-                                    <input className={s.contacts__input} type='text' placeholder='Имя'/>
+                                    <input onBlur={e => blurHandle(e)} style={nameDirty ? {border: '1px solid red'} : {border: 'none'}} name='name' className={s.contacts__input} type='text' placeholder='Имя' />
                                 </label>
                                 <label>
                                     <p>E-mail</p>
-                                    <input className={s.contacts__input} type='text' placeholder='E-mail'/>
+                                    <input onBlur={e => blurHandle(e)} name='email' className={s.contacts__input} type='text' placeholder='E-mail' />
                                 </label>
-                                <label style={{height: 'auto'}}>
+                                <label style={{ height: 'auto' }}>
                                     <p>Сообщение</p>
-                                    <textarea className={`${s.contacts__input} ${s.contacts__input_area}`} placeholder='Сообщение'/>
+                                    <textarea onBlur={e => blurHandle(e)} name='message' className={`${s.contacts__input} ${s.contacts__input_area}`} placeholder='Сообщение' />
                                 </label>
-                                <Button 
-                                    className={s.contacts__form_btn} 
-                                    text='Отправить' 
-                                    type='submit'/>
+                                <Button
+                                    className={s.contacts__form_btn}
+                                    text='Отправить'
+                                    type='submit' />
                             </form>
                         </div>
                     </div>
