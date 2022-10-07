@@ -11,11 +11,7 @@ import Contacts from './pages/Contacts/Contacts';
 import Terms from './pages/Terms/Terms';
 import Privacy from './pages/Privacy/Privacy';
 
-interface IApp {
-  children?: any;
-}
-
-function App({ children }: IApp) {
+export default function App() {
   return (
     <main className={styles.page}>
       <div className={styles.page + ' _container'}>
@@ -37,5 +33,3 @@ function App({ children }: IApp) {
     </main>
   );
 }
-
-export default App;

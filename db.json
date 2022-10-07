@@ -1,0 +1,73 @@
+{
+  "sex": [
+    "male",
+    "female",
+    "unisex",
+    "anus"
+  ],
+  "type": [
+    "outerwear",
+    "underclothes",
+    "shoes",
+    "accessories",
+    {
+      "underclothes": [
+        {
+          "jeans": [
+            {
+              "id": 1,
+              "customer": "Vasya",
+              "size":"very very very very big"
+            }
+          ]
+        },
+        {
+          "pants": []
+        }
+      ]
+    },
+    {
+      "shoes":[
+        {
+          "sneakers": []
+        },
+        {
+          "boots": []
+        }
+      ]
+    },
+    {
+      "accessories":[
+        {
+          "hats": []
+        },
+        {
+          "scarves": []
+        }
+      ]
+    }
+  ],
+  "asd": {
+    "outerwear": [
+      {
+        "tshirts": []
+      },
+      {
+        "jumpers": []
+      },
+      {
+        "tracksuits": []
+      },
+      {
+        "shirts": []
+      },
+      {
+        "polo": []
+      },
+      {
+        "singlet": []
+      }
+    ]
+  }
+  
+}

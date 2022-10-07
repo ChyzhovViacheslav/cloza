@@ -1,5 +1,5 @@
 import React from 'react'
-import IconSelector from '../../assets/icons/icons';
+import IconSelector from '../../../assets/icons/icons';
 import './Button.scss'
 
 type IButton = {

@@ -198,6 +198,19 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
           <path d="M23.9998 20.1335C21.8679 20.1335 20.1333 21.868 20.1333 24C20.1333 26.1319 21.8679 27.8665 23.9998 27.8665C26.1318 27.8665 27.8663 26.1319 27.8663 24C27.8663 21.868 26.1318 20.1335 23.9998 20.1335Z" fill="white" />
         </svg>
       )
+    case 'logout':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_122_3978)">
+            <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12L17 7ZM4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="#121720" />
+          </g>
+          <defs>
+            <clipPath id="clip0_122_3978">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
     default:
       return (
         <div></div>

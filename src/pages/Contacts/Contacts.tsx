@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
-import Button from '../../components/interface/Button'
+import Button from '../../components/interface/button/Button'
 import s from '../../styles/styleComponents/Contacts.module.scss'
 
 type Props = {}

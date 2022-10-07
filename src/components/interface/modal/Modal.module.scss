@@ -1,0 +1,58 @@
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    &__body{
+        position: relative;
+        width: 500px;
+        padding: 32px;
+        border-radius: 12px;
+        background-color: var(--white-bg);
+    }
+    &__close_btn{
+        position: absolute;
+        top: 37px;
+        right: 37px;
+        opacity: 0.5;
+        cursor: pointer;
+        path{
+            fill: var(--text-paragraph);
+        }
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        margin-top: 32px;
+    }
+    input{
+        padding: 14px 16px;
+        border: 1px solid #EFF0F2;
+        border-radius: 12px;
+        width: 100%;
+        margin-top: 10px;
+        font-family: 'PTRoot'
+    }
+    button{
+        margin: 0 auto;
+        padding: 14px 85px;
+    }
+    h1{
+        text-align: center;
+    }
+}
+
+.active{
+    opacity: 1;
+    pointer-events: all;
+}
