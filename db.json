@@ -1,73 +1,30 @@
 {
   "sex": [
-    "male",
-    "female",
-    "unisex",
-    "anus"
-  ],
-  "type": [
-    "outerwear",
-    "underclothes",
-    "shoes",
-    "accessories",
     {
-      "underclothes": [
-        {
-          "jeans": [
-            {
-              "id": 1,
-              "customer": "Vasya",
-              "size":"very very very very big"
-            }
-          ]
-        },
-        {
-          "pants": []
-        }
-      ]
+      "id": 1,
+      "type": "male"
     },
     {
-      "shoes":[
-        {
-          "sneakers": []
-        },
-        {
-          "boots": []
-        }
-      ]
+      "id": 2,
+      "type": "female"
     },
     {
-      "accessories":[
-        {
-          "hats": []
-        },
-        {
-          "scarves": []
-        }
-      ]
+      "id": 3,
+      "type": "unisex"
     }
   ],
-  "asd": {
-    "outerwear": [
-      {
-        "tshirts": []
-      },
-      {
-        "jumpers": []
-      },
-      {
-        "tracksuits": []
-      },
-      {
-        "shirts": []
-      },
-      {
-        "polo": []
-      },
-      {
-        "singlet": []
-      }
-    ]
-  }
-  
+  "categories": [
+    {
+      "id": 1,
+      "type": "jeans"
+    },
+    {
+      "id": 2,
+      "type": "polo"
+    },
+    {
+      "id": 3,
+      "type": "lol"
+    }
+  ]
 }

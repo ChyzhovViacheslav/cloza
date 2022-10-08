@@ -1,28 +1,27 @@
 import React from 'react'
+import {useRef} from 'react'
 import { postApi } from '../../services/PostService'
 import s from '../../styles/styleComponents/NewProducts.module.scss'
 type INewProducts = {}
 
 export default function NewPoducts({ }: INewProducts) {
-    const { data: posts } = postApi.useFetchAllSexQuery('')
-
-    const categories = posts?.map((post:string) => {
+    const { data: posts } = postApi.useFetchAllSexQuery(null)
+    const categories = posts?.map((post) => {
         const nameOfType = () => {
-            switch (post) {
-                case 'male': return 'Мужской';
-                case 'female': return 'Женский'
-                case 'unisex': return 'Унисекс'
-                default: return post
+            switch (post.type) {
+                case 'male': return <span>Мужской</span>
+                case 'female': return <span>Женский</span>
+                case 'unisex': return <span>Унисекс</span>
+                default: return <span>{post.type}</span>
             }
         }
         return (
-            <button key={post} className={s.newproducts__nav_btn}>
+            <button key={post.id} className={s.newproducts__nav_btn}>
                 {nameOfType()}
                 <div className={s.newproducts__nav_btn_active}></div>
             </button>
         )
     })
-
 
     return (
         <div className={s.newproducts}>

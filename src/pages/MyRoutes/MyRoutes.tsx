@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from '../../App';
 import Footer from '../../components/footer/Footer';
 import Header from '../../components/header/Header';
+import Breadcrumbs from '../../components/interface/breadcrumbs/Breadcrumbs';
 import Line from '../../components/interface/line/Line';
 import LoginModal from '../../components/loginModal/LoginModal';
 import Search from '../../components/search/Search';
@@ -14,6 +15,7 @@ export default function MyRoutes() {
       <main className='wrapper' style={{position: 'relative'}}>
         <Header />
         <Search />
+        <Breadcrumbs/>
         <App />
         <Line />
         <Footer />

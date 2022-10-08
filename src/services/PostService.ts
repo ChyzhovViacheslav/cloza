@@ -1,34 +1,27 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react'
 
-interface ICategory {
-
+interface ICategories{
+    id: number,
+    type: string
 }
-interface IPost {
-    
+
+interface ISex{
+    id: number
+    type: string
 }
 
 export const postApi = createApi({
     reducerPath: 'postApi',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000'}),
     endpoints: (build) => ({
-        fetchAllCategory: build.query<ICategory[], number>({
-            query: (limit: number = 0) => ({
-                url: `/type`,
-                params: {
-                    _limit: limit,
-                }
+        fetchAllCategories: build.query<ICategories[], ICategories>({
+            query: () => ({
+                url: `/categories`
             })
         }),
-        fetchAllSex: build.query({
+        fetchAllSex: build.query<ISex[], ISex>({
             query: () => ({
                 url: `/sex`
-            })
-        }),
-        fetchPostCategory: build.mutation<IPost, IPost>({
-            query: (category) => ({
-                url: `/type`,
-                method: 'POST',
-                body: category
             })
         })
     })

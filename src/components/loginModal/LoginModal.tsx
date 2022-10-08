@@ -12,7 +12,7 @@ interface ILoginModal {
 }
 
 export default function LoginModal({ type }: ILoginModal) {
-    const {closeModal, changeModalTypeRegister, changeModalTypeLogin} = loginModalSlice.actions
+    const { changeModalTypeRegister, changeModalTypeLogin } = loginModalSlice.actions
     const dispatch = useAppDispatch()
 
     const subtitle = {
@@ -47,45 +47,54 @@ export default function LoginModal({ type }: ILoginModal) {
                         </>)
                     }
                 </div>
-                <form>
-                    <label>
-                        <p>E-mail</p>
-                        <input placeholder='E-mail' />
-                    </label>
-                    <label>
-                        <p>Имя</p>
-                        <input placeholder='Имя' />
-                    </label>
-                    <label>
-                        <p>Пароль</p>
-                        <input placeholder='Пароль' />
-                    </label>
-                    <label>
-                        <p>Повторите пароль</p>
-                        <input placeholder='Повторите пароль' />
-                    </label>
-                    <Button className={s.modal} onClick={() => {
-                        if (type === 'login') {
-
-                        } else {
-
-                        }
-                    }} text={type === 'login' ? 'Войти' : 'Зарегистриривотся'} />
-                </form>
-                {type === 'login' ? 
-                    <div style={{marginTop:"32px", textAlign: 'center'}}>
+                {type === 'login' ?
+                    <form>
+                        <label>
+                            <p>E-mail</p>
+                            <input placeholder='E-mail' />
+                        </label>
+                        <label>
+                            <p>Имя</p>
+                            <input placeholder='Имя' />
+                        </label>
+                        <label>
+                            <p>Пароль</p>
+                            <input placeholder='Пароль' />
+                        </label>
+                        <label>
+                            <p>Повторите пароль</p>
+                            <input placeholder='Повторите пароль' />
+                        </label>
+                        <Button className={s.modal} onClick={() => {
+                        }} text='Войти' />
+                    </form> :
+                    <form>
+                        <label>
+                            <p>E-mail</p>
+                            <input placeholder='E-mail' />
+                        </label>
+                        <label>
+                            <p>Пароль</p>
+                            <input placeholder='Пароль' />
+                        </label>
+                        <Button className={s.modal} onClick={() => {
+                        }} text='Зарегистрироватся' />
+                    </form>
+                }
+                {type === 'login' ?
+                    <div style={{ marginTop: "32px", textAlign: 'center' }}>
                         <p style={link}>У вас ещё нет аккаунта? <span onClick={() => {
                             dispatch(changeModalTypeRegister())
-                        }} style={{color: 'var(--main-color)', fontWeight: '500'}}>Пройдите процесс регистрации</span></p>
-                    </div> : 
-                    <div style={{marginTop: "32px", textAlign: 'center'}}>
+                        }} style={{ color: 'var(--main-color)', fontWeight: '500' }}>Пройдите процесс регистрации</span></p>
+                    </div> :
+                    <div style={{ marginTop: "32px", textAlign: 'center' }}>
                         <p style={link}>У вас уже есть аккаунт? <span onClick={() => {
                             dispatch(changeModalTypeLogin())
-                        }} style={{color: 'var(--main-color)', fontWeight: '500'}}>Войдите в свою учетную запись</span></p>
+                        }} style={{ color: 'var(--main-color)', fontWeight: '500' }}>Войдите в свою учетную запись</span></p>
                     </div>
                 }
-                <div style={{display: 'flex', alignItems: 'center', marginTop: '32px'}}>
-                    <Line/><span style={{padding: '0px 16px', ...link}}>или</span><Line/>
+                <div style={{ display: 'flex', alignItems: 'center', marginTop: '32px' }}>
+                    <Line /><span style={{ padding: '0px 16px', ...link }}>или</span><Line />
                 </div>
             </div>
         </Modal>

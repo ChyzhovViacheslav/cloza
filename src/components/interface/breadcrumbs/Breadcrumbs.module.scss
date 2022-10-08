@@ -1,0 +1,21 @@
+.breadcrumbs{
+    background-color: #EFF0F2;
+    &__body{
+        padding: 24px 0px;
+    }
+    &__link{
+        &::before{
+            content: '/';
+            color: var(--text-title);
+        }
+    }
+    &__links{
+        margin-top: 8px;
+        span{
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 400;
+            color: var(--text-title);
+        }
+    }
+}

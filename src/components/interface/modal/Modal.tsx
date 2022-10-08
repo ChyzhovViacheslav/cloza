@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import IconSelector from '../../../assets/icons/icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import ModalSlice, { loginModalSlice } from '../../../store/reducers/ModalSlice'
+import { loginModalSlice } from '../../../store/reducers/ModalSlice'
 import s from './Modal.module.scss'
 type IModal = {
   children?: any
