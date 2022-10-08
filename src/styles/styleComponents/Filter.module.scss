@@ -1,0 +1,8 @@
+.filter{
+    width: 267px;
+    &__body{
+        display: flex;
+        flex-direction: column;
+        row-gap: 32px;
+    }
+}

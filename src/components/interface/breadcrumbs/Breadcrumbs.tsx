@@ -8,9 +8,17 @@ export default function Breadcrumbs() {
     const pathnames = pathname.pathname.split('/').filter(el => el)
 
     const links = pathnames.map((el, index) => {
+        const renamed = () => {
+            switch (el) {
+                case 'male': return 'Мужской'
+                case 'female': return 'Женский'
+                case 'unisex': return 'Унисекс'
+                default: return el
+            }
+        }
         return (
             <Link key={index} to={`${el}`}>
-                <span className={s.breadcrumbs__link} style={(pathnames.length - 1) === index ? {color:'var(--text-paragraph)', pointerEvents: 'none'} : {color: 'auto'}}> {el} </span>
+                <span className={s.breadcrumbs__link} style={(pathnames.length - 1) === index ? {color:'var(--text-paragraph)', pointerEvents: 'none'} : {color: 'auto'}}> {renamed()} </span>
             </Link>
         )
     })
