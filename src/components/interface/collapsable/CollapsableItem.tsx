@@ -6,10 +6,11 @@ type ICollapsableItem = {
     title: string,
     className?: string,
     children: JSX.Element | JSX.Element[],
-    isClosed?: boolean
+    isClosed: boolean,
+    tittleClassName?: string
 }
 
-export default function CollapsableItem({ title, children, className, isClosed }: ICollapsableItem) {
+export default function CollapsableItem({ title, children, className, isClosed, tittleClassName }: ICollapsableItem) {
     const div = useRef(null)
     const plus = useRef(null)
     const [scroll, setScroll] = useState(null)
@@ -22,7 +23,7 @@ export default function CollapsableItem({ title, children, className, isClosed }
     const hide = {
         maxHeight: '0',
         overflow: 'hidden',
-        opacity: '0',
+        opacity: '0'
     } as React.CSSProperties
 
     const open = {
@@ -38,7 +39,7 @@ export default function CollapsableItem({ title, children, className, isClosed }
                 onClick={() => {
                     setToggleItem(!toggleItem)
                 }}>
-                <h3>{title}</h3>
+                <h3 className={tittleClassName}>{title}</h3>
                 <div ref={plus} className={toggleItem ? s.collaps__plus : `${s.collaps__plus} ${s.active}`}></div>
             </button>
             <div

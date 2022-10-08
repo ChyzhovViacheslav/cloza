@@ -5,6 +5,7 @@ import s from '../../styles/styleComponents/Header.module.scss'
 import Button from '../interface/button/Button'
 import { loginModalSlice } from '../../store/reducers/ModalSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { pathNameSlice } from '../../store/reducers/PathnameSlice'
 
 interface IModalAuthorized {
     loginModal: boolean;
@@ -42,14 +43,18 @@ const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
 
 export default function Header() {
     const [loginModal, setLoginModal] = useState(false)
-    
+    const {changePath} = pathNameSlice.actions
+    const dispatch = useAppDispatch()
+
     return (
         <nav className={s.header}>
             <div className={s.header + ' _container'}>
                 <div className={s.header__body}>
                     <Link to='/'><IconSelector className={s.header__logo} id='logo' /></Link>
                     <div className={s.header__links}>
-                        <Link to='/male'><h2>Мужское</h2></Link>
+                        <Link to='/male'>
+                            <h2>Мужское</h2>
+                        </Link>
                         <Link to='/female'><h2>Женское</h2></Link>
                         <Link to='/unisex'><h2>Унисекс</h2></Link>
                         <Link to='/sale'><h2 style={{ color: 'var(--main-red)' }}>Sale</h2></Link>

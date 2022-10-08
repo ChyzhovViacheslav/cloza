@@ -1,9 +1,11 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { postApi } from "../services/PostService";
 import modalReducer from "./reducers/ModalSlice"
+import pathNameReducer from './reducers/PathnameSlice'
 
 const rootReducer = combineReducers({
     modalReducer,
+    pathNameReducer,
     [postApi.reducerPath]: postApi.reducer
 })
 

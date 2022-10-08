@@ -1,0 +1,55 @@
+.item{
+    width: 267px;
+    &__img{
+        border-radius: 16px;
+    }
+    &__verified{
+        margin-right: 8px;
+        width: 20px;
+        height: 20px;
+        path{
+            fill: var(--main-color);
+        }
+    }
+    &__inf{
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+    }
+    &__name{
+        flex: 1 1 auto;
+        h2{
+            font-weight: 500;
+        }
+    }
+    &__price{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+    }
+    &__line{
+        margin-top: 12px;
+    }
+    &__condition{
+        margin-top: 12px;
+        span{
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-paragraph);
+        }
+    }
+    &__size{
+        margin-top: 7px;
+        span{
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-paragraph);
+        }
+    }
+    &__favorite{
+        margin-top: 16px;
+        path{
+            fill: var(--text-paragraph);
+        }
+    }
+}

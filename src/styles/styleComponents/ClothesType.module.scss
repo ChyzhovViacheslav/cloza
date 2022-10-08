@@ -1,0 +1,9 @@
+.clothestype{
+    &__body{
+        display: flex;
+        padding: 32px 0px 64px 0px;
+    }
+    &__content{
+        flex: 1 1 auto;
+    }
+}

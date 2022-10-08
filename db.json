@@ -21,10 +21,38 @@
     {
       "id": 2,
       "type": "polo"
+    }
+  ],
+  "item": [
+    {
+      "id": 1,
+      "name": "Розовые прикольные трусы",
+      "user": "Kostya Pudge",
+      "category": "thsirt",
+      "type": "male",
+      "main_color": "pink",
+      "price": "1540",
+      "brand": "Gucci",
+      "verified_saler": "",
+      "condition": "new without tag",
+      "size": "XXL",
+      "photo": "",
+      "sale": ""
     },
     {
-      "id": 3,
-      "type": "lol"
+      "id": 2,
+      "name": "Трусы с черкашами",
+      "user": "Stas Turbosvin",
+      "category": "jeans",
+      "type": "female",
+      "main_color": "brown",
+      "price": "599",
+      "brand": "Versace",
+      "verified_saler": "yes",
+      "condition": "worn several times",
+      "size": "L",
+      "photo": "",
+      "sale": "499"
     }
   ]
 }

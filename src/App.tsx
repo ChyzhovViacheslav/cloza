@@ -11,6 +11,8 @@ import Contacts from './pages/Contacts/Contacts';
 import Terms from './pages/Terms/Terms';
 import Privacy from './pages/Privacy/Privacy';
 import Male from './pages/Male/Male';
+import Female from './pages/Female/Female';
+import Unisex from './pages/Unisex/Unisex';
 
 export default function App() {
   return (
@@ -27,6 +29,8 @@ export default function App() {
             <Route path='/terms' element={<Terms/>}/>
             <Route path='/privacy' element={<Privacy/>}/>
             <Route path='/male/*' element={<Male/>}/>
+            <Route path='/female/*' element={<Female/>}/>
+            <Route path='/unisex/*' element={<Unisex/>}/>
             <Route path='*' element={<Navigate to='/404' replace/>} />
             <Route path='/404' element={<PageNotFound/>}/>
           </Routes>
