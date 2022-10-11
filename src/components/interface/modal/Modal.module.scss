@@ -37,11 +37,12 @@
     }
     input{
         padding: 14px 16px;
-        border: 1px solid #EFF0F2;
+        border: 1px solid var(--gray-light);
         border-radius: 12px;
         width: 100%;
         margin-top: 10px;
-        font-family: 'PTRoot'
+        font-family: 'PTRoot';
+        transition: border 0.2s ease-in-out;
     }
     button{
         margin: 0 auto;

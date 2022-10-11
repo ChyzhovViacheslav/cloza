@@ -3,11 +3,11 @@ import IconSelector from '../../assets/icons/icons'
 import s from '../../styles/styleComponents/ClothesItem.module.scss'
 import Line from '../interface/line/Line'
 
-interface IClothesItem{
+interface IClothesCard{
   // id: number
 }
 
-export default function ClothesItem({}:IClothesItem) {
+export default function ClothesCard({}:IClothesCard) {
   return (
     <div className={s.item}>
       <div className={s.item__body}>

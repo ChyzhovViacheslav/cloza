@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import { Link } from 'react-router-dom'
 import s from '../../styles/styleComponents/Header.module.scss'
 import Button from '../interface/button/Button'
 import { loginModalSlice } from '../../store/reducers/ModalSlice'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppDispatch } from '../../hooks/redux'
 import { pathNameSlice } from '../../store/reducers/PathnameSlice'
+import useAuth from '../../hooks/userAuth'
+import { userSlice } from '../../store/reducers/UserSlice'
 
 interface IModalAuthorized {
     loginModal: boolean;
@@ -14,7 +16,9 @@ interface IModalAuthorized {
 
 const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
     const { openModal } = loginModalSlice.actions
+    const {removeUser} = userSlice.actions
     const dispatch = useAppDispatch()
+    const {isAuth} = useAuth()
     
     return (
         <div className={!loginModal ? s.modal : `${s.modal} ${s.active}`}>
@@ -28,13 +32,19 @@ const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
                         <IconSelector className={s.modal__ico} id='heart' />
                         <span>Список желаний</span>
                     </Link>
-                    <div onClick={() => {
+                    {isAuth ? <div onClick={() => {
+                        dispatch(removeUser())
+                        setLoginModal(false)
+                    }} className={s.modal__link}>
+                        <IconSelector className={s.modal__ico} id='logout' />
+                        <span>Выйти</span>
+                    </div> : <div onClick={() => {
                         dispatch(openModal())
                         setLoginModal(false)
                     }} className={s.modal__link}>
                         <IconSelector className={s.modal__ico} id='logout' />
                         <span>Войти</span>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>

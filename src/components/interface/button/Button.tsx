@@ -7,7 +7,7 @@ type IButton = {
     className?: string;
     id?: string;
     type?: any;
-    onClick?: (e: React.FormEvent) => void;
+    onClick?: (e?: React.FormEvent) => void;
 }
 
 export default function Button({ text, className, id, type, onClick }: IButton) {

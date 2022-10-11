@@ -1,12 +1,21 @@
 import React from 'react'
-import ClothesItem from '../../components/clothesitem/ClothesItem'
+import s from '../../styles/styleComponents/Male.module.scss'
+import ClothesCard from '../../components/clothesitem/ClothesCard'
 import ClothesType from '../../components/clothestype/ClothesType'
+import { postApi } from '../../services/PostService'
 
 export default function Male() {
-    
-    return(
+    const { data: cards, isLoading } = postApi.useFetchAllItemQuery(null)
+    const cardlist = cards?.map((el) => {
+        if(el.type === "male"){
+            return (
+                <ClothesCard key={el.id} />
+            )
+        }
+    })
+    return (
         <ClothesType>
-            <div><ClothesItem/></div>
+            {isLoading ? <div><h1>ХУЙ</h1></div> : cardlist}
         </ClothesType>
     )
 }

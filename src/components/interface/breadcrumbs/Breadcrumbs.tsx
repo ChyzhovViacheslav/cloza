@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import s from './Breadcrumbs.module.scss'
 
