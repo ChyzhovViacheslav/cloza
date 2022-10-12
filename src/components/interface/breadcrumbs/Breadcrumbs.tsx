@@ -32,7 +32,9 @@ export default function Breadcrumbs() {
     })
 
     return (
-        <div className={s.breadcrumbs} style={pathname.pathname !== '/terms' && pathname.pathname !== '/faq' && pathname.pathname !== '/' ? { display: 'block' } : { display: 'none' }}>
+        <div
+            className={s.breadcrumbs}
+            style={pathnames[0] === 'male' || pathnames[0] === 'female' || pathnames[0] === 'unisex' ? { display: 'block' } : { display: 'none' }}>
             <div className={s.breadcrumbs + ' _container'}>
                 <div className={s.breadcrumbs__body}>
                     <h5>Мужское</h5>

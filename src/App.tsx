@@ -13,6 +13,8 @@ import Privacy from './pages/Privacy/Privacy';
 import Male from './pages/Male/Male';
 import Female from './pages/Female/Female';
 import Unisex from './pages/Unisex/Unisex';
+import Profile from './pages/Profile/Profile';
+import Sell from './pages/Sell/Sell';
 
 export default function App() {
   return (
@@ -28,6 +30,8 @@ export default function App() {
             <Route path='/contacts' element={<Contacts/>}/>
             <Route path='/terms' element={<Terms/>}/>
             <Route path='/privacy' element={<Privacy/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/sell' element={<Sell/>}/>
             <Route path='/male/*' element={<Male/>}/>
             <Route path='/female/*' element={<Female/>}/>
             <Route path='/unisex/*' element={<Unisex/>}/>

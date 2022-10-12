@@ -1,15 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import IconSelector from '../../../assets/icons/icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { loginModalSlice } from '../../../store/reducers/ModalSlice'
 import s from './Modal.module.scss'
 type IModal = {
   children?: any
+  active: boolean
+  closeModal: any;
 }
 
-export default function Modal({ children }: IModal) {
-  const { closeModal } = loginModalSlice.actions
-  const { active } = useAppSelector(state => state.modalReducer)
+export default function Modal({ children, active, closeModal }: IModal) {
   const dispatch = useAppDispatch()
 
   return (
@@ -20,7 +19,7 @@ export default function Modal({ children }: IModal) {
         className={s.modal__body}
         onClick={(e) => e.stopPropagation()}>
         {children}
-        <div 
+        <div
           className={s.modal__close_btn}
           onClick={() => dispatch(closeModal())}>
           <IconSelector

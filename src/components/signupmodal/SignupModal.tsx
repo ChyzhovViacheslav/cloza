@@ -1,55 +1,60 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Modal from '../interface/modal/Modal'
 import s from '../../styles/styleComponents/SignupModal.module.scss'
 import Button from '../interface/button/Button'
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
 import Line from '../interface/line/Line';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
+import { loaderSlice } from '../../store/reducers/LoaderSlice';
 
 export default function SignupModal() {
     const { closeModal, changeModalTypeLogin } = loginModalSlice.actions
+    const { active } = useAppSelector(state => state.modalReducer)
+    const { setUser } = userSlice.actions
     const dispatch = useAppDispatch()
+    const { openLoader, closeLoader } = loaderSlice.actions
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [verifiedPass, setVerifiedPass] = useState('')
     const verifiedPassRef = useRef(null)
-    const { setUser } = userSlice.actions
+    const [isError, setError] = useState(false)
 
-    const handleSignUp = (email: string, password: string) => {
+    useEffect(() => {
+        return () => {
+            setEmail('')
+            setPassword('')
+            setName('')
+            setVerifiedPass('')
+            setError(false)
+        }
+    }, [active])
+
+    const handleSignUp = (email: string, password: string, name: string) => {
         const auth = getAuth()
+        dispatch(openLoader())
         createUserWithEmailAndPassword(auth, email, password)
             .then(({ user }) => {
-                user.getIdToken().then(result => {
-                    dispatch(setUser({
-                        email: user.email,
-                        id: user.uid,
-                        token: result,
-                        name: name
-                    }))
+                updateProfile(auth.currentUser, {
+                    displayName: name
                 })
+                user.getIdToken()
+                    .then(result => {
+                        dispatch(setUser({
+                            email: user.email,
+                            id: user.uid,
+                            token: result,
+                            name: name
+                        }))
+                        dispatch(closeModal())
+                    })
             })
-            .catch((e) => alert(e.message))
+            .catch(() => setError(true))
+            .finally(() => dispatch(closeLoader()))
     }
-
-    const subtitle = {
-        marginTop: '15px',
-        textAlign: 'center',
-        whiteSpace: 'nowrap',
-        fontWeight: '400',
-        fontSize: '16px',
-        lineHeight: '20px',
-        color: '#9095A9'
-    } as React.CSSProperties
-
-    const link = {
-        fontSize: '16px',
-        lineHeight: '20px',
-        fontWeight: '400',
-        color: '#9095a9'
-    } as React.CSSProperties
 
     const vaildatorEmail = (email: string) => {
         const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -57,11 +62,11 @@ export default function SignupModal() {
     }
 
     return (
-        <Modal>
+        <Modal active={active} closeModal={closeModal}>
             <div className={s.modal}>
                 <div className={s.modal__title}>
                     <h1>Регистрация</h1>
-                    <p style={subtitle}>Если у вас есть учетная запись, пожалуйста, войдите в систему</p>
+                    <p className={s.modal__subtitle}>Если у вас есть учетная запись, пожалуйста, войдите в систему</p>
                 </div>
                 <form>
                     <label>
@@ -72,13 +77,6 @@ export default function SignupModal() {
                                 setEmail(e.target.value)
                                 if (vaildatorEmail(e.target.value)) {
                                     e.target.style.border = '1px solid var(--gray-light)'
-                                }
-                            }}
-                            onBlur={(e) => {
-                                if (vaildatorEmail(e.target.value)) {
-                                    verifiedPassRef.current.style.border = '1px solid var(--gray-light)'
-                                } else {
-                                    e.target.style.border = '1px solid var(--main-red)'
                                 }
                             }}
                             placeholder='E-mail' />
@@ -114,28 +112,28 @@ export default function SignupModal() {
                             }}
                             placeholder='Повторите пароль' />
                     </label>
+                    <div className={s.modal__error} style={isError ? { display: 'block' } : { display: 'none' }}>
+                        <span>Указаный e-mail уже существует</span>
+                    </div>
                     <Button
                         className={s.modal__btn}
                         onClick={(e) => {
                             e.preventDefault()
                             if (password === verifiedPass && vaildatorEmail(email)) {
-                                handleSignUp(email, password)
-                                dispatch(closeModal())
-                            } else {
-
+                                handleSignUp(email, password, name)
                             }
                         }}
                         text='Зарегистрироваться' />
                 </form>
                 <div style={{ marginTop: "32px", textAlign: 'center' }}>
-                    <p style={link}>У вас уже есть аккаунт? <span onClick={() => {
+                    <p className={s.modal__link}>У вас уже есть аккаунт? <span onClick={() => {
                         dispatch(changeModalTypeLogin())
                     }} style={{ color: 'var(--main-color)', fontWeight: '500' }}>Войдите в свою учетную запись</span></p>
                 </div>
                 <div
                     style={{ display: 'flex', alignItems: 'center', marginTop: '32px' }}>
                     <Line />
-                    <span style={{ padding: '0px 16px', ...link }}>или</span>
+                    <span className={s.modal__link} style={{ padding: '0px 16px' }}>или</span>
                     <Line />
                 </div>
             </div>

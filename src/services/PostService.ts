@@ -45,6 +45,13 @@ export const postApi = createApi({
             query: () => ({
                 url: `/item`
             })
+        }),
+        addProduct: build.mutation({
+            query: (body) => ({
+                url: '/item',
+                method: 'POST',
+                body
+            })
         })
     })
 })

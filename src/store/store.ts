@@ -3,6 +3,8 @@ import { postApi } from "../services/PostService";
 import modalReducer from "./reducers/ModalSlice"
 import pathNameReducer from './reducers/PathnameSlice'
 import userReducer from './reducers/UserSlice'
+import smModalReducer from './reducers/SmModalSlice'
+import loaderReducer from './reducers/LoaderSlice';
 import storage from 'redux-persist/lib/storage'
 import {persistStore, persistReducer} from 'redux-persist'
 
@@ -10,6 +12,8 @@ const rootReducer = combineReducers({
     modalReducer,
     pathNameReducer,
     userReducer,
+    smModalReducer,
+    loaderReducer,
     [postApi.reducerPath]: postApi.reducer
 })
 

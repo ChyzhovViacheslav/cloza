@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import App from '../../App';
+import FavModal from '../../components/smModal/SmModal';
 import Footer from '../../components/footer/Footer';
 import Header from '../../components/header/Header';
 import Breadcrumbs from '../../components/interface/breadcrumbs/Breadcrumbs';
@@ -8,11 +9,13 @@ import LoginModal from '../../components/loginModal/LoginModal';
 import Search from '../../components/search/Search';
 import SignupModal from '../../components/signupmodal/SignupModal';
 import { useAppSelector } from '../../hooks/redux';
-import useAuth from '../../hooks/userAuth';
+import Loader from '../../components/interface/loader/Loader';
 
 export default function MyRoutes() {
   const {type} = useAppSelector(state => state.modalReducer)
-  const {isAuth} = useAuth()
+  const {typeSm} = useAppSelector(state => state.smModalReducer)
+  const {isLoading} = useAppSelector(state => state.loaderReducer)
+
   return (
     <BrowserRouter>
       <main className='wrapper' style={{position: 'relative'}}>
@@ -23,6 +26,8 @@ export default function MyRoutes() {
         <Line />
         <Footer />
         {type === 'login' ? <LoginModal/> : <SignupModal/>}
+        <FavModal type={typeSm}/>
+        <Loader isLoading={isLoading}/>
       </main>
     </BrowserRouter>
   )

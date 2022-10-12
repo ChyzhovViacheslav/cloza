@@ -29,10 +29,15 @@
             fill: var(--text-paragraph);
         }
     }
+    label{
+        margin-top: 16px;
+        &:nth-child(1){
+            margin-top: 0px;
+        }
+    }
     form{
         display: flex;
         flex-direction: column;
-        row-gap: 16px;
         margin-top: 32px;
     }
     input{
@@ -45,7 +50,8 @@
         transition: border 0.2s ease-in-out;
     }
     button{
-        margin: 0 auto;
+        margin: 32px auto;
+        margin-bottom: 0px;
         padding: 14px 85px;
     }
     h1{

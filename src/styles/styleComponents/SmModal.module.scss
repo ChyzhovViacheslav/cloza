@@ -1,0 +1,32 @@
+.modal{
+    &__title{
+        h1{
+            font-size: 24px;
+        }
+    }
+    &__subtitle{
+        margin-top: 32px;
+        text-align: center;
+        p{
+            color: var(--text-title)
+        }
+    }
+    &__btns{
+        margin-top: 32px;
+        display: flex;
+        justify-content: center;
+        column-gap: 16px;
+        button{
+            margin: 0px;
+            padding: 14px 32px;
+        }
+    }
+    &__reg{
+        background-color: inherit;
+        color: var(--main-color);
+        border: 1px solid var(--main-color);
+        &:hover{
+            background-color: var(--gray-light);
+        }
+    }
+}

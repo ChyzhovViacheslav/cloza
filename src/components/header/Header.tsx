@@ -1,50 +1,76 @@
 import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import s from '../../styles/styleComponents/Header.module.scss'
 import Button from '../interface/button/Button'
 import { loginModalSlice } from '../../store/reducers/ModalSlice'
 import { useAppDispatch } from '../../hooks/redux'
-import { pathNameSlice } from '../../store/reducers/PathnameSlice'
 import useAuth from '../../hooks/userAuth'
 import { userSlice } from '../../store/reducers/UserSlice'
+import { smModalSlice } from '../../store/reducers/SmModalSlice'
 
 interface IModalAuthorized {
-    loginModal: boolean;
+    loginModal: boolean
     setLoginModal: Function
 }
 
 const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
     const { openModal } = loginModalSlice.actions
-    const {removeUser} = userSlice.actions
+    const { removeUser } = userSlice.actions
+    const { openSmModal, changeToFav, changeToProfile } = smModalSlice.actions
+    const { isAuth } = useAuth()
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const {isAuth} = useAuth()
-    
+
     return (
         <div className={!loginModal ? s.modal : `${s.modal} ${s.active}`}>
             <div className={s.modal__body}>
                 <div className={s.modal__links}>
-                    <Link className={s.modal__link} to='/profile'>
+                    <div
+                        className={s.modal__link}
+                        onClick={() => {
+                            if (isAuth) {
+                                navigate('/profile')
+                            } else {
+                                dispatch(changeToProfile())
+                                dispatch(openSmModal())
+                            }
+                        }}>
                         <IconSelector className={s.modal__ico} id='person' />
                         <span>Мой аккаунт</span>
-                    </Link>
-                    <Link className={s.modal__link} to='/favorites'>
+                    </div>
+                    <div
+                        className={s.modal__link}
+                        onClick={() => {
+                            if (isAuth) {
+                                navigate('/favorites')
+                            } else {
+                                dispatch(changeToFav())
+                                dispatch(openSmModal())
+                            }
+                        }}>
                         <IconSelector className={s.modal__ico} id='heart' />
                         <span>Список желаний</span>
-                    </Link>
-                    {isAuth ? <div onClick={() => {
-                        dispatch(removeUser())
-                        setLoginModal(false)
-                    }} className={s.modal__link}>
-                        <IconSelector className={s.modal__ico} id='logout' />
-                        <span>Выйти</span>
-                    </div> : <div onClick={() => {
-                        dispatch(openModal())
-                        setLoginModal(false)
-                    }} className={s.modal__link}>
-                        <IconSelector className={s.modal__ico} id='logout' />
-                        <span>Войти</span>
-                    </div>}
+                    </div>
+                    {isAuth ?
+                        <div
+                            className={s.modal__link}
+                            onClick={() => {
+                                dispatch(removeUser())
+                                setLoginModal(false)
+                            }}>
+                            <IconSelector className={s.modal__ico} id='logout' />
+                            <span>Выйти</span>
+                        </div> :
+                        <div
+                            className={s.modal__link}
+                            onClick={() => {
+                                dispatch(openModal())
+                                setLoginModal(false)
+                            }}>
+                            <IconSelector className={s.modal__ico} id='logout' />
+                            <span>Войти</span>
+                        </div>}
                 </div>
             </div>
         </div>
@@ -52,9 +78,11 @@ const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
 }
 
 export default function Header() {
-    const [loginModal, setLoginModal] = useState(false)
-    const {changePath} = pathNameSlice.actions
+    const { openSmModal, changeToSell } = smModalSlice.actions
     const dispatch = useAppDispatch()
+    const [loginModal, setLoginModal] = useState(false)
+    const { isAuth } = useAuth()
+    const navigate = useNavigate()
 
     return (
         <nav className={s.header}>
@@ -82,11 +110,21 @@ export default function Header() {
                                 onClick={() => {
                                     setLoginModal(!loginModal)
                                 }} className={s.header__person} id='person' />
-                            <ModalAuthorized 
-                                loginModal={loginModal} 
-                                setLoginModal={setLoginModal}/>
+                            <ModalAuthorized
+                                loginModal={loginModal}
+                                setLoginModal={setLoginModal} />
                         </div>
-                        <Button text='Продать' className='header__button' />
+                        <Button
+                            onClick={() => {
+                                if (isAuth) {
+                                    navigate('/sell')
+                                } else {
+                                    dispatch(changeToSell())
+                                    dispatch(openSmModal())
+                                }
+                            }}
+                            text='Продать'
+                            className='header__button' />
                     </div>
                 </div>
             </div>
