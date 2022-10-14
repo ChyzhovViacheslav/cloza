@@ -1,5 +1,6 @@
 import React from 'react'
 import IconSelector from '../../assets/icons/icons'
+import { useAppSelector } from '../../hooks/redux'
 import s from '../../styles/styleComponents/ClothesItem.module.scss'
 import Line from '../interface/line/Line'
 

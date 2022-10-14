@@ -1,13 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { createApi, fakeBaseQuery, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getDatabase, onValue, ref } from 'firebase/database'
+import useAuth from '../hooks/userAuth'
 
-interface ICategories {
-    id: number,
-    type: string
-}
-
-interface ISex {
-    id: number
-    type: string
+interface IUser {
+    email: string,
+    userName: string,
+    id: string
 }
 
 interface IItem {
@@ -29,28 +28,26 @@ interface IItem {
 
 export const postApi = createApi({
     reducerPath: 'postApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
+    tagTypes: ['Users'],
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:5000'
+    }),
     endpoints: (build) => ({
-        fetchAllCategories: build.query<ICategories[], ICategories>({
-            query: () => ({
-                url: `/categories`
-            })
+        fetchAllUsers: build.query<IUser[], IUser>({
+            query: () => '/users',
+            providesTags: (result) => ['Users']
         }),
-        fetchAllSex: build.query<ISex[], ISex>({
-            query: () => ({
-                url: `/sex`
-            })
-        }),
-        fetchAllItem: build.query<IItem[], IItem>({
-            query: () => ({
-                url: `/item`
-            })
-        }),
-        addProduct: build.mutation({
+        addUser: build.mutation<IUser, IUser>({
             query: (body) => ({
-                url: '/item',
+                url: '/users',
                 method: 'POST',
                 body
+            }),
+            invalidatesTags: ['Users']
+        }),
+        fetchAllItem: build.query({
+            query: () => ({
+                url: `/items`
             })
         })
     })

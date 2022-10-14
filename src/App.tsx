@@ -19,7 +19,7 @@ import Sell from './pages/Sell/Sell';
 export default function App() {
   return (
     <main className={styles.page}>
-      <div className={styles.page + ' _container'}>
+      <div className={styles.page__container + ' _container'}>
         <div className={styles.page__body}>
           <Routes>
             <Route path='/' element={<Home />} />

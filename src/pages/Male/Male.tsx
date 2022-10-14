@@ -5,17 +5,17 @@ import ClothesType from '../../components/clothestype/ClothesType'
 import { postApi } from '../../services/PostService'
 
 export default function Male() {
-    const { data: cards, isLoading } = postApi.useFetchAllItemQuery(null)
-    const cardlist = cards?.map((el) => {
-        if(el.type === "male"){
-            return (
-                <ClothesCard key={el.id} />
-            )
-        }
-    })
+    // const { data: cards, isLoading } = postApi.useFetchAllItemQuery(null)
+    // const cardlist = cards?.map((el) => {
+    //     if(el.type === "male"){
+    //         return (
+    //             <ClothesCard key={el.id} />
+    //         )
+    //     }
+    // })
     return (
         <ClothesType>
-            {isLoading ? <div><h1>ХУЙ</h1></div> : cardlist}
+            {/* {isLoading ? <div><h1>ХУЙ</h1></div> : cardlist} */}
         </ClothesType>
     )
 }

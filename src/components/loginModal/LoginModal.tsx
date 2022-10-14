@@ -9,6 +9,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { Link } from 'react-router-dom';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
+import { postApi } from '../../services/PostService';
 
 export default function LoginModal() {
     const { changeModalTypeRegister } = loginModalSlice.actions
@@ -21,23 +22,24 @@ export default function LoginModal() {
     const [password, setPassword] = useState('')
     const dispatch = useAppDispatch()
     const [isError, setError] = useState(false)
+    const {data = []} = postApi.useFetchAllUsersQuery(null)
 
     const handleLogin = (email: string, password: string) => {
         const auth = getAuth()
         dispatch(openLoader())
         signInWithEmailAndPassword(auth, email, password)
             .then(({ user }) => {
-                user.getIdToken()
-                    .then(result => {
+                data.forEach(el => {
+                    if(el.id === user.uid){
                         dispatch(setUser({
-                            email: user.email,
+                            email: email,
                             id: user.uid,
-                            token: result,
-                            name: auth.currentUser.displayName
+                            userName: el.userName
                         }))
-                        dispatch(closeModal())
-                        setError(false)
-                    })
+                    }
+                })
+                setError(false)
+                dispatch(closeModal())
             })
             .catch(() => setError(true))
             .finally(() => dispatch(closeLoader()))

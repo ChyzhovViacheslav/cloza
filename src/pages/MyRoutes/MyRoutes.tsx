@@ -15,7 +15,7 @@ export default function MyRoutes() {
   const {type} = useAppSelector(state => state.modalReducer)
   const {typeSm} = useAppSelector(state => state.smModalReducer)
   const {isLoading} = useAppSelector(state => state.loaderReducer)
-
+  
   return (
     <BrowserRouter>
       <main className='wrapper' style={{position: 'relative'}}>

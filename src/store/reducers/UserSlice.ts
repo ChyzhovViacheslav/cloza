@@ -2,16 +2,14 @@ import { createSlice } from "@reduxjs/toolkit"
 
 interface IPathname {
     email: string,
-    token: string,
     id: string,
-    name: string
+    userName: string
 }
 
 const initialState: IPathname = {
     email: null,
-    token: null,
     id: null,
-    name: null
+    userName: null
 }
 
 export const userSlice = createSlice({
@@ -20,15 +18,13 @@ export const userSlice = createSlice({
     reducers: {
         setUser(state, action){
             state.email = action.payload.email
-            state.id = action.payload.id            
-            state.token = action.payload.token
-            state.name = action.payload.name           
+            state.id = action.payload.id
+            state.userName = action.payload.userName           
         },
         removeUser(state){
             state.email = null
-            state.id = null            
-            state.token = null 
-            state.name = null
+            state.id = null
+            state.userName = null
         }
     }
 })

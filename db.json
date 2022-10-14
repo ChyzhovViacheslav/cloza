@@ -23,7 +23,14 @@
       "type": "polo"
     }
   ],
-  "item": [
+  "users": [
+    {
+      "email": "chigovslavik@hotmail.com",
+      "id": "3DleGQPbMvXYirO3ER1uHWQHkBO2",
+      "userName": "PomPushka"
+    }
+  ],
+  "items": [
     {
       "id": 1,
       "name": "Розовые прикольные трусы",

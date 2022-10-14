@@ -5,9 +5,10 @@ import Button from '../interface/button/Button'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
 import Line from '../interface/line/Line';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
+import { postApi } from '../../services/PostService';
 
 export default function SignupModal() {
     const { closeModal, changeModalTypeLogin } = loginModalSlice.actions
@@ -22,6 +23,7 @@ export default function SignupModal() {
     const [verifiedPass, setVerifiedPass] = useState('')
     const verifiedPassRef = useRef(null)
     const [isError, setError] = useState(false)
+    const [addUser, { }] = postApi.useAddUserMutation()
 
     useEffect(() => {
         return () => {
@@ -38,22 +40,21 @@ export default function SignupModal() {
         dispatch(openLoader())
         createUserWithEmailAndPassword(auth, email, password)
             .then(({ user }) => {
-                updateProfile(auth.currentUser, {
-                    displayName: name
-                })
-                user.getIdToken()
-                    .then(result => {
-                        dispatch(setUser({
-                            email: user.email,
-                            id: user.uid,
-                            token: result,
-                            name: name
-                        }))
-                        dispatch(closeModal())
-                    })
+                dispatch(setUser({
+                    email: user.email,
+                    id: user.uid,
+                    userName: name
+                }))
+                addUser({
+                    email: user.email,
+                    id: user.uid,
+                    userName: name
+                }).unwrap()
+                setError(false)
+                dispatch(closeModal())
             })
             .catch(() => setError(true))
-            .finally(() => dispatch(closeLoader()))
+            .finally(() => window.location.reload())
     }
 
     const vaildatorEmail = (email: string) => {

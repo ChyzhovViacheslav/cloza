@@ -58,6 +58,7 @@ const ModalAuthorized = ({ loginModal, setLoginModal }: IModalAuthorized) => {
                             onClick={() => {
                                 dispatch(removeUser())
                                 setLoginModal(false)
+                                window.location.reload()
                             }}>
                             <IconSelector className={s.modal__ico} id='logout' />
                             <span>Выйти</span>
