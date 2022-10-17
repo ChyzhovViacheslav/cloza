@@ -89,23 +89,27 @@
         }
     }
     &__amount {
-        input{
+        input {
             width: 100%;
         }
     }
-    &__trade{
-        .sell__checkbox{
-            input{
+    &__trade {
+        .sell__checkbox {
+            input {
                 margin-left: 0px;
             }
-            label{
+            label {
                 margin-left: 8px;
             }
         }
     }
-    &__btn{
+    &__btn {
         margin-top: 32px;
         font-size: 18px;
         justify-content: center;
+    }
+    &__select{
+        padding: 0px !important;
+        border: 0px solid var(--gray-light) !important;
     }
 }

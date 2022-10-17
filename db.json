@@ -30,7 +30,7 @@
       "userName": "PomPushka"
     }
   ],
-  "items": [
+  "products": [
     {
       "id": 1,
       "name": "Розовые прикольные трусы",
@@ -225,6 +225,23 @@
       "size": "L",
       "photo": "",
       "sale": "499"
+    },
+    {
+      "saler": "PomPushka",
+      "name": "Труханчикисики",
+      "condition": "condition-2",
+      "mainCategory": "male",
+      "category": "bottom",
+      "subCategory": "Джоггеры",
+      "brand": "Alexander Mcqueen",
+      "size": "XXL",
+      "color": "brown",
+      "description": "щгфывщфыгрвщфыв",
+      "price": "13000",
+      "discount": null,
+      "amount": "",
+      "trade": true,
+      "id": 14
     }
   ]
 }

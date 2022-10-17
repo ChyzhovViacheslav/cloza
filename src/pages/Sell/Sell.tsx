@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons';
 import Button from '../../components/interface/button/Button';
+import useAuth from '../../hooks/userAuth';
+import { postApi } from '../../services/PostService';
 import s from '../../styles/styleComponents/Sell.module.scss';
+import Select from 'react-select';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -15,9 +18,193 @@ export default function Sell() {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState(null)
   const [discount, setDiscount] = useState(null)
-  const [amount, setAmount] = useState(1)
-  const [trade, setTrade] = useState('')
-  
+  const [amount, setAmount] = useState('')
+  const [trade, setTrade] = useState(false)
+
+  const { userName } = useAuth()
+  const [addProduct, { isLoading }] = postApi.useAddProductMutation()
+
+  const renderSubCategory = () => {
+    switch (category) {
+      case 'top':
+        return (
+          <>
+            <option>Футболка</option>
+            <option>Джемпер</option>
+            <option>Спортивный костюм</option>
+            <option>Рубашка</option>
+            <option>Поло</option>
+            <option>Майка</option>
+            <option>Пиджак</option>
+            <option>Худи</option>
+            <option>Свитшот</option>
+            <option>Свитер</option>
+            <option>Олимпийка</option>
+            <option>Лонгслив</option>
+            <option>Толстовка</option>
+            <option>Кардиган</option>
+            <option>Куртки</option>
+            <option>Ветровка</option>
+            <option>Бомбер</option>
+            <option>Анорак</option>
+            <option>Пальто</option>
+            <option>Жилетка</option>
+          </>
+        )
+      case 'bottom':
+        return (
+          <>
+            <option>Джинсы</option>
+            <option>Брюки</option>
+            <option>Спортивные штаны</option>
+            <option>Джоггеры</option>
+            <option>Шорты</option>
+          </>
+        )
+      case 'shoes':
+        return (
+          <>
+            <option>Кроссовки</option>
+            <option>Ботинки</option>
+            <option>Мокасины</option>
+            <option>Слипоны</option>
+            <option>Кеды</option>
+            <option>Туфли</option>
+            <option>Лоферы</option>
+            <option>Слиперы</option>
+            <option>Сапоги</option>
+          </>
+        )
+      case 'accesories':
+        return (
+          <>
+            <option>Шапка</option>
+            <option>Шарфы</option>
+            <option>Сумки</option>
+            <option>Перчатки</option>
+            <option>Ремень</option>
+            <option>Кошелёк</option>
+            <option>Очки</option>
+            <option>Часы</option>
+            <option>Рюкзак</option>
+            <option>Панама</option>
+            <option>Значки</option>
+            <option>Кепка</option>
+          </>
+        )
+      default:
+        return (
+          <option>Выберите категорию</option>
+        )
+    }
+  }
+
+  const renderSize = () => {
+    const sizeType = ['XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS']
+    return (
+      sizeType.map(el => {
+        return (
+          <div key={el} className={s.sell__checkbox}>
+            <label htmlFor={el}>{el}</label>
+            <input name='size' onChange={(e) => setSize(e.target.id)} type={'radio'} id={el} />
+          </div>
+        )
+      })
+    )
+  }
+
+  const renderBrands = () => {
+    const brands = [
+      { value: 'Без бренда', label: 'Без бренда' },
+      { value: 'Adidas', label: 'Adidas' },
+      { value: 'Adidas Originals', label: 'Adidas Originals' },
+      { value: 'Armani Exchange', label: 'Armani Exchange' },
+      { value: 'Alexander Mcqueen', label: 'Alexander Mcqueen' },]
+    const customStyles = {
+      control: () => ({
+        display: 'flex',
+        padding: '0px',
+        width: '100%',
+        border: '1px solid var(--gray-light)',
+        borderRadius: '8px'
+      }),
+      option: () => ({
+        padding: '8px 16px'
+      }),
+      valueContainer: () => ({
+        display: 'flex',
+        padding: '8px 16px',
+        alignItems: 'center',
+        flex: '1 1 auto',
+        height: '40px'
+      }),
+      singleValue: () => ({
+        fontFamily: 'PTRoot',
+        fontSize: '16px'
+      }),
+      input: () => ({
+        padding: '0px',
+        margin: '0px'
+      }),
+      indicatorSeparator: () => ({
+        display: 'none'
+      })
+    }
+    return (
+      <Select
+        placeholder=''
+        className={`${s.sell__inputs} ${s.sell__select}`}
+        styles={customStyles}
+        onChange={(e) => setBrand(e.value)}
+        options={brands} 
+        defaultValue={brands[0]}/>
+    )
+  }
+
+  const renderColors = () => {
+    const colors = [
+      { colorCode: '#337ab6', colorName: 'darkblue' },
+      { colorCode: '#5cb85c', colorName: 'green' },
+      { colorCode: '#f0ac4e', colorName: 'yellow' },
+      { colorCode: '#ff0000', colorName: 'red' },
+      { colorCode: '#5bc0de', colorName: 'blue' },
+      { colorCode: '#282a3c', colorName: 'black' },
+      { colorCode: '#800080', colorName: 'purple' },
+      { colorCode: '#777777', colorName: 'gray' },
+      { colorCode: '#ffffff', colorName: 'white' },
+      { colorCode: '#d9534f', colorName: 'brown' }
+    ]
+    return (
+      colors.map(el => {
+        return (
+          <div key={el.colorName} className={s.sell__checkbox}>
+            <label htmlFor={el.colorName}>{el.colorName}</label>
+            <input onChange={(e) => setColor(e.target.id)} style={{ backgroundColor: el.colorCode }} name={'color'} type={'radio'} id={el.colorName} />
+          </div>
+        )
+      })
+    )
+  }
+
+  const postProduct = async () => {
+    await addProduct({
+      saler: userName,
+      name: name,
+      condition: condition,
+      mainCategory: mainCategory,
+      category: category,
+      subCategory: subCategory,
+      brand: brand,
+      size: size,
+      color: color,
+      description: description,
+      price: price,
+      discount: discount,
+      amount: amount,
+      trade: trade
+    })
+  }
+
   return (
     <div className={s.sell}>
       <div className={s.sell__body}>
@@ -27,11 +214,15 @@ export default function Sell() {
         <form className={s.sell__form}>
           <div className={`${s.sell__name} ${s.sell__label}`}>
             <p>Название</p>
-            <input className={`${s.sell__product_name} ${s.sell__inputs}`} value={name} onChange={(e) => setName(e.target.value)} />
+            <input
+              className={`${s.sell__product_name} ${s.sell__inputs}`}
+              value={name}
+              onChange={(e) => setName(e.target.value)} />
           </div>
           <div className={`${s.sell__condition} ${s.sell__label}`}>
             <p>Состояние</p>
-            <select className={s.sell__inputs}>
+            <select onChange={(e) => setCondition(e.target.value)} className={s.sell__inputs}>
+              <option>Выберите состояние</option>
               <option value={'condition-1'}>Новая с биркой</option>
               <option value={'condition-2'}>Новая без бирки</option>
               <option value={'condition-3'}>Небольшие дефекты</option>
@@ -41,7 +232,8 @@ export default function Sell() {
           </div>
           <div className={`${s.sell__main_category} ${s.sell__label}`}>
             <p>Основная категория</p>
-            <select className={s.sell__inputs}>
+            <select onChange={(e) => setMainCategory(e.target.value)} className={s.sell__inputs}>
+              <option>Выберите категорию</option>
               <option value={'female'}>Женское</option>
               <option value={'male'}>Мужское</option>
               <option value={'unisex'}>Унисекс</option>
@@ -49,156 +241,94 @@ export default function Sell() {
           </div>
           <div className={`${s.sell__categories} ${s.sell__label}`}>
             <p>Подкатегория</p>
-            <select className={s.sell__inputs}>
-              <option>Верх</option>
-              <option>Низ</option>
-              <option>Обувь</option>
-              <option>Аксессуары</option>
+            <select onChange={(e) => setCategory(e.target.value)} className={s.sell__inputs}>
+              <option>Выберите категорию</option>
+              <option value={'top'}>Верх</option>
+              <option value={'bottom'}>Низ</option>
+              <option value={'shoes'}>Обувь</option>
+              <option value={'accesories'}>Аксессуары</option>
             </select>
           </div>
           <div className={`${s.sell__subcategories} ${s.sell__label}`}>
             <p>Субкатегория</p>
-            <select className={s.sell__inputs}>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
-              <option>Футболки</option>
+            <select onChange={(e) => setSubCategory(e.target.value)} className={s.sell__inputs}>
+              {renderSubCategory()}
             </select>
           </div>
           <div className={`${s.sell__brands} ${s.sell__label}`}>
             <p>Бренд</p>
-            <select className={s.sell__inputs}>
-              <option>Gucci</option>
-              <option>Gucci</option>
-              <option>Gucci</option>
-              <option>Gucci</option>
-              <option>Gucci</option>
-            </select>
+            {renderBrands()}
           </div>
           <div className={`${s.sell__main_photo} ${s.sell__label}`}>
             <p>Основное фото</p>
-            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus'/><span>Основное фото</span></button>
+            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus' /><span>Основное фото</span></button>
           </div>
           <div className={`${s.sell__photos} ${s.sell__label}`}>
             <p>Галерея (максимум 5 фото)</p>
-            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus'/><span>Добавить фото</span></button>
+            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus' /><span>Добавить фото</span></button>
           </div>
           <div className={`${s.sell__size} ${s.sell__label}`}>
             <p>Размер</p>
             <div className={s.sell__inputs}>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='XL'>XL</label>
-                <input type={'checkbox'} id={'XL'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='XXL'>XXL</label>
-                <input type={'checkbox'} id={'XXL'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='M'>M</label>
-                <input type={'checkbox'} id={'M'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='L'>L</label>
-                <input type={'checkbox'} id={'L'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='S'>S</label>
-                <input type={'checkbox'} id={'S'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='XS'>XS</label>
-                <input type={'checkbox'} id={'XS'} />
-              </div>
-              <div className={s.sell__checkbox}>
-                <label htmlFor='XXS'>XXS</label>
-                <input type={'checkbox'} id={'XXS'} />
-              </div>
+              {renderSize()}
             </div>
           </div>
           <div className={`${s.sell__color} ${s.sell__label}`}>
             <p>Цвет (Выберите основной цвет.)</p>
             <div className={s.sell__inputs}>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='darkblue'>Синий</label>
-                 <input style={{backgroundColor: '#337ab6'}} type={'checkbox'} id={'darkblue'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='green'>Зелёный</label>
-                 <input style={{backgroundColor: '#5cb85c'}} type={'checkbox'} id={'green'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='yellow'>Жёлтый</label>
-                 <input style={{backgroundColor: '#f0ac4e'}} type={'checkbox'} id={'yellow'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='red'>Красный</label>
-                 <input style={{backgroundColor: '#ff0000'}} type={'checkbox'} id={'red'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='blue'>Голубой</label>
-                 <input style={{backgroundColor: '#5bc0de'}} type={'checkbox'} id={'blue'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='black'>Чёрный</label>
-                 <input style={{backgroundColor: '#282a3c'}} type={'checkbox'} id={'black'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='purple'>Фиолетовый</label>
-                 <input style={{backgroundColor: '#800080'}} type={'checkbox'} id={'purple'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='gray'>Серый</label>
-                 <input style={{backgroundColor: '#777777'}} type={'checkbox'} id={'gray'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='white'>Белый</label>
-                 <input style={{backgroundColor: '#ffffff'}} type={'checkbox'} id={'white'}/>
-              </div>
-              <div className={s.sell__checkbox}>
-                 <label htmlFor='brown'>Коричневый</label>
-                 <input style={{backgroundColor: '#d9534f'}} type={'checkbox'} id={'brown'}/>
-              </div>
+              {renderColors()}
             </div>
           </div>
           <div className={`${s.sell__description} ${s.sell__label}`}>
             <p>Описание товара</p>
-            <textarea style={{minHeight: '120px', resize: 'none'}} className={s.sell__inputs}/>
+            <textarea
+              onChange={(e) => setDescription(e.target.value)}
+              style={{ minHeight: '120px', resize: 'none' }}
+              className={s.sell__inputs} />
           </div>
           <div className={`${s.sell__price} ${s.sell__label}`}>
             <p>Цена</p>
             <div className={s.sell__inputs}>
-              <input style={{flex: '1 1 auto'}} type={'text'}/>
-              <IconSelector className={s.sell__uah} id='uah'/>
+              <input
+                onChange={(e) => setPrice(e.target.value)}
+                style={{ flex: '1 1 auto' }}
+                type={'text'} />
+              <IconSelector className={s.sell__uah} id='uah' />
             </div>
           </div>
           <div className={`${s.sell__price} ${s.sell__label}`}>
             <p>Цена со скидкой</p>
             <div className={s.sell__inputs}>
-              <input  style={{flex: '1 1 auto'}} type={'text'}/>
-              <IconSelector className={s.sell__uah} id='uah'/>
+              <input
+                onChange={(e) => setDiscount(e.target.value)}
+                style={{ flex: '1 1 auto' }}
+                type={'text'} />
+              <IconSelector className={s.sell__uah} id='uah' />
             </div>
           </div>
           <div className={`${s.sell__amount} ${s.sell__label}`}>
             <p>Кол-во (Оставить пустым и товар будет без ограничений)</p>
             <div className={s.sell__inputs}>
-              <input type={'number'}/>
+              <input onChange={(e) => setAmount(e.target.value)} type={'number'} />
             </div>
           </div>
           <div className={`${s.sell__trade} ${s.sell__label}`}>
             <p>Обмен</p>
             <div className={s.sell__inputs}>
               <div className={s.sell__checkbox}>
-                <input id='trade' type={'checkbox'}/>
+                <input onChange={(e) => setTrade(e.target.checked)} id='trade' type={'checkbox'} />
                 <label htmlFor="trade">Возможен обмен</label>
               </div>
             </div>
           </div>
-          <Button id='check-mark' className={s.sell__btn} text='Сделать обьявление'/>
+          <Button
+            id='check-mark'
+            className={s.sell__btn}
+            text='Сделать обьявление'
+            onClick={(e) => {
+              e.preventDefault()
+              postProduct()
+            }} />
         </form>
       </div>
     </div>

@@ -4,9 +4,9 @@ import './styles/global.scss'
 import MyRoutes from './pages/MyRoutes/MyRoutes';
 import { Provider } from 'react-redux';
 import { setupStore } from './store/store';
-import {PersistGate} from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react'
 import './firebase.js'
-import {persistStore} from 'redux-persist'
+import { persistStore } from 'redux-persist'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const store = setupStore()
