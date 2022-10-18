@@ -4,10 +4,12 @@
         padding: 32px 0px 64px 0px;
     }
     &__content{
+        position: relative;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
         row-gap: 32px;
+        column-gap: 24px;
         width: 100%;
+        height: 100%;
     }
 }

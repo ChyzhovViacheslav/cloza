@@ -23,73 +23,49 @@ export default function Sell() {
 
   const { userName } = useAuth()
   const [addProduct, { isLoading }] = postApi.useAddProductMutation()
+  const {data: brands} = postApi.useFetchAllBrandsQuery(null)
+  const {data: categories} = postApi.useFetchAllCategoriesQuery(null)
 
   const renderSubCategory = () => {
     switch (category) {
       case 'top':
         return (
           <>
-            <option>Футболка</option>
-            <option>Джемпер</option>
-            <option>Спортивный костюм</option>
-            <option>Рубашка</option>
-            <option>Поло</option>
-            <option>Майка</option>
-            <option>Пиджак</option>
-            <option>Худи</option>
-            <option>Свитшот</option>
-            <option>Свитер</option>
-            <option>Олимпийка</option>
-            <option>Лонгслив</option>
-            <option>Толстовка</option>
-            <option>Кардиган</option>
-            <option>Куртки</option>
-            <option>Ветровка</option>
-            <option>Бомбер</option>
-            <option>Анорак</option>
-            <option>Пальто</option>
-            <option>Жилетка</option>
+            {categories.top?.map((el, i) => {
+              return(
+                <option key={i}>{el}</option>
+              )
+            })}
           </>
         )
       case 'bottom':
         return (
           <>
-            <option>Джинсы</option>
-            <option>Брюки</option>
-            <option>Спортивные штаны</option>
-            <option>Джоггеры</option>
-            <option>Шорты</option>
+            {categories.bottom?.map((el, i) => {
+              return(
+                <option key={i}>{el}</option>
+              )
+            })}
           </>
         )
       case 'shoes':
         return (
           <>
-            <option>Кроссовки</option>
-            <option>Ботинки</option>
-            <option>Мокасины</option>
-            <option>Слипоны</option>
-            <option>Кеды</option>
-            <option>Туфли</option>
-            <option>Лоферы</option>
-            <option>Слиперы</option>
-            <option>Сапоги</option>
+            {categories.shoes?.map((el, i) => {
+              return(
+                <option key={i}>{el}</option>
+              )
+            })}
           </>
         )
       case 'accesories':
         return (
           <>
-            <option>Шапка</option>
-            <option>Шарфы</option>
-            <option>Сумки</option>
-            <option>Перчатки</option>
-            <option>Ремень</option>
-            <option>Кошелёк</option>
-            <option>Очки</option>
-            <option>Часы</option>
-            <option>Рюкзак</option>
-            <option>Панама</option>
-            <option>Значки</option>
-            <option>Кепка</option>
+            {categories.accesories?.map((el, i) => {
+              return(
+                <option key={i}>{el}</option>
+              )
+            })}
           </>
         )
       default:
@@ -114,12 +90,12 @@ export default function Sell() {
   }
 
   const renderBrands = () => {
-    const brands = [
-      { value: 'Без бренда', label: 'Без бренда' },
-      { value: 'Adidas', label: 'Adidas' },
-      { value: 'Adidas Originals', label: 'Adidas Originals' },
-      { value: 'Armani Exchange', label: 'Armani Exchange' },
-      { value: 'Alexander Mcqueen', label: 'Alexander Mcqueen' },]
+    const customData = brands?.map((el:string) => {
+      return ({
+        value: el, label: el
+      })
+    })
+
     const customStyles = {
       control: () => ({
         display: 'flex',
@@ -156,23 +132,23 @@ export default function Sell() {
         className={`${s.sell__inputs} ${s.sell__select}`}
         styles={customStyles}
         onChange={(e) => setBrand(e.value)}
-        options={brands} 
-        defaultValue={brands[0]}/>
+        options={customData && customData}
+        defaultValue={customData && customData[0]} />
     )
   }
 
   const renderColors = () => {
     const colors = [
-      { colorCode: '#337ab6', colorName: 'darkblue' },
-      { colorCode: '#5cb85c', colorName: 'green' },
-      { colorCode: '#f0ac4e', colorName: 'yellow' },
-      { colorCode: '#ff0000', colorName: 'red' },
-      { colorCode: '#5bc0de', colorName: 'blue' },
-      { colorCode: '#282a3c', colorName: 'black' },
-      { colorCode: '#800080', colorName: 'purple' },
-      { colorCode: '#777777', colorName: 'gray' },
-      { colorCode: '#ffffff', colorName: 'white' },
-      { colorCode: '#d9534f', colorName: 'brown' }
+      { colorCode: '#337ab6', colorName: 'Синий' },
+      { colorCode: '#5cb85c', colorName: 'Зелёный' },
+      { colorCode: '#f0ac4e', colorName: 'Оранжевый' },
+      { colorCode: '#ff0000', colorName: 'Красный' },
+      { colorCode: '#5bc0de', colorName: 'Голубой' },
+      { colorCode: '#282a3c', colorName: 'Чёрный' },
+      { colorCode: '#800080', colorName: 'Фиолетовый' },
+      { colorCode: '#777777', colorName: 'Серый' },
+      { colorCode: '#ffffff', colorName: 'Белый' },
+      { colorCode: '#d9534f', colorName: 'Коричневый' }
     ]
     return (
       colors.map(el => {
@@ -223,11 +199,11 @@ export default function Sell() {
             <p>Состояние</p>
             <select onChange={(e) => setCondition(e.target.value)} className={s.sell__inputs}>
               <option>Выберите состояние</option>
-              <option value={'condition-1'}>Новая с биркой</option>
-              <option value={'condition-2'}>Новая без бирки</option>
-              <option value={'condition-3'}>Небольшие дефекты</option>
-              <option value={'condition-4'}>Надевалась один раз</option>
-              <option value={'condition-5'}>Надевалась несклько раз</option>
+              <option value={'Новая с биркой'}>Новая с биркой</option>
+              <option value={'Новая без бирки'}>Новая без бирки</option>
+              <option value={'Небольшие дефекты'}>Небольшие дефекты</option>
+              <option value={'Надевалась один раз'}>Надевалась один раз</option>
+              <option value={'Надевалась несклько раз'}>Надевалась несклько раз</option>
             </select>
           </div>
           <div className={`${s.sell__main_category} ${s.sell__label}`}>

@@ -1,26 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
-
+import IProduct from '../models/IProduct'
 interface IUser {
     email: string,
     userName: string,
     id: string
 }
-
-interface IProduct {
-    saler: string,
-    name: string,
-    condition: string,
-    mainCategory: string,
-    category: string,
-    subCategory: string,
-    brand: string,
-    size: string,
-    color: string,
-    description: string,
-    price: number,
-    discount?: number,
-    amount: any,
-    trade: boolean
+interface ICategories {
+    top: [],
+    bottom: [],
+    shoes: [],
+    accesories: []
 }
 
 export const postApi = createApi({
@@ -53,6 +42,12 @@ export const postApi = createApi({
                 body
             }),
             invalidatesTags: ['Products']
+        }),
+        fetchAllCategories: build.query<ICategories, ICategories>({
+            query: () => '/categories'
+        }),
+        fetchAllBrands: build.query({
+            query: () => '/brands'
         })
     })
 })

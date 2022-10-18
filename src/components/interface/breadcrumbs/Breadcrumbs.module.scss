@@ -4,13 +4,20 @@
         padding: 24px 0px;
     }
     &__link{
+        margin-left: 5px;
+        cursor: pointer;
         &::before{
             content: '/';
             color: var(--text-title);
+            margin-right: 5px;
+        }
+        &:nth-last-child(-n+1){
+            color: var(--text-paragraph);
         }
     }
     &__links{
-        margin-top: 8px;
+        display: flex;
+        align-items: center;
         span{
             font-size: 16px;
             line-height: 20px;

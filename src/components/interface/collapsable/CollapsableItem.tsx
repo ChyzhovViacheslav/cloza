@@ -18,7 +18,7 @@ export default function CollapsableItem({ title, children, className, isClosed, 
 
     useEffect(() => {
         setScroll(div.current.scrollHeight)
-    }, [toggleItem])
+    }, [toggleItem, children])
 
     const hide = {
         maxHeight: '0',

@@ -1,12 +1,42 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux'
-import { pathNameSlice } from '../../store/reducers/PathnameSlice'
+import React, { useState, useEffect } from 'react'
+import IconSelector from '../../assets/icons/icons'
+import { useAppDispatch } from '../../hooks/redux'
+import { postApi } from '../../services/PostService'
+import { filterSlice } from '../../store/reducers/ProductFilter'
 import s from '../../styles/styleComponents/Filter.module.scss'
 import CollapsableItem from '../interface/collapsable/CollapsableItem'
 
 export default function Filter() {
-    const {path} = useAppSelector(state => state.pathNameReducer)
+    const { filterSubCategories } = filterSlice.actions
+    const { data, isLoading, isFetching } = postApi.useFetchAllCategoriesQuery(null)
+    const dispatch = useAppDispatch()
+
+    const [allCategories, setAllCategories] = useState<Object[]>()
+    const [categoriesLimit, setCategoriesLimit] = useState([0, 5])
+
+    useEffect(() => {
+        if (!isFetching) {
+            setAllCategories([...data.top, ...data.bottom, ...data.accesories, ...data.shoes].slice(categoriesLimit[0], categoriesLimit[1]))
+        }
+    }, [isFetching, categoriesLimit])
+
+    const renderCategories = () => {
+        if (!isLoading) {
+            return (
+                allCategories?.map((el: any) => {
+                    return (
+                        <div
+                            className={s.filter__categories}
+                            key={el}
+                            onClick={() => { dispatch(filterSubCategories(el)) }}>
+                            <h2>{el}</h2>
+                        </div>
+                    )
+                })
+            )
+        } else return <IconSelector id='loader' />
+    }
+
     return (
         <div className={s.filter}>
             <div className={s.filter__body}>
@@ -16,16 +46,12 @@ export default function Filter() {
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Категории' className={s.filter__categories} tittleClassName={s.filter__title}>
                     <div className={s.filter__categories_list}>
-                        <Link to={`${path}/tshirt`}><h2>Рубашки</h2></Link>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <h2>Рубашки</h2>
-                        <br/>
-                        <h2>Показать ещё</h2>
+                        {renderCategories()}
+                        <span
+                            className={s.filter__categories_btn}
+                            onClick={() => { 
+                                setCategoriesLimit([0, categoriesLimit[1] + 10])
+                            }}>Показать ещё</span>
                     </div>
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Бренды' className={s.filter__brands} tittleClassName={s.filter__title}>
