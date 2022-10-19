@@ -5,6 +5,7 @@ import useAuth from '../../hooks/userAuth';
 import { postApi } from '../../services/PostService';
 import s from '../../styles/styleComponents/Sell.module.scss';
 import Select from 'react-select';
+import MySelect from '../../components/interface/inputs/MySelect';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -26,9 +27,23 @@ export default function Sell() {
   const {data: brands} = postApi.useFetchAllBrandsQuery(null)
   const {data: categories} = postApi.useFetchAllCategoriesQuery(null)
 
+  const conditionMap = [
+    "Новая с биркой",
+    "Новая без бирки",
+    "Небольшие дефекты",
+    "Надевалась один раз",
+    "Надевалась несколько раз"
+  ]
+
+  const mainCategoriesMap = [
+    "Женское",
+    "Мужское",
+    "Унисекс"
+  ]
+
   const renderSubCategory = () => {
     switch (category) {
-      case 'top':
+      case 'Верх':
         return (
           <>
             {categories.top?.map((el, i) => {
@@ -38,7 +53,7 @@ export default function Sell() {
             })}
           </>
         )
-      case 'bottom':
+      case 'Низ':
         return (
           <>
             {categories.bottom?.map((el, i) => {
@@ -48,7 +63,7 @@ export default function Sell() {
             })}
           </>
         )
-      case 'shoes':
+      case 'Обувь':
         return (
           <>
             {categories.shoes?.map((el, i) => {
@@ -58,7 +73,7 @@ export default function Sell() {
             })}
           </>
         )
-      case 'accesories':
+      case 'Аксессуары':
         return (
           <>
             {categories.accesories?.map((el, i) => {
@@ -67,10 +82,6 @@ export default function Sell() {
               )
             })}
           </>
-        )
-      default:
-        return (
-          <option>Выберите категорию</option>
         )
     }
   }
@@ -124,6 +135,10 @@ export default function Sell() {
       }),
       indicatorSeparator: () => ({
         display: 'none'
+      }),
+      dropdownIndicator: () => ({
+        color: '#9095a9',
+        marginRight: '12px'
       })
     }
     return (
@@ -197,39 +212,32 @@ export default function Sell() {
           </div>
           <div className={`${s.sell__condition} ${s.sell__label}`}>
             <p>Состояние</p>
-            <select onChange={(e) => setCondition(e.target.value)} className={s.sell__inputs}>
-              <option>Выберите состояние</option>
-              <option value={'Новая с биркой'}>Новая с биркой</option>
-              <option value={'Новая без бирки'}>Новая без бирки</option>
-              <option value={'Небольшие дефекты'}>Небольшие дефекты</option>
-              <option value={'Надевалась один раз'}>Надевалась один раз</option>
-              <option value={'Надевалась несклько раз'}>Надевалась несклько раз</option>
-            </select>
+            <MySelect 
+              defaultValue='Без бирки' 
+              onChange={(e) => setCondition(e.target.value)}
+              data={conditionMap}/>
           </div>
           <div className={`${s.sell__main_category} ${s.sell__label}`}>
             <p>Основная категория</p>
-            <select onChange={(e) => setMainCategory(e.target.value)} className={s.sell__inputs}>
-              <option>Выберите категорию</option>
-              <option value={'female'}>Женское</option>
-              <option value={'male'}>Мужское</option>
-              <option value={'unisex'}>Унисекс</option>
-            </select>
+            <MySelect 
+              defaultValue='Выберите категорию' 
+              onChange={(e) => setMainCategory(e.target.value)}
+              data={mainCategoriesMap}/>
           </div>
           <div className={`${s.sell__categories} ${s.sell__label}`}>
             <p>Подкатегория</p>
-            <select onChange={(e) => setCategory(e.target.value)} className={s.sell__inputs}>
-              <option>Выберите категорию</option>
-              <option value={'top'}>Верх</option>
-              <option value={'bottom'}>Низ</option>
-              <option value={'shoes'}>Обувь</option>
-              <option value={'accesories'}>Аксессуары</option>
-            </select>
+            <MySelect 
+              defaultValue='Выберите подкатегорию' 
+              onChange={(e) => setCategory(e.target.value)}
+              data={["Верх", "Низ", "Обувь", "Аксессуары"]}/>
           </div>
           <div className={`${s.sell__subcategories} ${s.sell__label}`}>
             <p>Субкатегория</p>
-            <select onChange={(e) => setSubCategory(e.target.value)} className={s.sell__inputs}>
+            <MySelect
+              defaultValue='Выберите субкатегорию'
+              onChange={(e) => setSubCategory(e.target.value)}>
               {renderSubCategory()}
-            </select>
+            </MySelect>
           </div>
           <div className={`${s.sell__brands} ${s.sell__label}`}>
             <p>Бренд</p>

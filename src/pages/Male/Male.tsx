@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import s from '../../styles/styleComponents/Male.module.scss'
 import ClothesCard from '../../components/clothesitem/ClothesCard'
 import ClothesType from '../../components/clothestype/ClothesType'
-import { postApi } from '../../services/PostService'
 import IconSelector from '../../assets/icons/icons'
 import { useAppSelector } from '../../hooks/redux'
 

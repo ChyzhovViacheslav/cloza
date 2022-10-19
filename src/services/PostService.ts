@@ -47,7 +47,9 @@ export const postApi = createApi({
             query: () => '/categories'
         }),
         fetchAllBrands: build.query({
-            query: () => '/brands'
+            query: () => ({
+                url: '/brands'
+            })
         })
     })
 })

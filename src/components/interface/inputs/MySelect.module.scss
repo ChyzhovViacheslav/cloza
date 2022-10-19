@@ -1,0 +1,14 @@
+.select{
+    -webkit-appearance: none;
+    -moz-appearance:none;
+    appearance: none;
+    width: 100%;
+    padding: 8px 16px;
+    font-family: 'PTRoot';
+    font-size: 16px;
+    line-height: 22px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    background: url(../../../assets/icons/keyboard_arrow_down.svg) no-repeat right center;
+    background-position: right 10px top 50%;
+}
