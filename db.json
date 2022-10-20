@@ -28,7 +28,7 @@
     "Adl",
     "Adidas Performance",
     "Adriatica",
-    "Atributika & Club\u2122",
+    "Atributika & Club™",
     "Aldo",
     "Aeronautica Militare",
     "Acne Studios",
@@ -472,7 +472,7 @@
       "discount": null,
       "amount": "",
       "trade": true,
-      "id": 1
+      "id": "1"
     },
     {
       "saler": "PomPushka",
@@ -489,7 +489,7 @@
       "discount": "1300",
       "amount": "",
       "trade": false,
-      "id": 2
+      "id": "2"
     },
     {
       "saler": "PomPushka",
@@ -506,7 +506,7 @@
       "discount": null,
       "amount": "",
       "trade": false,
-      "id": 3
+      "id": "3"
     },
     {
       "saler": "PomPushka",
@@ -523,7 +523,7 @@
       "discount": null,
       "amount": "",
       "trade": true,
-      "id": 4
+      "id": "4"
     },
     {
       "saler": "PomPushka",
@@ -541,6 +541,23 @@
       "amount": "2",
       "trade": true,
       "id": 5
+    },
+    {
+      "saler": "PomPushka",
+      "name": "Женская футболка",
+      "condition": "Небольшие дефекты",
+      "mainCategory": "Женское",
+      "category": "Верх",
+      "subCategory": "Футболки",
+      "brand": "DREAM SHIRTS",
+      "size": "M",
+      "color": "Красный",
+      "description": "Красная женская футболка",
+      "price": "1500",
+      "discount": "1200",
+      "amount": "2",
+      "trade": false,
+      "id": 6
     }
   ]
 }

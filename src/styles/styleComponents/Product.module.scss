@@ -1,0 +1,168 @@
+.product {
+    &__body {
+        padding: 32px 0px 64px 0px;
+    }
+    &__loader{
+        width: 100%;
+    }
+    &__content {
+        display: flex;
+        column-gap: 48px;
+    }
+    &__imgs {
+        min-width: 715px;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    &__title {
+        display: flex;
+        align-items: center;
+        h1 {
+            margin-left: 8px;
+            flex: 1 1 auto;
+        }
+    }
+    &__verified {
+        path {
+            fill: var(--main-color);
+        }
+    }
+    &__price {
+        margin-top: 24px;
+    }
+    &__description {
+        margin-top: 24px;
+    }
+    &__props {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+        span {
+            font-size: 16px;
+            line-height: 20px;
+            margin-left: 5px;
+        }
+        div {
+            display: flex;
+        }
+    }
+    &__color_round {
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        margin-left: 8px;
+        background-color: black;
+    }
+    &__brand {
+        span {
+            color: var(--main-color);
+        }
+    }
+    &__amount {
+        display: flex;
+        column-gap: 24px;
+        margin-top: 32px;
+        
+    }
+    &__amount_change{
+        flex-basis: 50%;
+        padding: 14px 32px;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        background-color: #F7F8F9;
+        span{
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+            color: #121720;
+            margin: 0px 32px;
+        }
+    }
+    &__amount_ico{
+        path{
+            fill: var(--text-paragraph);
+        }
+    }
+    &__buy_btn{
+        flex-basis: 50%;
+        justify-content: center;
+    }
+    &__safe_transaction {
+        display: flex;
+        padding: 14px 0px;
+        margin-top: 16px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        background-color:  #6fcf972d;
+        h2{
+            color: var(--main-green);
+        }
+    }
+    &__safe_ico{
+        margin-left: 10px;
+        path{
+            fill: var(--main-green);
+        }
+    }
+    &__line {
+        margin-top: 32px;
+    }
+    &__saler {
+        margin-top: 32px;
+        display: flex;
+    }
+    &__saler_img {
+        width: 64px;
+        height: 64px;
+        border-radius: 100%;
+        background: url(../../assets/images/profile-pic.png) no-repeat;
+        background-size: contain;
+    }
+    &__saler_inf {
+        margin-left: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        h2{
+            color: var(--text-paragraph) !important;
+        }
+    }
+    &__saler_title {
+        display: flex;
+        span {
+            margin-left: 12px;
+        }
+    }
+    &__send{
+        margin-top: 16px;
+        padding: 9.5px 16px;
+        display: flex;
+        font-size: 14px;
+        color: var(--text-paragraph);
+        font-weight: 500;
+        line-height: 18px;
+        align-items: center;
+        border-radius: 12px;
+        border: 1px solid var(--gray-light);
+        width: 123px;
+        background-color: inherit;
+        transition: background-color 0.2s ease-in-out;
+        &:hover{
+            background-color: var(--gray-light);
+        }
+    }
+    &__send_ico{
+        height: 18px;
+        width: 18px;
+        margin-left: 10px;
+        path{
+            fill: var(--text-paragraph);
+        }
+    }
+}

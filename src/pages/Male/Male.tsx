@@ -3,10 +3,22 @@ import s from '../../styles/styleComponents/Male.module.scss'
 import ClothesCard from '../../components/clothesitem/ClothesCard'
 import ClothesType from '../../components/clothestype/ClothesType'
 import IconSelector from '../../assets/icons/icons'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { filterSlice } from '../../store/reducers/ProductFilter'
+import { postApi } from '../../services/PostService'
 
 export default function Male() {
-    const { products, isLoading, newProducts } = useAppSelector(state => state.filterReducet)
+    const { newProducts, currentCategory } = useAppSelector(state => state.filterReducer)
+    const dispatch = useAppDispatch()
+    const { setData } = filterSlice.actions
+    const { data, isLoading, isSuccess } = postApi.useFetchAllProductQuery(null)
+
+    useEffect(() => {
+        if(!currentCategory){
+            dispatch(setData(data))
+        }
+    }, [isSuccess, currentCategory])
+
     const maleProduct = newProducts?.filter((el: any) => {
         return el.mainCategory === "male"
     })
@@ -27,7 +39,8 @@ export default function Male() {
                 description={el.description}
                 price={el.price}
                 amount={el.amount}
-                trade={el.trade} />
+                trade={el.trade}
+                id={el.id}/>
         )
     })
 

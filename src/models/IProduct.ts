@@ -13,6 +13,6 @@ export default interface IProduct {
     discount?: number,
     amount: any,
     trade: boolean,
-    id?: number
+    id?: string
     key?: any
 }

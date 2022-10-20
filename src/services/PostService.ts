@@ -35,6 +35,9 @@ export const postApi = createApi({
             query: () => '/products',
             providesTags: (result) => ['Products']
         }),
+        fetchProduct: build.query({
+            query: (id) => `/products/${id}`
+        }),
         addProduct: build.mutation<IProduct, IProduct>({
             query: (body) => ({
                 url: '/products',

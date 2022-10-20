@@ -18,6 +18,8 @@
     &__name{
         flex: 1 1 auto;
         h2{
+            pointer-events: all;
+            cursor: pointer;
             font-weight: 500;
         }
     }

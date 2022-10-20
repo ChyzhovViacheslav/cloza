@@ -4,7 +4,7 @@ import modalReducer from "./reducers/ModalSlice"
 import userReducer from './reducers/UserSlice'
 import smModalReducer from './reducers/SmModalSlice'
 import loaderReducer from './reducers/LoaderSlice'
-import filterReducet from './reducers/ProductFilter'
+import filterReducer from './reducers/ProductFilter'
 import storage from 'redux-persist/lib/storage'
 import {persistStore, persistReducer} from 'redux-persist'
 
@@ -13,14 +13,14 @@ const rootReducer = combineReducers({
     userReducer,
     smModalReducer,
     loaderReducer,
-    filterReducet,
+    filterReducer,
     [postApi.reducerPath]: postApi.reducer
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['userReducer']
+    whitelist: ['userReducer', 'filterReducer']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -32,7 +32,7 @@ export const setupStore = () => {
     })
 }
 
-export const persistor = persistStore(setupStore()) 
+export const persistor = persistStore(setupStore())
 
 export type RootState = ReturnType<typeof rootReducer>
 export type AppStore = ReturnType<typeof setupStore>

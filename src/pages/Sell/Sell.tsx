@@ -19,7 +19,7 @@ export default function Sell() {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState(null)
   const [discount, setDiscount] = useState(null)
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState('1')
   const [trade, setTrade] = useState(false)
 
   const { userName } = useAuth()

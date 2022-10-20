@@ -8,9 +8,10 @@ import s from './Breadcrumbs.module.scss'
 export default function Breadcrumbs() {
     const pathname = useLocation()
     const pathnames = pathname.pathname.split('/').filter(el => el)
-    const { currentCategory } = useAppSelector(state => state.filterReducet)
+    const { currentCategory } = useAppSelector(state => state.filterReducer)
     const { resetFilter } = filterSlice.actions
     const dispatch = useAppDispatch()
+
     useEffect(() => {
 
     }, [currentCategory])

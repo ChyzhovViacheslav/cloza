@@ -255,6 +255,19 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
           </defs>
         </svg>
       )
+    case 'minus':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_84_1464)">
+            <path d="M18 13H6C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11H18C18.55 11 19 11.45 19 12C19 12.55 18.55 13 18 13Z" fill="#121720" />
+          </g>
+          <defs>
+            <clipPath id="clip0_84_1464">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
     case 'uah':
       return (
         <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -274,6 +287,19 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
           </defs>
         </svg>
 
+      )
+    case 'email':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_24_1778)">
+            <path d="M21.99 8C21.99 7.28 21.62 6.65 21.05 6.3L13.01 1.59C12.39 1.22 11.61 1.22 10.99 1.59L2.95 6.3C2.38 6.65 2 7.28 2 8V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18L21.99 8ZM10.94 12.34L3.74 7.84L10.99 3.59C11.61 3.22 12.39 3.22 13.01 3.59L20.26 7.84L13.06 12.34C12.41 12.74 11.59 12.74 10.94 12.34Z" fill="#121720" />
+          </g>
+          <defs>
+            <clipPath id="clip0_24_1778">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
       )
     default:
       return (
