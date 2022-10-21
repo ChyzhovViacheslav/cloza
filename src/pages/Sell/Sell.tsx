@@ -19,7 +19,7 @@ export default function Sell() {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState(null)
   const [discount, setDiscount] = useState(null)
-  const [amount, setAmount] = useState('1')
+  const [amount, setAmount] = useState(1)
   const [trade, setTrade] = useState(false)
 
   const { userName } = useAuth()
@@ -293,7 +293,7 @@ export default function Sell() {
           <div className={`${s.sell__amount} ${s.sell__label}`}>
             <p>Кол-во (Оставить пустым и товар будет без ограничений)</p>
             <div className={s.sell__inputs}>
-              <input onChange={(e) => setAmount(e.target.value)} type={'number'} />
+              <input onChange={(e) => setAmount(parseInt(e.target.value))} type={'number'} />
             </div>
           </div>
           <div className={`${s.sell__trade} ${s.sell__label}`}>

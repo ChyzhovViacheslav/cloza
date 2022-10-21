@@ -20,7 +20,7 @@ export default function Male() {
     }, [isSuccess, currentCategory])
 
     const maleProduct = newProducts?.filter((el: any) => {
-        return el.mainCategory === "male"
+        return el.mainCategory === "Мужское"
     })
 
     const productList = maleProduct?.map((el: any) => {

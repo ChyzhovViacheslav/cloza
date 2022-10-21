@@ -461,7 +461,7 @@
       "saler": "PomPushka",
       "name": "Футболка красивая",
       "condition": "Новая с биркой",
-      "mainCategory": "male",
+      "mainCategory": "Мужское",
       "category": "top",
       "subCategory": "Футболки",
       "brand": "Adidas Originals",
@@ -470,15 +470,15 @@
       "description": "Ничё такая футболка",
       "price": "2000",
       "discount": null,
-      "amount": "",
+      "amount": 1,
       "trade": true,
-      "id": "1"
+      "id": 1
     },
     {
       "saler": "PomPushka",
       "name": "Шарф чёткий",
       "condition": "Надевалась один раз",
-      "mainCategory": "male",
+      "mainCategory": "Мужское",
       "category": "accesories",
       "subCategory": "Шарфы",
       "brand": "Alexander Mcqueen",
@@ -487,15 +487,15 @@
       "description": "Крутой шарфан",
       "price": "1500",
       "discount": "1300",
-      "amount": "",
+      "amount": 1,
       "trade": false,
-      "id": "2"
+      "id": 2
     },
     {
       "saler": "PomPushka",
       "name": "Брюки",
       "condition": "Надевалась несклько раз",
-      "mainCategory": "male",
+      "mainCategory": "Мужское",
       "category": "bottom",
       "subCategory": "Брюки",
       "brand": "Armani Exchange",
@@ -504,15 +504,15 @@
       "description": "АРМАНИ БРЮКИ ПОЧТИ ДАРОМ",
       "price": "200000",
       "discount": null,
-      "amount": "",
+      "amount": 1,
       "trade": false,
-      "id": "3"
+      "id": 3
     },
     {
       "saler": "PomPushka",
       "name": "Что-то прикольное",
       "condition": "Новая без бирки",
-      "mainCategory": "male",
+      "mainCategory": "Мужское",
       "category": "shoes",
       "subCategory": "Лоферы",
       "brand": "Adidas Originals",
@@ -521,15 +521,15 @@
       "description": "фывфывфывфыв",
       "price": "200",
       "discount": null,
-      "amount": "",
+      "amount": 1,
       "trade": true,
-      "id": "4"
+      "id": 4
     },
     {
       "saler": "PomPushka",
       "name": "Чебурек",
       "condition": "Надевалась один раз",
-      "mainCategory": "male",
+      "mainCategory": "Мужское",
       "category": "shoes",
       "subCategory": "Сапоги",
       "brand": "Alexander Mcqueen",
@@ -538,7 +538,7 @@
       "description": "Вкусный чебурек",
       "price": "900",
       "discount": "700",
-      "amount": "2",
+      "amount": 2,
       "trade": true,
       "id": 5
     },
@@ -555,9 +555,26 @@
       "description": "Красная женская футболка",
       "price": "1500",
       "discount": "1200",
-      "amount": "2",
+      "amount": 2,
       "trade": false,
       "id": 6
+    },
+    {
+      "saler": "PomPushka",
+      "name": "Очень качественная футболка",
+      "condition": "Небольшие дефекты",
+      "mainCategory": "Мужское",
+      "category": "Верх",
+      "subCategory": "Футболки",
+      "brand": "Diamant",
+      "size": "XL",
+      "color": "Фиолетовый",
+      "description": "Футболка почти новая, могу продать оптом",
+      "price": "1120",
+      "discount": null,
+      "amount": 10,
+      "trade": false,
+      "id": 7
     }
   ]
 }

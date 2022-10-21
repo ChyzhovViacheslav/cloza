@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import IProduct from '../models/IProduct'
+
 interface IUser {
     email: string,
     userName: string,

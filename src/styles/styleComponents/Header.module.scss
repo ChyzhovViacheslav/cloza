@@ -66,6 +66,7 @@
     opacity: 0;
     transition: all 0.3s ease-in-out;
     pointer-events: none;
+    cursor: none;
     &__body {
         background-color: var(--white-bg);
         padding: 24px;
@@ -81,8 +82,8 @@
         white-space: nowrap;
         align-items: center;
         margin-top: 12px;
-        pointer-events: all;
-        cursor: pointer;
+        pointer-events: none;
+        cursor: none;
         &:nth-child(1) {
             margin-top: 0px;
         }
@@ -119,4 +120,9 @@
     bottom: -300%;
     opacity: 1;
     pointer-events: all;
+    cursor: pointer;
+    .modal__link{
+        pointer-events: all;
+        cursor: pointer;
+    }
 }
