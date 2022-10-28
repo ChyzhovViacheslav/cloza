@@ -1,24 +1,63 @@
 import React, { useState, useEffect } from 'react'
 import IconSelector from '../../assets/icons/icons'
-import { useAppDispatch } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { postApi } from '../../services/PostService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
 import s from '../../styles/styleComponents/Filter.module.scss'
 import CollapsableItem from '../interface/collapsable/CollapsableItem'
+import IonRangeSlider from 'react-ion-slider'
+import MyReactSelect from '../interface/inputs/MyReactSelect'
+import { AnyObject } from 'immer/dist/internal'
+import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
 
 export default function Filter() {
-    const { filterSubCategories } = filterSlice.actions
-    const { data, isLoading, isFetching } = postApi.useFetchAllCategoriesQuery(null)
+    const {
+        filterSubCategories,
+        setMinPrice,
+        setMaxPrice,
+        setBrands,
+        filterBrands,
+        filterCondition,
+        setCondition,
+        setClothSise,
+        filterClothSize,
+        setColor,
+        filterColor
+    } = filterSlice.actions
+
+    const { data: categories, isLoading, isFetching: fetchingCategories } = postApi.useFetchAllCategoriesQuery(null)
+    const { data: brands, isFetching: fetchingBrands } = postApi.useFetchAllBrandsQuery(null)
+    const { newConditions, conditions, clothSize, newClothSize, colors, newColors } = useAppSelector(state => state.filterReducer)
+    const { openModal } = filterModalSlice.actions
     const dispatch = useAppDispatch()
 
     const [allCategories, setAllCategories] = useState<Object[]>()
-    const [categoriesLimit, setCategoriesLimit] = useState([0, 5])
 
     useEffect(() => {
-        if (!isFetching) {
-            setAllCategories([...data.top, ...data.bottom, ...data.accesories, ...data.shoes].slice(categoriesLimit[0], categoriesLimit[1]))
+        if (!fetchingCategories && !fetchingBrands) {
+            setAllCategories([...categories.top, ...categories.bottom, ...categories.accesories, ...categories.shoes].slice(0, 5))
+            dispatch(setBrands(brands))
         }
-    }, [isFetching, categoriesLimit])
+        if (!newConditions.length) {
+            dispatch(setCondition(conditions))
+        }
+        if (!newClothSize.length) {
+            dispatch(setClothSise(clothSize))
+        }
+        if (!newColors.length) {
+            dispatch(setColor(colors))
+        }
+    }, [fetchingCategories, fetchingBrands, newConditions, newClothSize, newColors])
+
+    const dispatchFilter = (data: any, dispatchFunc: any, eValue: any, eChecked: any, dataLength: number) => {
+        if (data.includes(eValue) && eChecked) {
+            dispatch(dispatchFunc(data.filter((el: string) => el === eValue)))
+        } else if (data.includes(eValue) && !eChecked) {
+            dispatch(dispatchFunc(data.filter((el: string) => el !== eValue)))
+        } else if (!data.includes(eValue) && data.length < dataLength) {
+            dispatch(dispatchFunc([...data, eValue]))
+        }
+    }
 
     const renderCategories = () => {
         if (!isLoading) {
@@ -37,54 +76,150 @@ export default function Filter() {
         } else return <IconSelector id='loader' />
     }
 
+    const renderBrands = () => {
+        const customData = brands?.map((el: string) => {
+            return ({
+                value: el, label: el
+            })
+        })
+        return (
+            <MyReactSelect
+                onChange={(e: any) => {
+                    const changedBrands = e.map((el: AnyObject) => {
+                        return el.value
+                    })
+                    if (changedBrands.length >= 1) {
+                        dispatch(filterBrands(changedBrands))
+                    } else {
+                        dispatch(filterBrands(brands))
+                    }
+                }}
+                className={s.filter__filter_brands}
+                isMulti={true}
+                data={customData} />
+        )
+    }
+
+    const renderCondition = () => {
+        return (
+            <div className={s.filter__condition_inputs}>
+                {conditions?.map((el: string, i: number) => {
+                    return (
+                        <div className={s.filter__condition_label} key={i}>
+                            <input onChange={(e) => {
+                                dispatchFilter(newConditions, filterCondition, e.target.value, e.target.checked, 5)
+                            }}
+                                type="checkbox"
+                                id='condition'
+                                value={el} />
+                            <p>{el}</p>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
+    const renderClothSize = () => {
+        return (
+            <div className={s.filter__cloth_size_wrapper}>
+                {clothSize?.map((el: string, i: number) => {
+                    return (
+                        <label key={i} className={s.filter__label_size}>
+                            <input
+                                className={s.filter__input_size}
+                                onChange={(e) => {
+                                    dispatchFilter(newClothSize, filterClothSize, e.target.value, e.target.checked, 7)
+                                }}
+                                type='checkbox'
+                                id='clothSize'
+                                value={el}
+                            />
+                            <span className={s.filter__input_value}>{el}</span>
+                        </label>
+                    )
+                })}
+            </div>
+        )
+    }
+
+    const renderColor = () => {
+        const backgroundColors = (el: string) => {
+            switch (el) {
+                case 'Синий': return { backgroundColor: '#337ab6' }
+                case 'Зелёный': return { backgroundColor: '#5cb85c' }
+                case 'Оранжевый': return { backgroundColor: '#f0ac4e' }
+                case 'Красный': return { backgroundColor: '#ff0000' }
+                case 'Голубой': return { backgroundColor: '#5bc0de' }
+                case 'Чёрный': return { backgroundColor: '#282a3c' }
+                case 'Фиолетовый': return { backgroundColor: '#800080' }
+                case 'Серый': return { backgroundColor: '#777777' }
+                case 'Белый': return { backgroundColor: '#ffffff', border: '2px solid #000' }
+                case 'Коричневый': return { backgroundColor: '#d9534f' }
+            }
+        }
+        return (
+            <div className={s.filter__color_wrapper}>
+                {colors?.map((el: any, i: number) => {
+                    return (
+                        <input
+                            key={i}
+                            className={s.filter__color_input}
+                            onChange={(e) => {
+                                dispatchFilter(newColors, filterColor, e.target.value, e.target.checked, 10)
+                            }}
+                            style={backgroundColors(el)}
+                            value={el}
+                            type='checkbox'
+                            id='colors'
+                        />
+                    )
+                })}
+            </div>
+        )
+    }
+
     return (
         <div className={s.filter}>
             <div className={s.filter__body}>
                 <CollapsableItem isClosed={false} title='Цена' className={s.filter__price} tittleClassName={s.filter__title}>
-                    <div className={s.filter__price_line}></div>
-                    <div className={s.filter__price_value}><span>1 300₴</span> - <span>2 405₴</span></div>
+                    <div className={s.filter__price_line}>
+                        <IonRangeSlider
+                            skin='square'
+                            type='double'
+                            min={0}
+                            max={200000}
+                            postfix={' ₴'}
+                            force_edges
+                            extra_classes={s.filter__price_style}
+                            onFinish={(data: any) => {
+                                dispatch(setMinPrice(data.from))
+                                dispatch(setMaxPrice(data.to))
+                            }} />
+                    </div>
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Категории' className={s.filter__categories} tittleClassName={s.filter__title}>
                     <div className={s.filter__categories_list}>
                         {renderCategories()}
                         <span
                             className={s.filter__categories_btn}
-                            onClick={() => { 
-                                setCategoriesLimit([0, categoriesLimit[1] + 10])
-                            }}>Показать ещё</span>
+                            onClick={() => dispatch(openModal())}>Показать ещё</span>
                     </div>
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Бренды' className={s.filter__brands} tittleClassName={s.filter__title}>
-                    <div className={s.filter__brand_current}>
-                        <span>Burberry x</span>
-                    </div>
-                    <br />
-                    <div className={s.filter__brand_list}>
-                        <span>Бренды</span>
-                        <div className={s.filter__brand_item}>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                            <span>Burberry</span>
-                        </div>
-                    </div>
+                    {renderBrands()}
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Состояние' className={s.filter__condition} tittleClassName={s.filter__title}>
-
+                    {renderCondition()}
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Размер одежды' className={s.filter__size_clothing} tittleClassName={s.filter__title}>
-
+                    {renderClothSize()}
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Размер обуви' className={s.filter__size_shoes} tittleClassName={s.filter__title}>
 
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Цвета' className={s.filter__colors} tittleClassName={s.filter__title}>
-
+                    {renderColor()}
                 </CollapsableItem>
             </div>
         </div>

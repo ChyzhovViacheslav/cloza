@@ -62,7 +62,7 @@ export default function Product() {
                             <div className={s.product__title}>
                                 <IconSelector className={s.product__verified} id='verified-user' />
                                 <h1>{item.name}</h1>
-                                <IconSelector id='heart' />
+                                <IconSelector className={s.product__favorite} id='heart' />
                             </div>
                             <div className={s.product__other}>
 

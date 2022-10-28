@@ -2,10 +2,11 @@ import React, {useEffect} from 'react'
 import IconSelector from '../../../assets/icons/icons'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import s from './Modal.module.scss'
+
 type IModal = {
   children?: any
   active: boolean
-  closeModal: any;
+  closeModal: any
 }
 
 export default function Modal({ children, active, closeModal }: IModal) {

@@ -53,17 +53,7 @@
         align-items: center;
         margin-right: 16px;
         input {
-            position: relative;
-            appearance: none;
-            background: url(../../assets/icons/check_box_outline_blank.svg) center no-repeat;
-            width: 18px;
-            height: 18px;
             margin-left: 8px;
-            transition: background 0.2s ease-in-out;
-            &:checked {
-                background: url(../../assets/icons/check_box.svg) center no-repeat;
-                background-color: white !important;
-            }
         }
     }
     &__uah {

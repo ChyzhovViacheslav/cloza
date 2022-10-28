@@ -6,6 +6,7 @@ import { postApi } from '../../services/PostService';
 import s from '../../styles/styleComponents/Sell.module.scss';
 import Select from 'react-select';
 import MySelect from '../../components/interface/inputs/MySelect';
+import MyReactSelect from '../../components/interface/inputs/MyReactSelect';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -46,7 +47,7 @@ export default function Sell() {
       case 'Верх':
         return (
           <>
-            {categories.top?.map((el, i) => {
+            {categories.top?.map((el:any, i:any) => {
               return(
                 <option key={i}>{el}</option>
               )
@@ -107,48 +108,12 @@ export default function Sell() {
       })
     })
 
-    const customStyles = {
-      control: () => ({
-        display: 'flex',
-        padding: '0px',
-        width: '100%',
-        border: '1px solid var(--gray-light)',
-        borderRadius: '8px'
-      }),
-      option: () => ({
-        padding: '8px 16px'
-      }),
-      valueContainer: () => ({
-        display: 'flex',
-        padding: '8px 16px',
-        alignItems: 'center',
-        flex: '1 1 auto',
-        height: '40px'
-      }),
-      singleValue: () => ({
-        fontFamily: 'PTRoot',
-        fontSize: '16px'
-      }),
-      input: () => ({
-        padding: '0px',
-        margin: '0px'
-      }),
-      indicatorSeparator: () => ({
-        display: 'none'
-      }),
-      dropdownIndicator: () => ({
-        color: '#9095a9',
-        marginRight: '12px'
-      })
-    }
     return (
-      <Select
-        placeholder=''
+      <MyReactSelect
         className={`${s.sell__inputs} ${s.sell__select}`}
-        styles={customStyles}
-        onChange={(e) => setBrand(e.value)}
-        options={customData && customData}
-        defaultValue={customData && customData[0]} />
+        isMulti={false}
+        onChange={(e:any) => setBrand(e.value)}
+        data={customData}/>
     )
   }
 

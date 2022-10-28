@@ -48,8 +48,18 @@
         }
     }
     &__verified {
+        flex-shrink: 0;
         path {
             fill: var(--main-color);
+        }
+    }
+    &__favorite{
+        margin-left: 8px;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        path{
+            fill: var(--text-paragraph);
         }
     }
     &__price {

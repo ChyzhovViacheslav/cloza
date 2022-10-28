@@ -15,7 +15,7 @@
     &__body{
         position: relative;
         padding: 32px;
-        width: 560px;
+        min-width: 560px;
         border-radius: 12px;
         background-color: var(--white-bg);
     }

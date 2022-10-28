@@ -1,10 +1,7 @@
 import React from 'react'
-import ClothesType from '../../components/clothestype/ClothesType'
+import ProductArea from '../../components/clothestype/ProductArea'
 
 export default function Unisex() {
-  return (
-    <ClothesType>
-        <div></div>
-    </ClothesType>
+  return (<></>
   )
 }

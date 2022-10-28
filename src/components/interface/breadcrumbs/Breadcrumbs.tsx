@@ -12,10 +12,6 @@ export default function Breadcrumbs() {
     const { resetFilter } = filterSlice.actions
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-
-    }, [currentCategory])
-
     const links = pathnames.map((el, index) => {
         const renamed = () => {
             switch (el) {

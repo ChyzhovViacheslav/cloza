@@ -44,6 +44,19 @@ textarea {
   font-family: inherit;
 }
 
+input[type="checkbox"],
+input[type='radio'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: url(../assets/icons/check_box_outline_blank.svg) center no-repeat;
+  width: 18px;
+  height: 18px;
+  transition: background 0.2s ease-in-out;
+  &:checked {
+    background: url(../assets/icons/check_box.svg) center no-repeat;
+  }
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
