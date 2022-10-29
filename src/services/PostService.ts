@@ -33,7 +33,9 @@ export const postApi = createApi({
             invalidatesTags: ['Users']
         }),
         fetchAllProduct: build.query<IProduct[], IProduct>({
-            query: () => '/products',
+            query: () => ({
+                url: '/products'
+            }),
             providesTags: (result) => ['Products']
         }),
         fetchProduct: build.query({
