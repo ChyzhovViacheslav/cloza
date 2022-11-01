@@ -1,46 +1,66 @@
-.newproducts{
+.newproducts {
     margin-top: 32px;
-    &__body{
-
+    &__nav {
     }
-    &__nav{
+    &__nav_body {
+        display: flex;
+        position: relative;
+        column-gap: 32px;
+    }
+    &__nav_btn {
+        padding: 12px 0px;
+        cursor: pointer;
+        border-bottom: 2px solid var(--gray-light);
+        z-index: 2;
+        transition: border-bottom 0.2s ease-in-out;
+        span {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-title);
+            transition: color 0.2s ease-in-out;
+        }
+    }
+    &__area {
+        margin-top: 32px;
+        width: 100%;
+    }
+    &__area_title {
+        display: flex;
+        align-items: center;
+    }
+    &__area_text {
         display: flex;
         flex-direction: column;
-        position: relative;
+        flex: 1 1 auto;
+        p {
+            color: var(--text-paragraph);
+        }
     }
-    &__nav_btn_wrapper{
+    &__area_sorted {
         display: flex;
-        column-gap: 30px;
+        align-items: center;
+        span {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-paragraph);
+            margin-right: 12px;
+        }
     }
-    &__nav_btn{
-        font-family: 'PTRoot';
-        background-color: inherit;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 20px;
-        color: var(--text-title);
-        z-index: 2;
-    }
-    &__nav_line{
-        position: absolute;
-        bottom: 0;
-        height: 1px;
+    &__area_body {
+        display: flex;
         width: 100%;
-        background-color: var(--gray-light);
+        row-gap: 72px;
+        column-gap: 24px;
+        flex-wrap: wrap;
+        margin-top: 48px;
     }
-    &__nav_btn_active{
-        margin-top: 11px;
-        width: 100%;
-        height: 1px;
-        background-color: var(--gray-light);
-    }
-    &__nav_active{
+}
+
+.active {
+    border-bottom: 2px solid var(--main-color);
+    span {
         color: var(--main-color);
-    }
-    &__nav_active_line{
-        background-color: var(--main-color);
-    }
-    &__sort{
-        
     }
 }

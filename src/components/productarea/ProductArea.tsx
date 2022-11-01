@@ -7,16 +7,15 @@ import Modal from '../interface/modal/Modal'
 import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
 import { postApi } from '../../services/PostService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
-import ClothesCard from '../clothesitem/ClothesCard'
 import Pagination from '../pagination/Pagination'
+import MySelect from '../interface/inputs/MySelect'
+import sortedProducts from './SortedProduct'
 
 interface IProductArea {
-    data: any,
-    children?: any
-    currentSort: string
+    data: any
 }
 
-export default function ProductArea({ data, children, currentSort }: IProductArea) {
+export default function ProductArea({ data }: IProductArea) {
     const { closeModal } = filterModalSlice.actions
     const { active } = useAppSelector(state => state.FilterModalReducer)
     const { data: categories, isLoading: categoriesLoading } = postApi.useFetchAllCategoriesQuery(null)
@@ -25,6 +24,7 @@ export default function ProductArea({ data, children, currentSort }: IProductAre
     const dispatch = useAppDispatch()
 
     const [currentElement, setCurrentElement] = useState([1, 16])
+    const [currentSort, setSort] = useState("Рекомендации")
 
     const {
         currentCategory,
@@ -35,7 +35,15 @@ export default function ProductArea({ data, children, currentSort }: IProductAre
         newClothSize,
         newColors
     } = useAppSelector(state => state.filterReducer)
-    const { setData, setBrands, setCondition, setClothSise, setColor, filterSubCategories } = filterSlice.actions
+
+    const {
+        setData,
+        setBrands,
+        setCondition,
+        setClothSise,
+        setColor,
+        filterSubCategories
+    } = filterSlice.actions
 
 
     const conditions =
@@ -70,9 +78,9 @@ export default function ProductArea({ data, children, currentSort }: IProductAre
     }, [succesProduct, currentCategory, succesBrands, newBrands, newConditions, newClothSize, newColors])
 
     useEffect(() => {
-        console.log(currentElement)
+
     }, [currentElement])
-    
+
 
     const filtredPriceProduct = data?.filter(
         (el: any) => el.price <= maxPrice && el.price >= minPrice
@@ -102,80 +110,7 @@ export default function ProductArea({ data, children, currentSort }: IProductAre
         }
     })
 
-    const sortedProduct = () => {
-        switch (currentSort) {
-            case "Цена по возрастанию":
-                const upData = filterColor?.sort(function (a: any, b: any) {
-                    return a.price - b.price
-                })
-
-                return upData?.map((el: any) => {
-                    return (
-                        <ClothesCard
-                            key={el.id}
-                            saler={el.saler}
-                            name={el.name}
-                            condition={el.condition}
-                            mainCategory={el.condition}
-                            category={el.category}
-                            subCategory={el.subCategory}
-                            brand={el.brand}
-                            size={el.size}
-                            color={el.color}
-                            description={el.description}
-                            price={el.price}
-                            amount={el.amount}
-                            trade={el.trade}
-                            id={el.id} />
-                    )
-                })
-            case "Цена по убыванию":
-                const downData = filterColor?.sort(function (a: any, b: any) {
-                    return b.price - a.price
-                })
-                return downData?.map((el: any) => {
-                    return (
-                        <ClothesCard
-                            key={el.id}
-                            saler={el.saler}
-                            name={el.name}
-                            condition={el.condition}
-                            mainCategory={el.condition}
-                            category={el.category}
-                            subCategory={el.subCategory}
-                            brand={el.brand}
-                            size={el.size}
-                            color={el.color}
-                            description={el.description}
-                            price={el.price}
-                            amount={el.amount}
-                            trade={el.trade}
-                            id={el.id} />
-                    )
-                })
-            default:
-                return filterColor?.map((el: any) => {
-                    return (
-                        <ClothesCard
-                            key={el.id}
-                            saler={el.saler}
-                            name={el.name}
-                            condition={el.condition}
-                            mainCategory={el.condition}
-                            category={el.category}
-                            subCategory={el.subCategory}
-                            brand={el.brand}
-                            size={el.size}
-                            color={el.color}
-                            description={el.description}
-                            price={el.price}
-                            amount={el.amount}
-                            trade={el.trade}
-                            id={el.id} />
-                    )
-                })
-        }
-    }
+    const sortedProduct = sortedProducts(currentSort, filterColor)
 
     const renderCategories = (category: any) => {
         return (
@@ -188,21 +123,39 @@ export default function ProductArea({ data, children, currentSort }: IProductAre
         )
     }
 
+    const checkProducts = () => {
+        if (isLoading) {
+            return <div className={s.productarea__product_loader}><IconSelector id='loader' /></div>
+        } else if (!sortedProduct?.length) {
+            return (
+                <div className={s.productarea__empty}>
+                    <IconSelector id='search' />
+                    <span>Нед подходящих товаров</span>
+                </div>
+            )
+        } else {
+            return sortedProduct?.slice(currentElement[0] - 1, currentElement[1])
+        }
+    }
+
     return (
         <div className={s.productarea}>
             <div className={s.productarea__body}>
                 <div className={s.productarea__content}>
                     <div className={s.productarea__sort}>
                         <div className={s.productarea__show}>
-                            <span>Показано 1 - 15 из 874</span>
+                            <span>Показано {currentElement[0]} - {currentElement[1]} из {sortedProduct?.length}</span>
                         </div>
                         <div className={s.productarea__sort_action}>
                             <span>Сортировать:</span>
-                            {children}
+                            <MySelect
+                                data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
+                                onChange={(e) => setSort(e.target.value)}
+                                defaultValue={"Рекомендации"} />
                         </div>
                     </div>
-                    {isLoading ? <IconSelector id='loader' /> : sortedProduct()?.slice(currentElement[0] - 1, currentElement[1] - 1)}
-                    <Pagination setCurrentElement={setCurrentElement} data={sortedProduct()} />
+                    {checkProducts()}
+                    {sortedProduct?.length ? <Pagination setCurrentElement={setCurrentElement} data={sortedProduct} /> : null}
                 </div>
                 <Filter />
             </div>

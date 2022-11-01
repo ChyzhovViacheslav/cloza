@@ -1,41 +1,53 @@
-import React from 'react'
-import {useRef} from 'react'
-import { postApi } from '../../services/PostService'
+import React, { useState, useEffect } from 'react'
 import s from '../../styles/styleComponents/NewProducts.module.scss'
-type INewProducts = {}
+import MySelect from '../interface/inputs/MySelect'
+import Line from '../interface/line/Line'
+import Products from '../products/Products'
 
-export default function NewPoducts({ }: INewProducts) {
-    // const categories = posts?.map((post) => {
-    //     const nameOfType = () => {
-    //         switch (post.type) {
-    //             case 'male': return <span>Мужской</span>
-    //             case 'female': return <span>Женский</span>
-    //             case 'unisex': return <span>Унисекс</span>
-    //             default: return <span>{post.type}</span>
-    //         }
-    //     }
-    //     return (
-    //         <button key={post.id} className={s.newproducts__nav_btn}>
-    //             {nameOfType()}
-    //             <div className={s.newproducts__nav_btn_active}></div>
-    //         </button>
-    //     )
-    // })
+export default function NewProducts() {
+    const [currentSort, setSort] = useState("Рекомендации")
+    const [currentCategory, setCategory] = useState('Мужское')
+    const categories = ['Мужское', 'Женское', 'Унисекс']
+
+    const renderCategories = categories.map((el: string, i: number) => {
+        return (
+            <div
+                className={currentCategory === el ? `${s.newproducts__nav_btn} ${s.active}` : s.newproducts__nav_btn}
+                key={i}
+                onClick={() => {
+                    setCategory(el)
+                }}>
+                <span>{el}</span>
+            </div>
+        )
+    })
 
     return (
         <div className={s.newproducts}>
             <div className={s.newproducts__body}>
-                <nav className={s.newproducts__nav}>
-                    <div className={s.newproducts__nav_btn_wrapper}>
-                        {/* <button className={`${s.newproducts__nav_btn} ${s.newproducts__nav_active}`}>Мужское<div className={`${s.newproducts__nav_btn_active} ${s.newproducts__nav_active_line}`}></div></button>
-                        <button className={s.newproducts__nav_btn}>Женское<div className={s.newproducts__nav_btn_active}></div></button>
-                        <button className={s.newproducts__nav_btn}>Унисекс<div className={s.newproducts__nav_btn_active}></div></button> */}
-                        {/* {categories} */}
+                <div className={s.newproducts__nav}>
+                    <div className={s.newproducts__nav_body}>
+                        {renderCategories}
+                        <Line style={{position: 'absolute', bottom: '0', zIndex: '1'}}/>
                     </div>
-                    <div className={s.newproducts__nav_line}></div>
-                </nav>
-                <div className={s.newproducts__sort}>
-
+                </div>
+                <div className={s.newproducts__area}>
+                    <div className={s.newproducts__area_title}>
+                        <div className={s.newproducts__area_text}>
+                            <p>Недавние поступления</p>
+                            <h1>Новые товары</h1>
+                        </div>
+                        <div className={s.newproducts__area_sorted}>
+                            <span>Сортировать: </span>
+                            <MySelect
+                                data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
+                                onChange={(e) => setSort(e.target.value)}
+                                defaultValue={"Рекомендации"} />
+                        </div>
+                    </div>
+                    <div className={s.newproducts__area_body}>
+                        <Products currentCategory={currentCategory} currentSort={currentSort} numberOfElements={8} />
+                    </div>
                 </div>
             </div>
         </div>

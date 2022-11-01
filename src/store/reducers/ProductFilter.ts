@@ -86,6 +86,12 @@ export const filterSlice = createSlice({
         },
         filterColor(state, action){
             state.newColors = action.payload
+        },
+        resetAllFilters(state){
+            state.newBrands = state.brands
+            state.newColors = state.colors
+            state.newClothSize = state.clothSize
+            state.newConditions = state.conditions
         }
     }
 })

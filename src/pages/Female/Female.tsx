@@ -1,20 +1,15 @@
 import React from 'react'
-import ClothesCard from '../../components/clothesitem/ClothesCard'
-import ClothesType from '../../components/clothestype/ProductArea'
-import { postApi } from '../../services/PostService'
+import ProductArea from '../../components/productarea/ProductArea'
+import { useAppSelector } from '../../hooks/redux'
 
-export default function Male() {
-    
-    // const { data: cards, isLoading } = postApi.useFetchAllItemQuery(null)
-    // const cardlist = cards?.map((el) => {
-        
-    //     if(el.type === "female"){
-    //         return (
-    //             <ClothesCard key={el.id} />
-    //         )
-    //     }
-    // })
+export default function Female() {
+    const { newProducts } = useAppSelector(state => state.filterReducer)
+
+    const maleProduct = newProducts?.filter((el: any) => {
+        return el.mainCategory === "Женское"
+    })
+
     return (
-        <></>
+        <ProductArea data={maleProduct}/>
     )
 }

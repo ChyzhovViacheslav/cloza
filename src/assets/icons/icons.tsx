@@ -32,7 +32,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'east':
       return (
-        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} onClick={onClick} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_8_79)">
             <path d="M14.29 5.71001C13.9 6.10001 13.9 6.73001 14.29 7.12001L18.17 11H3C2.45 11 2 11.45 2 12C2 12.55 2.45 13 3 13H18.18L14.3 16.88C13.91 17.27 13.91 17.9 14.3 18.29C14.69 18.68 15.32 18.68 15.71 18.29L21.3 12.7C21.69 12.31 21.69 11.68 21.3 11.29L15.7 5.71001C15.32 5.32001 14.68 5.32001 14.29 5.71001Z" fill="#121720" />
           </g>
@@ -45,7 +45,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'west':
       return (
-        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} onClick={onClick} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_8_88)">
             <path d="M9.69997 18.3C10.09 17.91 10.09 17.28 9.69997 16.89L5.82997 13H21C21.55 13 22 12.55 22 12C22 11.45 21.55 11 21 11H5.82997L9.70997 7.12001C10.1 6.73001 10.1 6.10001 9.70997 5.71001C9.31997 5.32001 8.68997 5.32001 8.29997 5.71001L2.69997 11.3C2.30997 11.69 2.30997 12.32 2.69997 12.71L8.28997 18.3C8.67997 18.68 9.31997 18.68 9.69997 18.3Z" fill="#121720" />
           </g>

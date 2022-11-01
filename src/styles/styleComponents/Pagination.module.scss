@@ -10,6 +10,7 @@
         width: 16px;
         height: 16px;
         cursor: pointer;
+        pointer-events: all;
     }
     &__current_page{
         background-color: var(--main-color);

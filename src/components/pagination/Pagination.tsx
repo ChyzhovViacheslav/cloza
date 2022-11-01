@@ -12,8 +12,13 @@ export default function Pagination({ data, setCurrentElement }: IPagination) {
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-        setAllPages(Math.ceil((data?.length) / 16))
+        setAllPages(Math.ceil((data?.length) / 15))
+        setCurrentPage(1)
     }, [data?.length])
+
+    useEffect(() => {
+        setCurrentElement([((currentPage) * 15) - 14, (currentPage) * 15])
+    }, [currentPage])
 
     const renderPages = () => {
         const indexes = []
@@ -23,7 +28,12 @@ export default function Pagination({ data, setCurrentElement }: IPagination) {
 
         return (
             <div className={s.pagination__body}>
-                <IconSelector id='west' className={s.pagination__ico} />
+                <IconSelector onClick={() => {
+                    if (currentPage !== 1) {
+                        setCurrentPage(currentPage - 1)
+                        window.scrollTo(0, 0)
+                    }
+                }} id='west' className={s.pagination__ico} />
                 {indexes.map((el, i) => {
                     return <h2
                         key={i}
@@ -31,15 +41,17 @@ export default function Pagination({ data, setCurrentElement }: IPagination) {
                         style={currentPage === (i + 1) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}
                         onClick={() => {
                             setCurrentPage(i + 1)
-                            
-                                setCurrentElement([((i + 1) * 16) - 15, (i + 1) * 16])
-                                // setCurrentElement([(((currentPage + 1) * 16) - 16), (currentPage + 1) * 16])
-                            
+                            window.scrollTo(0, 0)
                         }}>
                         {el}
                     </h2>
                 })}
-                <IconSelector id='east' className={s.pagination__ico} />
+                <IconSelector onClick={() => {
+                    if (allPages !== currentPage) {
+                        setCurrentPage(currentPage + 1)
+                        window.scrollTo(0, 0)
+                    }
+                }} id='east' className={s.pagination__ico} />
             </div>
         )
     }

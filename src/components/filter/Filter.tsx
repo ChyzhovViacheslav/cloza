@@ -22,7 +22,8 @@ export default function Filter() {
         setClothSise,
         filterClothSize,
         setColor,
-        filterColor
+        filterColor,
+        resetAllFilters
     } = filterSlice.actions
 
     const { data: categories, isLoading, isFetching: fetchingCategories } = postApi.useFetchAllCategoriesQuery(null)
@@ -38,16 +39,21 @@ export default function Filter() {
             setAllCategories([...categories.top, ...categories.bottom, ...categories.accesories, ...categories.shoes].slice(0, 5))
             dispatch(setBrands(brands))
         }
-        if (!newConditions.length) {
+        if (!newConditions?.length) {
             dispatch(setCondition(conditions))
         }
-        if (!newClothSize.length) {
+        if (!newClothSize?.length) {
             dispatch(setClothSise(clothSize))
         }
-        if (!newColors.length) {
+        if (!newColors?.length) {
             dispatch(setColor(colors))
         }
     }, [fetchingCategories, fetchingBrands, newConditions, newClothSize, newColors])
+
+    useEffect(() => {
+        return () => {dispatch(resetAllFilters())}
+    }, [])
+    
 
     const dispatchFilter = (data: any, dispatchFunc: any, eValue: any, eChecked: any, dataLength: number) => {
         if (data.includes(eValue) && eChecked) {
@@ -58,7 +64,6 @@ export default function Filter() {
             dispatch(dispatchFunc([...data, eValue]))
         }
     }
-
     const renderCategories = () => {
         if (!isLoading) {
             return (
@@ -221,6 +226,11 @@ export default function Filter() {
                 <CollapsableItem isClosed={false} title='Цвета' className={s.filter__colors} tittleClassName={s.filter__title}>
                     {renderColor()}
                 </CollapsableItem>
+                <div className={s.filter__reset} onClick={() => {
+                    window.location.reload()
+                    dispatch(resetAllFilters())}}>
+                    <span>Сбросить фильтр</span>
+                </div>
             </div>
         </div>
     )

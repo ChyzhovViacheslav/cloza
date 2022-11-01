@@ -1,6 +1,6 @@
 import React from 'react'
 import Slider from '../../components/interface/slider/Slider';
-import NewPoducts from '../../components/newproducts/Newproducts';
+import NewPoducts from '../../components/newproducts/NewProducts';
 import styles from '../../styles/styleComponents/Home.module.scss';
 
 
