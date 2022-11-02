@@ -4,14 +4,12 @@ import { useState, useEffect, Children, cloneElement, useRef } from 'react'
 import IconSelector from '../../../../assets/icons/icons';
 type ICarousel = {
     children?: any;
-    readonly carouselRef?: HTMLDivElement;
 }
 
 export default function Carousel({ children }: ICarousel) {
     const [pages, setPages] = useState([])
     const [offset, setOffset] = useState(0)
     const ref = useRef([])
-    const carouselRef = useRef<HTMLDivElement>(null)
     const PAGE_WIDTH = 1140
     const [dot, setDot] = useState(0)
 
@@ -83,7 +81,7 @@ export default function Carousel({ children }: ICarousel) {
     }, [PAGE_WIDTH])
 
     return (
-        <div ref={carouselRef} className={s.carousel}>
+        <div className={s.carousel}>
             <button className={s.carousel__btn_left} onClick={handleLeftClick}>
                 <IconSelector id='arrowLeft' className={s.carousel__btn_ico} />
             </button>
