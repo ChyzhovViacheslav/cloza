@@ -9,6 +9,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
 import { postApi } from '../../services/PostService';
+import axios from 'axios';
 
 export default function SignupModal() {
     const { closeModal, changeModalTypeLogin } = loginModalSlice.actions
@@ -57,6 +58,21 @@ export default function SignupModal() {
             .finally(() => window.location.reload())
     }
 
+    const sendToApi = async (username: string, password: string) => {
+        const customConfig = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        try {
+            await axios.post('http://localhost:2000/auth/registration', JSON.stringify({
+                username: username,
+                password: password
+            }), customConfig)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const vaildatorEmail = (email: string) => {
         const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return regExp.test(email.toLowerCase())
@@ -121,7 +137,8 @@ export default function SignupModal() {
                         onClick={(e) => {
                             e.preventDefault()
                             if (password === verifiedPass && vaildatorEmail(email)) {
-                                handleSignUp(email, password, name)
+                                // handleSignUp(email, password, name)
+                                sendToApi(name, password)
                             }
                         }}
                         text='Зарегистрироваться' />

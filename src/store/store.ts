@@ -8,6 +8,7 @@ import filterReducer from './reducers/ProductFilter'
 import FilterModalReducer from "./reducers/FilterModalSlice";
 import storage from 'redux-persist/lib/storage'
 import {persistStore, persistReducer} from 'redux-persist'
+import { authUser } from "../services/AuthUser";
 
 const rootReducer = combineReducers({
     modalReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     loaderReducer,
     filterReducer,
     FilterModalReducer,
-    [postApi.reducerPath]: postApi.reducer
+    [postApi.reducerPath]: postApi.reducer,
+    [authUser.reducerPath]: authUser.reducer
 })
 
 const persistConfig = {
