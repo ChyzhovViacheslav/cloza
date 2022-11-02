@@ -15,7 +15,7 @@ import Female from './pages/Female/Female';
 import Unisex from './pages/Unisex/Unisex';
 import Profile from './pages/Profile/Profile';
 import Sell from './pages/Sell/Sell';
-import Product from './pages/Product/Product';
+import Product from './pages/Product/ProductPage';
 
 export default function App() {
 
