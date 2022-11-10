@@ -26,10 +26,14 @@ const initialState: IFilter = {
     brands: null,
     newBrands: null,
     currentBrands: null,
-    conditions: null,
-    newConditions: null,
-    clothSize: null,
-    newClothSize: null,
+    conditions: ["novaya_s_birkoy",
+        "novaya_bez_birki",
+        "nebolshie_defekti",
+        "nadevalas_odin_raz",
+        "nadevalas_neskolko_raz"],
+    newConditions: [],
+    clothSize: ['XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS'],
+    newClothSize: [],
     colors: null,
     newColors: null
 }
@@ -61,37 +65,15 @@ export const filterSlice = createSlice({
             state.brands = action.payload
             state.newBrands = state.brands
         },
-        filterBrands(state, action) {
-            state.newBrands = state.brands.filter(
-                (el: any) => action.payload.includes(el)
-            )
-        },
-        setCondition(state, action){
-            state.conditions = action.payload
-            state.newConditions = state.conditions
-        },
-        filterCondition(state, action){
+        setCondition(state, action) {
             state.newConditions = action.payload
         },
-        setClothSise(state, action){
-            state.clothSize = action.payload
-            state.newClothSize = state.clothSize
-        },
-        filterClothSize(state, action){
+        setClothSize(state, action) {
             state.newClothSize = action.payload
         },
-        setColor(state, action){
+        setColor(state, action) {
             state.colors = action.payload
             state.newColors = state.colors
-        },
-        filterColor(state, action){
-            state.newColors = action.payload
-        },
-        resetAllFilters(state){
-            state.newBrands = state.brands
-            state.newColors = state.colors
-            state.newClothSize = state.clothSize
-            state.newConditions = state.conditions
         }
     }
 })

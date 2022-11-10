@@ -5,6 +5,7 @@ import { postApi } from '../../services/PostService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
 import sortedProducts from '../productarea/SortedProduct'
 import s from '../../styles/styleComponents/Products.module.scss'
+import { productApi } from '../../services/ProductService'
 
 type IProducts = {
     numberOfElements: number
@@ -12,12 +13,12 @@ type IProducts = {
     currentCategory: string
 }
 
-export default function Products({ numberOfElements, currentSort, currentCategory }: IProducts) {
-    const { data: products, isLoading } = postApi.useFetchAllProductQuery(null)
+export default function Products({ currentSort, currentCategory }: IProducts) {
+    const {data: products, isLoading} = productApi.useGetAllProductsQuery(1)
     const { setData } = filterSlice.actions
     const { newProducts } = useAppSelector(state => state.filterReducer)
     
-    const renderProducts = sortedProducts(currentSort, newProducts)?.filter((el:any) => el.props.mainCategory === currentCategory)
+    const renderProducts = sortedProducts(newProducts)?.filter((el:any) => el.props.mainCategory === currentCategory)
 
     const dispatch = useAppDispatch()
 
@@ -32,7 +33,7 @@ export default function Products({ numberOfElements, currentSort, currentCategor
                 </div>
             )
         } else {
-            return renderProducts.slice(0, numberOfElements)
+            return renderProducts
         }
     }
 

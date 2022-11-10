@@ -44,7 +44,7 @@ export default function Product() {
     return (
         <div className={s.product}>
             <div className={s.product__body}>
-                {isLoading ? <IconSelector className={s.product__loader} id='loader' /> :
+                {isLoading && !item ? <IconSelector className={s.product__loader} id='loader' /> :
                     <>
                         <div className={s.product__content}>
                             <div className={s.product__imgs}>

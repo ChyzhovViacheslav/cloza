@@ -5,11 +5,9 @@ import Button from '../interface/button/Button'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
 import Line from '../interface/line/Line';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
-import { postApi } from '../../services/PostService';
-import axios from 'axios';
+import { authUser } from '../../services/AuthUser';
 
 export default function SignupModal() {
     const { closeModal, changeModalTypeLogin } = loginModalSlice.actions
@@ -17,14 +15,13 @@ export default function SignupModal() {
     const { setUser } = userSlice.actions
     const dispatch = useAppDispatch()
     const { openLoader, closeLoader } = loaderSlice.actions
-
+    const [registerUser] = authUser.useRegisterUserMutation()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [verifiedPass, setVerifiedPass] = useState('')
     const verifiedPassRef = useRef(null)
     const [isError, setError] = useState(false)
-    const [addUser, { }] = postApi.useAddUserMutation()
 
     useEffect(() => {
         return () => {
@@ -36,42 +33,24 @@ export default function SignupModal() {
         }
     }, [active])
 
-    const handleSignUp = (email: string, password: string, name: string) => {
-        const auth = getAuth()
+    const handleSignUp = async (username: string, password: string, email: string) => {
         dispatch(openLoader())
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(({ user }) => {
-                dispatch(setUser({
-                    email: user.email,
-                    id: user.uid,
-                    userName: name
-                }))
-                addUser({
-                    email: user.email,
-                    id: user.uid,
-                    userName: name
-                }).unwrap()
-                setError(false)
-                dispatch(closeModal())
-            })
-            .catch(() => setError(true))
-            .finally(() => window.location.reload())
-    }
-
-    const sendToApi = async (username: string, password: string) => {
-        const customConfig = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        try {
-            await axios.post('http://localhost:2000/auth/registration', JSON.stringify({
+        await registerUser({
+            username: username,
+            password: password,
+            email: email
+        }).then(() => {
+            dispatch(setUser({
                 username: username,
-                password: password
-            }), customConfig)
-        } catch (error) {
-            console.log(error)
-        }
+                email: email
+            }))
+            setError(false)
+            dispatch(closeModal())
+        }).catch(() => setError(true))
+        .finally(() => {
+            dispatch(closeLoader())
+            window.location.reload()
+        })
     }
     const vaildatorEmail = (email: string) => {
         const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -137,8 +116,7 @@ export default function SignupModal() {
                         onClick={(e) => {
                             e.preventDefault()
                             if (password === verifiedPass && vaildatorEmail(email)) {
-                                // handleSignUp(email, password, name)
-                                sendToApi(name, password)
+                                handleSignUp(name, password, email)
                             }
                         }}
                         text='Зарегистрироваться' />

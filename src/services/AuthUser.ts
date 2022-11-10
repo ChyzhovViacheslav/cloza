@@ -1,30 +1,35 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
-interface IUser {
+interface IRegisterUser {
+    username: string,
+    password: string,
+    email: string
+}
+
+interface ILoginUser {
     email: string,
-    userName: string,
-    _id: string
+    password: string
 }
 
 export const authUser = createApi({
     reducerPath: 'authUser',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:2000/authUser/'
+        baseUrl: 'http://localhost:2000/authUser'
     }),
     endpoints: (build) => ({
         fetchAllUsers: build.query({
-            query: () => 'users'
+            query: () => '/users'
         }),
-        registerUser: build.mutation<IUser, IUser>({
+        registerUser: build.mutation<IRegisterUser, IRegisterUser>({
             query: (body) => ({
-                url: 'registration',
+                url: '/registration',
                 method: 'POST',
                 body
             })
         }),
-        loginUser: build.mutation<IUser, IUser>({
+        loginUser: build.mutation<ILoginUser, ILoginUser>({
             query: (body) => ({
-                url: 'login',
+                url: '/login',
                 method: 'POST',
                 body
             })

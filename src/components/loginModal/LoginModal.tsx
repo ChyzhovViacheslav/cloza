@@ -5,11 +5,10 @@ import s from '../../styles/styleComponents/LoginModal.module.scss'
 import Button from '../interface/button/Button';
 import Line from '../interface/line/Line';
 import Modal from '../interface/modal/Modal'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { Link } from 'react-router-dom';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
-import { postApi } from '../../services/PostService';
+import { authUser } from '../../services/AuthUser';
 
 export default function LoginModal() {
     const { changeModalTypeRegister } = loginModalSlice.actions
@@ -22,26 +21,24 @@ export default function LoginModal() {
     const [password, setPassword] = useState('')
     const dispatch = useAppDispatch()
     const [isError, setError] = useState(false)
-    const {data = []} = postApi.useFetchAllUsersQuery(null)
+    const [loginUser] = authUser.useLoginUserMutation()
 
-    const handleLogin = (email: string, password: string) => {
-        const auth = getAuth()
+    const handleLogin = async (email: string, password: string) => {
         dispatch(openLoader())
-        signInWithEmailAndPassword(auth, email, password)
-            .then(({ user }) => {
-                data.forEach(el => {
-                    if(el.id === user.uid){
-                        dispatch(setUser({
-                            email: email,
-                            id: user.uid,
-                            userName: el.userName
-                        }))
-                    }
-                })
-                setError(false)
-                dispatch(closeModal())
+        await loginUser({
+            email: email,
+            password: password
+        }).then(({ data }: any) => {
+            dispatch(setUser({
+                username: data.username,
+                email: email
+            }))
+            setError(false)
+            dispatch(closeModal())
+        })
+            .catch(() => {
+                setError(true)
             })
-            .catch(() => setError(true))
             .finally(() => dispatch(closeLoader()))
     }
 

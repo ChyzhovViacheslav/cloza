@@ -1,14 +1,14 @@
 import React from 'react'
 import Slider from '../../components/interface/slider/Slider';
 import NewPoducts from '../../components/newproducts/NewProducts';
-import styles from '../../styles/styleComponents/Home.module.scss';
-
+import s from '../../styles/styleComponents/Home.module.scss';
 
 export default function Home() {
+
   return (
-    <div className={styles.home}>
-      <div className={styles.home + ' _container'}>
-        <div className={styles.home__body}>
+    <div className={s.home}>
+      <div className={s.home + ' _container'}>
+        <div className={s.home__body}>
           <Slider/>
           <NewPoducts/>
         </div>

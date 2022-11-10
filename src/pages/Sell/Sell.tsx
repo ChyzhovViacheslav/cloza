@@ -23,7 +23,7 @@ export default function Sell() {
   const [amount, setAmount] = useState(1)
   const [trade, setTrade] = useState(false)
 
-  const { userName } = useAuth()
+  const { username } = useAuth()
   const [addProduct, { isLoading }] = postApi.useAddProductMutation()
   const {data: brands} = postApi.useFetchAllBrandsQuery(null)
   const {data: categories} = postApi.useFetchAllCategoriesQuery(null)
@@ -144,7 +144,7 @@ export default function Sell() {
 
   const postProduct = async () => {
     await addProduct({
-      saler: userName,
+      saler: username,
       name: name,
       condition: condition,
       mainCategory: mainCategory,

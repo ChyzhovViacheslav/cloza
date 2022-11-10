@@ -1,11 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import IProduct from '../models/IProduct'
 
-interface IUser {
-    email: string,
-    userName: string,
-    id: string
-}
 interface ICategories {
     top: [],
     bottom: [],
@@ -20,20 +15,8 @@ export const postApi = createApi({
         baseUrl: 'http://localhost:5000'
     }),
     endpoints: (build) => ({
-        fetchAllUsers: build.query<IUser[], IUser>({
-            query: () => '/users',
-            providesTags: (result) => ['Users']
-        }),
-        addUser: build.mutation<IUser, IUser>({
-            query: (body) => ({
-                url: '/users',
-                method: 'POST',
-                body
-            }),
-            invalidatesTags: ['Users']
-        }),
-        fetchAllProduct: build.query<IProduct[], any>({
-            query: (limit:any = '') => ({
+        fetchAllProduct: build.query<IProduct[], number>({
+            query: (limit:number = 0) => ({
                 url: '/products',
                 limit: `/products${limit && `_limit=${limit}`}`
             }),
@@ -50,7 +33,7 @@ export const postApi = createApi({
             }),
             invalidatesTags: ['Products']
         }),
-        fetchAllCategories: build.query<ICategories, ICategories>({
+        fetchAllCategories: build.query<ICategories, null>({
             query: () => '/categories'
         }),
         fetchAllBrands: build.query({

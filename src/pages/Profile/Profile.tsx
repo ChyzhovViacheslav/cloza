@@ -1,10 +1,8 @@
 import useAuth from '../../hooks/userAuth';
-import { postApi } from '../../services/PostService';
 import s from '../../styles/styleComponents/Profile.module.scss';
 
 export default function Profile() {
-    const { data = [], isLoading } = postApi.useFetchAllUsersQuery(null)
-    const {userName} = useAuth()
+    const {username} = useAuth()
     return (
         <div className={s.profile}>
             <div className={s.profile__body}>
@@ -16,7 +14,7 @@ export default function Profile() {
                         <div className={s.profile__img}>
                         </div>
                         <div className={s.profile__name}>
-                            <h1>{userName}</h1>
+                            <h1>{username}</h1>
                         </div>
                     </div>
                 </div>

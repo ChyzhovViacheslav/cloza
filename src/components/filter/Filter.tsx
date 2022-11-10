@@ -9,51 +9,57 @@ import IonRangeSlider from 'react-ion-slider'
 import MyReactSelect from '../interface/inputs/MyReactSelect'
 import { AnyObject } from 'immer/dist/internal'
 import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
+import { extraApi } from '../../services/ExtraService'
+import { useLocation, useNavigate } from 'react-router'
 
-export default function Filter() {
+export default function Filter({fancyUrl}:any) {
     const {
         filterSubCategories,
         setMinPrice,
         setMaxPrice,
         setBrands,
-        filterBrands,
-        filterCondition,
         setCondition,
-        setClothSise,
-        filterClothSize,
+        setClothSize,
         setColor,
-        filterColor,
-        resetAllFilters
     } = filterSlice.actions
 
-    const { data: categories, isLoading, isFetching: fetchingCategories } = postApi.useFetchAllCategoriesQuery(null)
+    const { data: categories, isLoading, isFetching: fetchingCategories } = extraApi.useGetCategoriesQuery(null)
     const { data: brands, isFetching: fetchingBrands } = postApi.useFetchAllBrandsQuery(null)
     const { newConditions, conditions, clothSize, newClothSize, colors, newColors } = useAppSelector(state => state.filterReducer)
     const { openModal } = filterModalSlice.actions
     const dispatch = useAppDispatch()
 
+    const location = useLocation()
+    const navigate = useNavigate()
     const [allCategories, setAllCategories] = useState<Object[]>()
 
     useEffect(() => {
         if (!fetchingCategories && !fetchingBrands) {
-            setAllCategories([...categories.top, ...categories.bottom, ...categories.accesories, ...categories.shoes].slice(0, 5))
+            setAllCategories([...categories[0].top, ...categories[0].bottom, ...categories[0].accessories, ...categories[0].shoes].slice(0, 5))
             dispatch(setBrands(brands))
-        }
-        if (!newConditions?.length) {
-            dispatch(setCondition(conditions))
-        }
-        if (!newClothSize?.length) {
-            dispatch(setClothSise(clothSize))
         }
         if (!newColors?.length) {
             dispatch(setColor(colors))
         }
+
+        setFilter(
+            [
+                { arr: newClothSize, filter: 'size' },
+                { arr: newConditions, filter: 'condition' }
+            ]
+        )
+
     }, [fetchingCategories, fetchingBrands, newConditions, newClothSize, newColors])
 
-    useEffect(() => {
-        return () => {dispatch(resetAllFilters())}
-    }, [])
-    
+    const setFilter = (arrs: any) => {
+        let newArr = ''
+
+        arrs.forEach((el:any, i: any) => {
+            newArr = `${newArr}${el.arr.length > 0 ? `${el.filter}=` : ''}${el.arr.join(',')}${el.arr.length > 0 ? '/' : ''}`
+        })
+
+        navigate(`${location.pathname}?${newArr.substring(0, newArr.length - 1)}`)
+    }
 
     const dispatchFilter = (data: any, dispatchFunc: any, eValue: any, eChecked: any, dataLength: number) => {
         if (data.includes(eValue) && eChecked) {
@@ -64,6 +70,7 @@ export default function Filter() {
             dispatch(dispatchFunc([...data, eValue]))
         }
     }
+
     const renderCategories = () => {
         if (!isLoading) {
             return (
@@ -94,9 +101,9 @@ export default function Filter() {
                         return el.value
                     })
                     if (changedBrands.length >= 1) {
-                        dispatch(filterBrands(changedBrands))
+                        // dispatch(filterBrands(changedBrands))
                     } else {
-                        dispatch(filterBrands(brands))
+                        // dispatch(filterBrands(brands))
                     }
                 }}
                 className={s.filter__filter_brands}
@@ -112,10 +119,11 @@ export default function Filter() {
                     return (
                         <div className={s.filter__condition_label} key={i}>
                             <input onChange={(e) => {
-                                dispatchFilter(newConditions, filterCondition, e.target.value, e.target.checked, 5)
+                                dispatchFilter(newConditions, setCondition, e.target.value, e.target.checked, 5)
                             }}
                                 type="checkbox"
                                 id='condition'
+                                checked={location.search.includes(el)}
                                 value={el} />
                             <p>{el}</p>
                         </div>
@@ -134,10 +142,11 @@ export default function Filter() {
                             <input
                                 className={s.filter__input_size}
                                 onChange={(e) => {
-                                    dispatchFilter(newClothSize, filterClothSize, e.target.value, e.target.checked, 7)
+                                    dispatchFilter(newClothSize, setClothSize, e.target.value, e.target.checked, 7)
                                 }}
                                 type='checkbox'
                                 id='clothSize'
+                                checked={location.search.includes(el)}
                                 value={el}
                             />
                             <span className={s.filter__input_value}>{el}</span>
@@ -171,7 +180,7 @@ export default function Filter() {
                             key={i}
                             className={s.filter__color_input}
                             onChange={(e) => {
-                                dispatchFilter(newColors, filterColor, e.target.value, e.target.checked, 10)
+                                // dispatchFilter(e.target.value, e.target.checked, 10)
                             }}
                             style={backgroundColors(el)}
                             value={el}
@@ -228,7 +237,8 @@ export default function Filter() {
                 </CollapsableItem>
                 <div className={s.filter__reset} onClick={() => {
                     window.location.reload()
-                    dispatch(resetAllFilters())}}>
+                    // dispatch(resetAllFilters())
+                }}>
                     <span>Сбросить фильтр</span>
                 </div>
             </div>
