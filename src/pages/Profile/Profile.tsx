@@ -2,7 +2,8 @@ import useAuth from '../../hooks/userAuth';
 import s from '../../styles/styleComponents/Profile.module.scss';
 
 export default function Profile() {
-    const {username} = useAuth()
+    const {username, image} = useAuth()
+    
     return (
         <div className={s.profile}>
             <div className={s.profile__body}>
@@ -16,6 +17,7 @@ export default function Profile() {
                         <div className={s.profile__name}>
                             <h1>{username}</h1>
                         </div>
+                        <img alt='img' src={`data:image/png;base64,${image}`}/>
                     </div>
                 </div>
             </div>

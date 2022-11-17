@@ -5,24 +5,22 @@ import s from '../../styles/styleComponents/ProductArea.module.scss'
 import IconSelector from '../../assets/icons/icons'
 import Modal from '../interface/modal/Modal'
 import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
-import { postApi } from '../../services/PostService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
 import Pagination from '../pagination/Pagination'
 import MySelect from '../interface/inputs/MySelect'
-import sortedProducts from './SortedProduct'
 import { productApi } from '../../services/ProductService'
 import { extraApi } from '../../services/ExtraService'
-import { useLocation, useNavigate } from 'react-router'
+import { useLocation } from 'react-router'
+import productCards from './SortedProduct'
 
-interface IProductArea {
-    data: any
-}
-
-export default function ProductArea({ data }: IProductArea) {
+export default function ProductArea() {
     const { closeModal } = filterModalSlice.actions
+    const { setSubCategories } = filterSlice.actions
     const { active } = useAppSelector(state => state.FilterModalReducer)
     const { data: categories, isLoading: categoriesLoading } = extraApi.useGetCategoriesQuery(null)
-    const { data: allBrands, isSuccess: succesBrands } = extraApi.useGetAllBrandsQuery(null)
+    const [sortByPrice, setSortByPrice] = useState(0)
+    const [ currentPage, setCurrentPage ] = useState(1)
+
     const dispatch = useAppDispatch()
     const location = useLocation()
 
@@ -36,115 +34,33 @@ export default function ProductArea({ data }: IProductArea) {
         } else return ''
     }
 
-    const { data: products, isLoading, isSuccess: succesProduct } = productApi.useGetAllProductsQuery({ page: 1, limit: 15, params: fancyUrl() })
-    const [currentSort, setSort] = useState("Рекомендации")
+    const { data: products, isFetching: productsIsFetching } = productApi.useGetAllProductsQuery(
+        {
+            page: currentPage,
+            limit: 15,
+            maincategory: location.pathname.substring(1),
+            sortByPrice: sortByPrice,
+            params: fancyUrl()
+        }
+    )
 
-    const {
-    } = useAppSelector(state => state.filterReducer)
+    const sortedProduct = productCards(products?.products)
 
-    // console.log(newClothSize);
+    const renderCategories = (category: []) => {
+        return (
+            category.map((el: string, i: number) => {
+                return <p key={i} onClick={() => {
+                    dispatch(setSubCategories([el]))
+                    dispatch(closeModal())
+                }}>{el}</p>
+            })
+        )
+    }
 
-    // const {
-    //     setData,
-    //     setBrands,
-    //     setCondition,
-    //     setClothSise,
-    //     setColor,
-    //     filterSubCategories
-    // } = filterSlice.actions
-
-
-    // const conditions =
-    //     [
-    //         'Новая с биркой',
-    //         'Новая без бирки',
-    //         'Небольшие дефекты',
-    //         'Надевалась один раз',
-    //         'Надевалась несколько раз'
-    //     ]
-
-    const sizeType = ['XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS']
-
-    // const colors = ['Синий', 'Зелёный', 'Оранжевый', 'Красный', 'Голубой', 'Чёрный', 'Фиолетовый', 'Серый', 'Белый', 'Коричневый']
-
-    // useEffect(() => {
-    //     if (!currentCategory) {
-    //         dispatch(setData(products))
-    //     }
-    //     if (!newBrands) {
-    //         dispatch(setBrands(allBrands))
-    //     }
-    //     if (!newConditions) {
-    //         dispatch(setCondition(conditions))
-    //     }
-    //     if (!newClothSize) {
-    //         dispatch(setClothSise(sizeType))
-    //     }
-    //     if (!newColors) {
-    //         dispatch(setColor(colors))
-    //     }
-    // }, [succesProduct, currentCategory, succesBrands, newBrands, newConditions, newClothSize, newColors])
-
-    // useEffect(() => {
-
-    // }, [currentElement])
-
-
-    // const filtredPriceProduct = data?.filter(
-    //     (el: any) => el.price <= maxPrice && el.price >= minPrice
-    // )
-
-    // const filtredBrands = filtredPriceProduct?.filter((el: any) => {
-    //     if (newBrands?.includes(el.brand)) {
-    //         return el
-    //     }
-    // })
-
-    // const filtredConditions = filtredBrands?.filter((el: any) => {
-    //     if (newConditions?.includes(el.condition)) {
-    //         return el
-    //     }
-    // })
-
-    // const filtredClothSize = filtredConditions?.filter((el: any) => {
-    //     if (newClothSize?.includes(el.size)) {
-    //         return el
-    //     }
-    // })
-
-    // const filterColor = filtredClothSize?.filter((el: any, i: any) => {
-    //     if (newColors?.includes(el.color)) {
-    //         return el
-    //     }
-    // })
-
-    const sortedProduct = sortedProducts(products)
-
-    // const renderCategories = (category: any) => {
-    //     return (
-    //         category?.map((el: string, i: number) => {
-    //             return <p onClick={() => {
-    //                 dispatch(filterSubCategories(el))
-    //                 dispatch(closeModal())
-    //             }} key={i}>{el}</p>
-    //         })
-    //     )
-    // }
-
-    // const checkProducts = () => {
-    //     if (isLoading) {
-    //         return <div className={s.productarea__product_loader}><IconSelector id='loader' /></div>
-    //     } else if (!sortedProduct?.length) {
-    //         return (
-    //             <div className={s.productarea__empty}>
-    //                 <IconSelector id='search' />
-    //                 <span>Нед подходящих товаров</span>
-    //             </div>
-    //         )
-    //     } else {
-    //         return sortedProduct?.slice(currentElement[0] - 1, currentElement[1])
-    //     }
-    // }
+    const productIsEmpty = sortedProduct?.length === 0 ? <div className={s.productarea__empty}>
+        <IconSelector id='search' />
+        <span>Нед подходящих товаров</span>
+    </div> : null
 
     return (
         <div className={s.productarea}>
@@ -158,13 +74,21 @@ export default function ProductArea({ data }: IProductArea) {
                             <span>Сортировать:</span>
                             <MySelect
                                 data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
-                                onChange={(e) => console.log('sort')}
+                                onChange={(e) => {
+                                    switch (e.target.value) {
+                                        case 'Цена по возрастанию': setSortByPrice(1)
+                                            break;
+                                        case 'Цена по убыванию': setSortByPrice(-1)
+                                            break;
+                                        default: setSortByPrice(0);
+                                    }
+                                }}
                                 defaultValue={"Рекомендации"} />
                         </div>
                     </div>
-                    {/* {checkProducts()} */}
-                    {sortedProduct}
-                    {/* {sortedProduct?.length ? <Pagination setCurrentElement={setCurrentElement} data={sortedProduct} /> : null} */}
+                    {sortedProduct && !productsIsFetching ? sortedProduct : <IconSelector className={s.productarea__product_loader} id='loader' />}
+                    {productIsEmpty}
+                    {sortedProduct?.length ? <Pagination setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={products.totalPages} /> : null}
                 </div>
                 <Filter fancyUrl={fancyUrl} />
             </div>
@@ -172,19 +96,19 @@ export default function ProductArea({ data }: IProductArea) {
                 {categoriesLoading ? <IconSelector className={s.pa_modal__loader} id='loader' /> : <div className={s.pa_modal}>
                     <div className={`${s.pa_modal__top} ${s.pa_modal__column}`}>
                         <h2>Верх</h2>
-                        {/* {renderCategories(categories[0]?.top)} */}
+                        {renderCategories(categories[0]?.top)}
                     </div>
                     <div className={`${s.pa_modal__bottom} ${s.pa_modal__column}`}>
                         <h2>Низ</h2>
-                        {/* {renderCategories(categories[0]?.bottom)} */}
+                        {renderCategories(categories[0]?.bottom)}
                     </div>
                     <div className={`${s.pa_modal__shoes} ${s.pa_modal__column}`}>
                         <h2>Обувь</h2>
-                        {/* {renderCategories(categories[0]?.shoes)} */}
+                        {renderCategories(categories[0]?.shoes)}
                     </div>
                     <div className={`${s.pa_modal__accessories} ${s.pa_modal__column}`}>
                         <h2>Аксессуары</h2>
-                        {/* {renderCategories(categories[0]?.accessories)} */}
+                        {renderCategories(categories[0]?.accessories)}
                     </div>
                 </div>}
             </Modal>

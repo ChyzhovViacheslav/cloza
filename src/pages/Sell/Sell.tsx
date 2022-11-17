@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import IconSelector from '../../assets/icons/icons';
 import Button from '../../components/interface/button/Button';
 import useAuth from '../../hooks/userAuth';
-import { postApi } from '../../services/PostService';
 import s from '../../styles/styleComponents/Sell.module.scss';
-import Select from 'react-select';
 import MySelect from '../../components/interface/inputs/MySelect';
 import MyReactSelect from '../../components/interface/inputs/MyReactSelect';
+import { productApi } from '../../services/ProductService';
+import { extraApi } from '../../services/ExtraService';
+import { useAppSelector } from '../../hooks/redux';
+import { Form } from 'react-router-dom';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -22,63 +24,59 @@ export default function Sell() {
   const [discount, setDiscount] = useState(null)
   const [amount, setAmount] = useState(1)
   const [trade, setTrade] = useState(false)
+  const [mainPhoto, setMainPhoto] = useState<string>()
+  const [additionalPhoto, setAdditionalPhoto] = useState<any>([])
 
   const { username } = useAuth()
-  const [addProduct, { isLoading }] = postApi.useAddProductMutation()
-  const {data: brands} = postApi.useFetchAllBrandsQuery(null)
-  const {data: categories} = postApi.useFetchAllCategoriesQuery(null)
+  const [addProduct, { isLoading }] = productApi.useAddProductMutation()
+  const { data: brands } = extraApi.useGetAllBrandsQuery(null)
+  const { data: categories } = extraApi.useGetCategoriesQuery(null)
+  const { clothSize, colors, conditions, mainCategories } = useAppSelector(state => state.filterReducer)
 
-  const conditionMap = [
-    "Новая с биркой",
-    "Новая без бирки",
-    "Небольшие дефекты",
-    "Надевалась один раз",
-    "Надевалась несколько раз"
-  ]
+  const mainPhotoRef = useRef(null)
+  const additionPhotoRef = useRef([])
 
-  const mainCategoriesMap = [
-    "Женское",
-    "Мужское",
-    "Унисекс"
-  ]
+  useEffect(() => {
+
+  }, [mainPhoto, additionalPhoto.length])
 
   const renderSubCategory = () => {
     switch (category) {
-      case 'Верх':
+      case 'top':
         return (
           <>
-            {categories.top?.map((el:any, i:any) => {
-              return(
+            {categories[0]?.top.map((el: string, i: number) => {
+              return (
                 <option key={i}>{el}</option>
               )
             })}
           </>
         )
-      case 'Низ':
+      case 'bottom':
         return (
           <>
-            {categories.bottom?.map((el, i) => {
-              return(
+            {categories[0]?.bottom.map((el: string, i: number) => {
+              return (
                 <option key={i}>{el}</option>
               )
             })}
           </>
         )
-      case 'Обувь':
+      case 'shoes':
         return (
           <>
-            {categories.shoes?.map((el, i) => {
-              return(
+            {categories[0]?.shoes.map((el: string, i: number) => {
+              return (
                 <option key={i}>{el}</option>
               )
             })}
           </>
         )
-      case 'Аксессуары':
+      case 'accessories':
         return (
           <>
-            {categories.accesories?.map((el, i) => {
-              return(
+            {categories[0]?.accessories.map((el: string, i: number) => {
+              return (
                 <option key={i}>{el}</option>
               )
             })}
@@ -88,9 +86,8 @@ export default function Sell() {
   }
 
   const renderSize = () => {
-    const sizeType = ['XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS']
     return (
-      sizeType.map(el => {
+      clothSize?.map((el: string) => {
         return (
           <div key={el} className={s.sell__checkbox}>
             <label htmlFor={el}>{el}</label>
@@ -102,7 +99,7 @@ export default function Sell() {
   }
 
   const renderBrands = () => {
-    const customData = brands?.map((el:string) => {
+    const customData = brands && brands[0].brands.map((el: string) => {
       return ({
         value: el, label: el
       })
@@ -112,29 +109,130 @@ export default function Sell() {
       <MyReactSelect
         className={`${s.sell__inputs} ${s.sell__select}`}
         isMulti={false}
-        onChange={(e:any) => setBrand(e.value)}
-        data={customData}/>
+        onChange={(e: any) => setBrand(e.value)}
+        data={customData} />
+    )
+  }
+
+  const renderMainImage = () => {
+    return (
+      <form ref={mainPhotoRef} className={s.sell__label}>
+        <p>Основное фото</p>
+        {!mainPhoto ? <label className={`${s.sell__img_btn} ${s.sell__inputs}`}>
+          <IconSelector id='plus' />
+          <span>Основное фото</span>
+          <input
+            type={'file'}
+            name='mainPhoto'
+            accept="image/png, image/jpeg, image/jpg"
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              setMainPhoto(await toBase64(e.target.files[0]));
+            }}
+          />
+        </label> :
+          <div className={s.sell__inputs_wrapper}>
+            <div className={s.sell__images_wrapper}>
+              <img alt='mainImg' src={mainPhoto} />
+              <div className={s.sell__images_controls}>
+                <IconSelector
+                  id='close'
+                  className={s.sell__images_delete}
+                  onClick={() => {
+                    mainPhotoRef.current.reset()
+                    setMainPhoto(null)
+                  }} />
+              </div>
+            </div>
+          </div>
+        }
+      </form>
+    )
+  }
+
+  const renderAdditionalImages = () => {
+    const indexes = []
+    for (let index = 0; index < additionalPhoto.length + 1 && index < 5; index++) {
+      indexes.push(index)
+    }
+    return (
+      indexes.map((el: any, index:number) => {
+        return (
+          <form key={el} ref={elems => additionPhotoRef.current[index] = elems} className={s.sell__image_multiple}>
+            <div className={s.sell__images_wrapper}>
+              {additionalPhoto[el] ?
+                <>
+                  <img alt='adtImg' src={additionalPhoto[el]} />
+                  <label className={s.sell__images_controls}>
+                    <IconSelector
+                      id='close'
+                      className={s.sell__images_delete}
+                      onClick={() => {
+                        additionPhotoRef.current[index].reset()
+                        setAdditionalPhoto(additionalPhoto.filter((elem:any, i:any) => i !== el))
+                      }} />
+                  </label>
+                </> :
+                <div className={s.sell__img_empty}>
+                  <span>Нет изображения</span>
+                </div>}
+            </div>
+            <label className={`${s.sell__img_btn} ${s.sell__img_m_btn}`}>
+              <span>Добавить фото</span>
+              <input
+                type='file'
+                name='multipleFile'
+                accept="image/png, image/jpeg, image/jpg"
+                style={{display: 'none'}}
+                onChange={async (e) => setAdditionalPhoto([...additionalPhoto, await toBase64(e.target.files[0])])} />
+            </label>
+          </form>
+        )
+      })
     )
   }
 
   const renderColors = () => {
-    const colors = [
-      { colorCode: '#337ab6', colorName: 'Синий' },
-      { colorCode: '#5cb85c', colorName: 'Зелёный' },
-      { colorCode: '#f0ac4e', colorName: 'Оранжевый' },
-      { colorCode: '#ff0000', colorName: 'Красный' },
-      { colorCode: '#5bc0de', colorName: 'Голубой' },
-      { colorCode: '#282a3c', colorName: 'Чёрный' },
-      { colorCode: '#800080', colorName: 'Фиолетовый' },
-      { colorCode: '#777777', colorName: 'Серый' },
-      { colorCode: '#ffffff', colorName: 'Белый' },
-      { colorCode: '#d9534f', colorName: 'Коричневый' }
-    ]
+    interface IColorCode {
+      colorCode: string
+      colorName: string
+    }
+
+    const colorCode = colors?.map((el: string) => {
+      switch (el) {
+        case 'blue': return { colorCode: '#337ab6', colorName: el }
+        case 'green': return { colorCode: '#5cb85c', colorName: el }
+        case 'orange': return { colorCode: '#f0ac4e', colorName: el }
+        case 'red': return { colorCode: '#ff0000', colorName: el }
+        case 'lightblue': return { colorCode: '#5bc0de', colorName: el }
+        case 'black': return { colorCode: '#282a3c', colorName: el }
+        case 'violet': return { colorCode: '#800080', colorName: el }
+        case 'gray': return { colorCode: '#777777', colorName: el }
+        case 'white': return { colorCode: '#ffffff', colorName: el }
+        case 'brown': return { colorCode: '#d9534f', colorName: el }
+        default: return el
+      }
+    })
+
     return (
-      colors.map(el => {
+      colorCode.map((el: IColorCode) => {
+        const renamedColor = () => {
+          switch (el.colorName) {
+            case 'blue': return 'Синий'
+            case 'green': return 'Зелёный'
+            case 'orange': return 'Оранжевый'
+            case 'red': return 'Красный'
+            case 'lightblue': return 'Голубой'
+            case 'black': return 'Чёрный'
+            case 'violet': return 'Фиолетовый'
+            case 'gray': return 'Серый'
+            case 'white': return 'Белый'
+            case 'brown': return 'Коричневый'
+          }
+        }
         return (
           <div key={el.colorName} className={s.sell__checkbox}>
-            <label htmlFor={el.colorName}>{el.colorName}</label>
+            <label htmlFor={el.colorName}>{renamedColor()}</label>
             <input onChange={(e) => setColor(e.target.id)} style={{ backgroundColor: el.colorCode }} name={'color'} type={'radio'} id={el.colorName} />
           </div>
         )
@@ -157,9 +255,19 @@ export default function Sell() {
       price: price,
       discount: discount,
       amount: amount,
-      trade: trade
+      trade: trade,
+      mainPhoto: mainPhoto,
+      additionalsPhotos: additionalPhoto
     })
   }
+
+
+  const toBase64 = (file: File): Promise<string> => new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result?.toString() || '');
+    reader.onerror = error => reject(error);
+  })
 
   return (
     <div className={s.sell}>
@@ -167,7 +275,7 @@ export default function Sell() {
         <div className={s.sell__title}>
           <h1>Выставить товар на продажу</h1>
         </div>
-        <form className={s.sell__form}>
+        <div className={s.sell__form}>
           <div className={`${s.sell__name} ${s.sell__label}`}>
             <p>Название</p>
             <input
@@ -177,24 +285,24 @@ export default function Sell() {
           </div>
           <div className={`${s.sell__condition} ${s.sell__label}`}>
             <p>Состояние</p>
-            <MySelect 
-              defaultValue='Без бирки' 
+            <MySelect
+              defaultValue='Без бирки'
               onChange={(e) => setCondition(e.target.value)}
-              data={conditionMap}/>
+              data={conditions} />
           </div>
           <div className={`${s.sell__main_category} ${s.sell__label}`}>
             <p>Основная категория</p>
-            <MySelect 
-              defaultValue='Выберите категорию' 
+            <MySelect
+              defaultValue='Выберите категорию'
               onChange={(e) => setMainCategory(e.target.value)}
-              data={mainCategoriesMap}/>
+              data={mainCategories} />
           </div>
           <div className={`${s.sell__categories} ${s.sell__label}`}>
             <p>Подкатегория</p>
-            <MySelect 
-              defaultValue='Выберите подкатегорию' 
+            <MySelect
+              defaultValue='Выберите подкатегорию'
               onChange={(e) => setCategory(e.target.value)}
-              data={["Верх", "Низ", "Обувь", "Аксессуары"]}/>
+              data={["top", "bottom", "shoes", "accessories"]} />
           </div>
           <div className={`${s.sell__subcategories} ${s.sell__label}`}>
             <p>Субкатегория</p>
@@ -208,13 +316,12 @@ export default function Sell() {
             <p>Бренд</p>
             {renderBrands()}
           </div>
-          <div className={`${s.sell__main_photo} ${s.sell__label}`}>
-            <p>Основное фото</p>
-            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus' /><span>Основное фото</span></button>
-          </div>
-          <div className={`${s.sell__photos} ${s.sell__label}`}>
+          {renderMainImage()}
+          <div className={s.sell__label}>
             <p>Галерея (максимум 5 фото)</p>
-            <button className={`${s.sell__img_btn} ${s.sell__inputs}`}><IconSelector id='plus' /><span>Добавить фото</span></button>
+            <div className={s.sell__inputs_wrapper}>
+              {renderAdditionalImages()}
+            </div>
           </div>
           <div className={`${s.sell__size} ${s.sell__label}`}>
             <p>Размер</p>
@@ -271,14 +378,14 @@ export default function Sell() {
             </div>
           </div>
           <Button
-            id='check-mark'
+            id={isLoading ? 'second-loader' : 'check-mark'}
             className={s.sell__btn}
-            text='Сделать обьявление'
+            text='Создать обьявление'
             onClick={(e) => {
               e.preventDefault()
               postProduct()
             }} />
-        </form>
+        </div>
       </div>
     </div>
   )

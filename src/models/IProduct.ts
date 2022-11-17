@@ -14,5 +14,7 @@ export default interface IProduct {
     amount: any,
     trade: boolean,
     id?: number,
-    key?: any
+    key?: any,
+    mainPhoto: string,
+    additionalsPhotos: any
 }

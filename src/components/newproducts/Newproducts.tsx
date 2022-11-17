@@ -5,11 +5,19 @@ import Line from '../interface/line/Line'
 import Products from '../products/Products'
 
 export default function NewProducts() {
-    const [currentSort, setSort] = useState("Рекомендации")
-    const [currentCategory, setCategory] = useState('Мужское')
-    const categories = ['Мужское', 'Женское', 'Унисекс']
+    const [sortByPrice, setSortByPrice] = useState(0)
+    const [currentCategory, setCategory] = useState('male')
+    const categories = ['male', 'female', 'unisex']
 
     const renderCategories = categories.map((el: string, i: number) => {
+        const renamedCategory = () => {
+            switch (el) {
+                case 'male': return 'Мужское'
+                case 'female': return 'Женское'
+                case 'unisex': return 'Унисекс'
+                default: return el
+            }
+        }
         return (
             <div
                 className={currentCategory === el ? `${s.newproducts__nav_btn} ${s.active}` : s.newproducts__nav_btn}
@@ -17,7 +25,7 @@ export default function NewProducts() {
                 onClick={() => {
                     setCategory(el)
                 }}>
-                <span>{el}</span>
+                <span>{renamedCategory()}</span>
             </div>
         )
     })
@@ -28,7 +36,7 @@ export default function NewProducts() {
                 <div className={s.newproducts__nav}>
                     <div className={s.newproducts__nav_body}>
                         {renderCategories}
-                        <Line style={{position: 'absolute', bottom: '0', zIndex: '1'}}/>
+                        <Line style={{ position: 'absolute', bottom: '0', zIndex: '1' }} />
                     </div>
                 </div>
                 <div className={s.newproducts__area}>
@@ -41,12 +49,20 @@ export default function NewProducts() {
                             <span>Сортировать: </span>
                             <MySelect
                                 data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
-                                onChange={(e) => setSort(e.target.value)}
+                                onChange={(e) => {
+                                    switch (e.target.value) {
+                                        case 'Цена по возрастанию': setSortByPrice(1)
+                                            break;
+                                        case 'Цена по убыванию': setSortByPrice(-1)
+                                            break;
+                                        default: setSortByPrice(0);
+                                    }
+                                }}
                                 defaultValue={"Рекомендации"} />
                         </div>
                     </div>
                     <div className={s.newproducts__area_body}>
-                        <Products currentCategory={currentCategory} currentSort={currentSort} numberOfElements={8} />
+                        <Products currentMainCategory={currentCategory} sortByPrice={sortByPrice} limit={8} />
                     </div>
                 </div>
             </div>

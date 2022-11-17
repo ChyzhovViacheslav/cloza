@@ -10,12 +10,13 @@ import Search from '../../components/search/Search';
 import SignupModal from '../../components/signupmodal/SignupModal';
 import { useAppSelector } from '../../hooks/redux';
 import Loader from '../../components/interface/loader/Loader';
+import { useEffect } from 'react';
 
 export default function MyRoutes() {
   const {type} = useAppSelector(state => state.modalReducer)
   const {typeSm} = useAppSelector(state => state.smModalReducer)
   const {isLoading} = useAppSelector(state => state.loaderReducer)
-  
+
   return (
     <BrowserRouter>
       <main className='wrapper' style={{position: 'relative'}}>

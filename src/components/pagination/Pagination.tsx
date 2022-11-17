@@ -3,26 +3,20 @@ import IconSelector from '../../assets/icons/icons'
 import s from '../../styles/styleComponents/Pagination.module.scss'
 
 interface IPagination {
-    data: any
-    setCurrentElement: any
+    currentPage: number,
+    totalPages: number,
+    setCurrentPage: any
 }
 
-export default function Pagination({ data, setCurrentElement }: IPagination) {
-    const [allPages, setAllPages] = useState<number>()
-    const [currentPage, setCurrentPage] = useState(1)
+export default function Pagination({ currentPage, totalPages, setCurrentPage }: IPagination) {
 
     useEffect(() => {
-        setAllPages(Math.ceil((data?.length) / 15))
-        setCurrentPage(1)
-    }, [data?.length])
 
-    useEffect(() => {
-        setCurrentElement([((currentPage) * 15) - 14, (currentPage) * 15])
-    }, [currentPage])
+    }, [currentPage, totalPages])
 
     const renderPages = () => {
         const indexes = []
-        for (let index = 1; index <= allPages; index++) {
+        for (let index = 1; index <= totalPages; index++) {
             indexes.push(index)
         }
 
@@ -47,7 +41,7 @@ export default function Pagination({ data, setCurrentElement }: IPagination) {
                     </h2>
                 })}
                 <IconSelector onClick={() => {
-                    if (allPages !== currentPage) {
+                    if (totalPages !== currentPage) {
                         setCurrentPage(currentPage + 1)
                         window.scrollTo(0, 0)
                     }

@@ -37,9 +37,7 @@ export default function App() {
             <Route path='/male' element={<Male />} />
             <Route path='/female' element={<Female />} />
             <Route path='/unisex' element={<Unisex />} />
-            <Route path='/product'>
-              <Route path=':id' element={<Product />} />
-            </Route>
+            <Route path='/product/:id' element={<Product />} />
             <Route path='*' element={<Navigate to='/404' replace />} />
             <Route path='/404' element={<PageNotFound />} />
           </Routes>

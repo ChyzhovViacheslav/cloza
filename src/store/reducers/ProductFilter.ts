@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface IFilter {
-    products: any,
-    currentCategory: string,
+    currentCategory: [],
+    mainCategories: any
     newProducts: any,
-    minPrice: number,
-    maxPrice: number,
+    price: any,
     brands: any,
     newBrands: any,
-    currentBrands: string
     conditions: any,
     newConditions: any,
     clothSize: any,
@@ -18,52 +16,52 @@ interface IFilter {
 }
 
 const initialState: IFilter = {
-    products: null,
-    currentCategory: null,
+    currentCategory: [],
+    mainCategories: ['female', 'male', 'unisex'],
     newProducts: null,
-    minPrice: 0,
-    maxPrice: 200000,
+    price: [],
     brands: null,
-    newBrands: null,
-    currentBrands: null,
-    conditions: ["novaya_s_birkoy",
+    newBrands: [],
+    conditions: [
+        "novaya_s_birkoy",
         "novaya_bez_birki",
         "nebolshie_defekti",
         "nadevalas_odin_raz",
-        "nadevalas_neskolko_raz"],
+        "nadevalas_neskolko_raz"
+    ],
     newConditions: [],
     clothSize: ['XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS'],
     newClothSize: [],
-    colors: null,
-    newColors: null
+    colors: [
+        'blue',
+        'green',
+        'orange',
+        'red',
+        'lightblue',
+        'black',
+        'violet',
+        'gray',
+        'white',
+        'brown'
+    ],
+    newColors: []
 }
 
 export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-        setData(state, action) {
-            state.products = action.payload
-            state.newProducts = state.products
-        },
-        resetFilter(state) {
-            state.currentCategory = null
-        },
-        filterSubCategories(state, action) {
-            state.newProducts = state.products.filter(
-                (el: any) => el.subCategory === action.payload
-            )
+        setSubCategories(state, action) {
             state.currentCategory = action.payload
         },
-        setMinPrice(state, action) {
-            state.minPrice = action.payload
+        setPrice(state, action) {
+            state.price = action.payload
         },
-        setMaxPrice(state, action) {
-            state.maxPrice = action.payload
+        setInitialBrands(state, action) {
+            state.brands = action.payload
         },
         setBrands(state, action) {
-            state.brands = action.payload
-            state.newBrands = state.brands
+            state.newBrands = action.payload
         },
         setCondition(state, action) {
             state.newConditions = action.payload
@@ -72,8 +70,15 @@ export const filterSlice = createSlice({
             state.newClothSize = action.payload
         },
         setColor(state, action) {
-            state.colors = action.payload
-            state.newColors = state.colors
+            state.newColors = action.payload
+        },
+        resetAllFilters(state) {
+            state.price = []
+            state.newBrands = []
+            state.newConditions = []
+            state.newClothSize = []
+            state.newColors = []
+            state.currentCategory = []
         }
     }
 })

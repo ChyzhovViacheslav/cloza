@@ -3,14 +3,14 @@ import React from 'react'
 interface ISelector {
   className?: string;
   id: string;
-  onClick?: () => void;
+  onClick?: (e:any) => void;
 }
 
 export default function IconSelector({ className, id, onClick }: ISelector) {
   switch (id) {
     case 'close':
       return (
-        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} onClick={onClick} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_70_2322)">
             <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.10997 5.7C6.71997 5.31 6.08997 5.31 5.69997 5.7C5.30997 6.09 5.30997 6.72 5.69997 7.11L10.59 12L5.69997 16.89C5.30997 17.28 5.30997 17.91 5.69997 18.3C6.08997 18.69 6.71997 18.69 7.10997 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="#121720" />
           </g>
@@ -255,6 +255,74 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
           </circle>
         </svg>
       )
+    case 'second-loader':
+      return (
+        <svg className={className} xmlns="http://www.w3.org/2000/svg"  width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+          <g transform="rotate(0 50 50)">
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-1.171875s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(22.5 50 50)">
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-1.09375s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(45 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-1.015625s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(67.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.9375s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(90 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.859375s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(112.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.78125s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(135 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.703125s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(157.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.625s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(180 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.546875s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(202.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.46875s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(225 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.390625s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(247.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.3125s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(270 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.234375s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(292.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.15625s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(315 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-0.078125s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g><g transform="rotate(337.5 50 50)" >
+            <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="0s" repeatCount="indefinite" ></animate>
+            </rect>
+          </g></svg>)
     case 'plus':
       return (
         <svg className={className} onClick={onClick} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

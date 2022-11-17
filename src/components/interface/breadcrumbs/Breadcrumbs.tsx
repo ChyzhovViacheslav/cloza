@@ -9,7 +9,7 @@ export default function Breadcrumbs() {
     const pathname = useLocation()
     const pathnames = pathname.pathname.split('/').filter(el => el)
     const { currentCategory } = useAppSelector(state => state.filterReducer)
-    const { resetFilter } = filterSlice.actions
+    const { setSubCategories } = filterSlice.actions
     const dispatch = useAppDispatch()
 
     const links = pathnames.map((el, index) => {
@@ -22,15 +22,15 @@ export default function Breadcrumbs() {
             }
         }
         return (
-            <Link
-                style={!currentCategory ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}
-                key={index}
-                to={`${el}`}>
+            <div
+                onClick={() => dispatch(setSubCategories([]))}
+                style={currentCategory.length === 0 ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}
+                key={index}>
                 <span
-                    onClick={() => dispatch(resetFilter())}
+                    onClick={() => dispatch(setSubCategories([]))}
                     className={s.breadcrumbs__link}
-                    style={!currentCategory ? { color: 'var(--text-paragraph)' } : { color: 'var(--text-title)' }}>{renamed()}</span>
-            </Link>
+                    style={currentCategory.length === 0 ? { color: 'var(--text-paragraph)' } : { color: 'var(--text-title)' }}>{renamed()}</span>
+            </div>
         )
     })
 

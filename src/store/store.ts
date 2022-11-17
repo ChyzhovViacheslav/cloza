@@ -1,5 +1,4 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { postApi } from "../services/PostService";
 import { authUser } from "../services/AuthUser";
 import { productApi } from "../services/ProductService";
 import { extraApi } from "../services/ExtraService";
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
     filterReducer,
     FilterModalReducer,
     [productApi.reducerPath]: productApi.reducer,
-    [postApi.reducerPath]: postApi.reducer,
     [authUser.reducerPath]: authUser.reducer,
     [extraApi.reducerPath]: extraApi.reducer
 })
@@ -37,7 +35,7 @@ export const setupStore = () => {
     return configureStore({
         reducer: persistedReducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
-        .concat(postApi.middleware, authUser.middleware, productApi.middleware, extraApi.middleware)
+        .concat(authUser.middleware, productApi.middleware, extraApi.middleware)
     })
 }
 

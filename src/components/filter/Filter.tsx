@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { postApi } from '../../services/PostService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
 import s from '../../styles/styleComponents/Filter.module.scss'
 import CollapsableItem from '../interface/collapsable/CollapsableItem'
@@ -12,20 +11,32 @@ import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
 import { extraApi } from '../../services/ExtraService'
 import { useLocation, useNavigate } from 'react-router'
 
-export default function Filter({fancyUrl}:any) {
+export default function Filter({ fancyUrl }: any) {
     const {
-        filterSubCategories,
-        setMinPrice,
-        setMaxPrice,
+        setSubCategories,
+        setPrice,
+        setInitialBrands,
         setBrands,
         setCondition,
         setClothSize,
         setColor,
+        resetAllFilters
     } = filterSlice.actions
 
-    const { data: categories, isLoading, isFetching: fetchingCategories } = extraApi.useGetCategoriesQuery(null)
-    const { data: brands, isFetching: fetchingBrands } = postApi.useFetchAllBrandsQuery(null)
-    const { newConditions, conditions, clothSize, newClothSize, colors, newColors } = useAppSelector(state => state.filterReducer)
+    const { data: categories, isLoading: isLoadingCategories } = extraApi.useGetCategoriesQuery(null)
+    const { data: brandsDB, isLoading: isLoadingBrands } = extraApi.useGetAllBrandsQuery(null)
+    const { 
+        newConditions, 
+        conditions, 
+        clothSize, 
+        newClothSize, 
+        colors,
+        price,
+        newColors, 
+        brands, 
+        newBrands, 
+        currentCategory 
+    } = useAppSelector(state => state.filterReducer)
     const { openModal } = filterModalSlice.actions
     const dispatch = useAppDispatch()
 
@@ -34,27 +45,31 @@ export default function Filter({fancyUrl}:any) {
     const [allCategories, setAllCategories] = useState<Object[]>()
 
     useEffect(() => {
-        if (!fetchingCategories && !fetchingBrands) {
+        if (!isLoadingCategories) {
             setAllCategories([...categories[0].top, ...categories[0].bottom, ...categories[0].accessories, ...categories[0].shoes].slice(0, 5))
-            dispatch(setBrands(brands))
         }
-        if (!newColors?.length) {
-            dispatch(setColor(colors))
+
+        if (!isLoadingBrands) {
+            dispatch(setInitialBrands(brandsDB[0].brands))
         }
 
         setFilter(
             [
+                { arr: newColors, filter: 'colors' },
                 { arr: newClothSize, filter: 'size' },
-                { arr: newConditions, filter: 'condition' }
+                { arr: newConditions, filter: 'condition' },
+                { arr: newBrands, filter: 'brands' },
+                { arr: currentCategory, filter: 'subcategory' },
+                { arr: price, filter: 'price'}
             ]
         )
 
-    }, [fetchingCategories, fetchingBrands, newConditions, newClothSize, newColors])
+    }, [isLoadingCategories, newConditions, newClothSize, newColors, isLoadingBrands, newBrands, currentCategory, price])
 
     const setFilter = (arrs: any) => {
         let newArr = ''
 
-        arrs.forEach((el:any, i: any) => {
+        arrs.forEach((el: any, i: any) => {
             newArr = `${newArr}${el.arr.length > 0 ? `${el.filter}=` : ''}${el.arr.join(',')}${el.arr.length > 0 ? '/' : ''}`
         })
 
@@ -72,14 +87,14 @@ export default function Filter({fancyUrl}:any) {
     }
 
     const renderCategories = () => {
-        if (!isLoading) {
+        if (!isLoadingCategories) {
             return (
                 allCategories?.map((el: any) => {
                     return (
                         <div
                             className={s.filter__categories}
                             key={el}
-                            onClick={() => { dispatch(filterSubCategories(el)) }}>
+                            onClick={() => { dispatch(setSubCategories([el])) }}>
                             <h2>{el}</h2>
                         </div>
                     )
@@ -94,17 +109,14 @@ export default function Filter({fancyUrl}:any) {
                 value: el, label: el
             })
         })
+
         return (
             <MyReactSelect
                 onChange={(e: any) => {
                     const changedBrands = e.map((el: AnyObject) => {
                         return el.value
                     })
-                    if (changedBrands.length >= 1) {
-                        // dispatch(filterBrands(changedBrands))
-                    } else {
-                        // dispatch(filterBrands(brands))
-                    }
+                    dispatch(setBrands(changedBrands))
                 }}
                 className={s.filter__filter_brands}
                 isMulti={true}
@@ -116,6 +128,16 @@ export default function Filter({fancyUrl}:any) {
         return (
             <div className={s.filter__condition_inputs}>
                 {conditions?.map((el: string, i: number) => {
+                    const renamedValue = () => {
+                        switch (el) {
+                            case 'novaya_s_birkoy': return 'Новая с биркой'
+                            case 'novaya_bez_birki': return 'Новая без бирки'
+                            case 'nebolshie_defekti': return 'Небольшие дефекты'
+                            case 'nadevalas_odin_raz': return 'Надевалась один раз'
+                            case 'nadevalas_neskolko_raz': return 'Надевалась несколько раз'
+                            default: return el
+                        }
+                    }
                     return (
                         <div className={s.filter__condition_label} key={i}>
                             <input onChange={(e) => {
@@ -125,7 +147,7 @@ export default function Filter({fancyUrl}:any) {
                                 id='condition'
                                 checked={location.search.includes(el)}
                                 value={el} />
-                            <p>{el}</p>
+                            <p>{renamedValue()}</p>
                         </div>
                     )
                 })}
@@ -146,7 +168,7 @@ export default function Filter({fancyUrl}:any) {
                                 }}
                                 type='checkbox'
                                 id='clothSize'
-                                checked={location.search.includes(el)}
+                                checked={newClothSize.includes(el)}
                                 value={el}
                             />
                             <span className={s.filter__input_value}>{el}</span>
@@ -160,16 +182,16 @@ export default function Filter({fancyUrl}:any) {
     const renderColor = () => {
         const backgroundColors = (el: string) => {
             switch (el) {
-                case 'Синий': return { backgroundColor: '#337ab6' }
-                case 'Зелёный': return { backgroundColor: '#5cb85c' }
-                case 'Оранжевый': return { backgroundColor: '#f0ac4e' }
-                case 'Красный': return { backgroundColor: '#ff0000' }
-                case 'Голубой': return { backgroundColor: '#5bc0de' }
-                case 'Чёрный': return { backgroundColor: '#282a3c' }
-                case 'Фиолетовый': return { backgroundColor: '#800080' }
-                case 'Серый': return { backgroundColor: '#777777' }
-                case 'Белый': return { backgroundColor: '#ffffff', border: '2px solid #000' }
-                case 'Коричневый': return { backgroundColor: '#d9534f' }
+                case 'blue': return { backgroundColor: '#337ab6' }
+                case 'green': return { backgroundColor: '#5cb85c' }
+                case 'orange': return { backgroundColor: '#f0ac4e' }
+                case 'red': return { backgroundColor: '#ff0000' }
+                case 'lightblue': return { backgroundColor: '#5bc0de' }
+                case 'black': return { backgroundColor: '#282a3c' }
+                case 'violet': return { backgroundColor: '#800080' }
+                case 'gray': return { backgroundColor: '#777777' }
+                case 'white': return { backgroundColor: '#ffffff', border: '2px solid #000' }
+                case 'brown': return { backgroundColor: '#d9534f' }
             }
         }
         return (
@@ -180,11 +202,12 @@ export default function Filter({fancyUrl}:any) {
                             key={i}
                             className={s.filter__color_input}
                             onChange={(e) => {
-                                // dispatchFilter(e.target.value, e.target.checked, 10)
+                                dispatchFilter(newColors, setColor, e.target.value, e.target.checked, 10)
                             }}
                             style={backgroundColors(el)}
                             value={el}
                             type='checkbox'
+                            checked={newColors.includes(el)}
                             id='colors'
                         />
                     )
@@ -207,8 +230,7 @@ export default function Filter({fancyUrl}:any) {
                             force_edges
                             extra_classes={s.filter__price_style}
                             onFinish={(data: any) => {
-                                dispatch(setMinPrice(data.from))
-                                dispatch(setMaxPrice(data.to))
+                                dispatch(setPrice([`${data.from}-${data.to}`]))
                             }} />
                     </div>
                 </CollapsableItem>
@@ -236,8 +258,8 @@ export default function Filter({fancyUrl}:any) {
                     {renderColor()}
                 </CollapsableItem>
                 <div className={s.filter__reset} onClick={() => {
-                    window.location.reload()
-                    // dispatch(resetAllFilters())
+                    dispatch(resetAllFilters())
+                    window.scrollTo(0, 0)
                 }}>
                     <span>Сбросить фильтр</span>
                 </div>

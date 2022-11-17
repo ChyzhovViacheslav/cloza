@@ -31,7 +31,8 @@ export default function LoginModal() {
         }).then(({ data }: any) => {
             dispatch(setUser({
                 username: data.username,
-                email: email
+                email: email,
+                image: data.image
             }))
             setError(false)
             dispatch(closeModal())
