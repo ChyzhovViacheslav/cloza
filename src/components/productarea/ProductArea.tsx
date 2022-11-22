@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Filter from '../filter/Filter'
 import s from '../../styles/styleComponents/ProductArea.module.scss'
@@ -12,6 +12,7 @@ import { productApi } from '../../services/ProductService'
 import { extraApi } from '../../services/ExtraService'
 import { useLocation } from 'react-router'
 import productCards from './SortedProduct'
+import ShowTotalItems from '../interface/showTotalItems/ShowTotalItems'
 
 export default function ProductArea() {
     const { closeModal } = filterModalSlice.actions
@@ -19,7 +20,7 @@ export default function ProductArea() {
     const { active } = useAppSelector(state => state.FilterModalReducer)
     const { data: categories, isLoading: categoriesLoading } = extraApi.useGetCategoriesQuery(null)
     const [sortByPrice, setSortByPrice] = useState(0)
-    const [ currentPage, setCurrentPage ] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const dispatch = useAppDispatch()
     const location = useLocation()
@@ -62,13 +63,24 @@ export default function ProductArea() {
         <span>Нед подходящих товаров</span>
     </div> : null
 
+    const checkedProduct = () => {
+        if (!productsIsFetching) {
+            if (sortedProduct?.length && products.totalPages !== 1) {
+                return <Pagination setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={products.totalPages} />
+            } else return null
+        }
+    }
     return (
         <div className={s.productarea}>
             <div className={s.productarea__body}>
                 <div className={s.productarea__content}>
                     <div className={s.productarea__sort}>
                         <div className={s.productarea__show}>
-                            {/* <span>Показано {currentElement[0]} - {currentElement[1]} из {sortedProduct?.length}</span> */}
+                            <ShowTotalItems
+                                totalItems={products?.totalProducts}
+                                currentItems={sortedProduct?.length}
+                                currentPage={currentPage}
+                                spreading={15} />
                         </div>
                         <div className={s.productarea__sort_action}>
                             <span>Сортировать:</span>
@@ -88,9 +100,9 @@ export default function ProductArea() {
                     </div>
                     {sortedProduct && !productsIsFetching ? sortedProduct : <IconSelector className={s.productarea__product_loader} id='loader' />}
                     {productIsEmpty}
-                    {sortedProduct?.length ? <Pagination setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={products.totalPages} /> : null}
+                    {checkedProduct()}
                 </div>
-                <Filter fancyUrl={fancyUrl} />
+                <Filter />
             </div>
             <Modal active={active} closeModal={closeModal}>
                 {categoriesLoading ? <IconSelector className={s.pa_modal__loader} id='loader' /> : <div className={s.pa_modal}>

@@ -6,9 +6,10 @@ type IMyReactSelect = {
     isMulti: boolean
     data: any
     onChange: (e:Event) => void
+    defaultValue: any
 }
 
-const MyReactSelect = ({ isMulti, className, data, onChange }: IMyReactSelect) => {
+const MyReactSelect = ({ isMulti, className, data, onChange, defaultValue }: IMyReactSelect) => {
     const customStyles = {
         control: () => ({
             display: 'flex',
@@ -74,7 +75,7 @@ const MyReactSelect = ({ isMulti, className, data, onChange }: IMyReactSelect) =
             styles={customStyles}
             onChange={onChange}
             options={data && data}
-            defaultValue={null} />
+            defaultValue={defaultValue} />
     )
 }
 

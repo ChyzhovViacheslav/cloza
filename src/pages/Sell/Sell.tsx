@@ -8,7 +8,6 @@ import MyReactSelect from '../../components/interface/inputs/MyReactSelect';
 import { productApi } from '../../services/ProductService';
 import { extraApi } from '../../services/ExtraService';
 import { useAppSelector } from '../../hooks/redux';
-import { Form } from 'react-router-dom';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -27,7 +26,7 @@ export default function Sell() {
   const [mainPhoto, setMainPhoto] = useState<string>()
   const [additionalPhoto, setAdditionalPhoto] = useState<any>([])
 
-  const { username } = useAuth()
+  const { username, email } = useAuth()
   const [addProduct, { isLoading }] = productApi.useAddProductMutation()
   const { data: brands } = extraApi.useGetAllBrandsQuery(null)
   const { data: categories } = extraApi.useGetCategoriesQuery(null)
@@ -110,7 +109,8 @@ export default function Sell() {
         className={`${s.sell__inputs} ${s.sell__select}`}
         isMulti={false}
         onChange={(e: any) => setBrand(e.value)}
-        data={customData} />
+        data={customData}
+        defaultValue={null}/>
     )
   }
 
@@ -156,7 +156,7 @@ export default function Sell() {
       indexes.push(index)
     }
     return (
-      indexes.map((el: any, index:number) => {
+      indexes.map((el: any, index: number) => {
         return (
           <form key={el} ref={elems => additionPhotoRef.current[index] = elems} className={s.sell__image_multiple}>
             <div className={s.sell__images_wrapper}>
@@ -169,7 +169,7 @@ export default function Sell() {
                       className={s.sell__images_delete}
                       onClick={() => {
                         additionPhotoRef.current[index].reset()
-                        setAdditionalPhoto(additionalPhoto.filter((elem:any, i:any) => i !== el))
+                        setAdditionalPhoto(additionalPhoto.filter((elem: any, i: any) => i !== el))
                       }} />
                   </label>
                 </> :
@@ -183,7 +183,7 @@ export default function Sell() {
                 type='file'
                 name='multipleFile'
                 accept="image/png, image/jpeg, image/jpg"
-                style={{display: 'none'}}
+                style={{ display: 'none' }}
                 onChange={async (e) => setAdditionalPhoto([...additionalPhoto, await toBase64(e.target.files[0])])} />
             </label>
           </form>
@@ -242,7 +242,10 @@ export default function Sell() {
 
   const postProduct = async () => {
     await addProduct({
-      saler: username,
+      saler: {
+        name: username,
+        email: email
+      },
       name: name,
       condition: condition,
       mainCategory: mainCategory,
@@ -260,7 +263,6 @@ export default function Sell() {
       additionalsPhotos: additionalPhoto
     })
   }
-
 
   const toBase64 = (file: File): Promise<string> => new Promise<string>((resolve, reject) => {
     const reader = new FileReader();

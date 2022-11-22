@@ -98,6 +98,19 @@
         margin-top: 32px;
         column-gap: 24px;
     }
+    &__amount_loader{
+        width: 20px;
+        height: 20px;
+    }
+    &__amount_products{
+        display: flex;
+        align-items: flex-end;
+        h2{
+            &:nth-child(1){
+                margin-right: 6px;
+            }
+        }
+    }
     &__amount_change {
         padding: 14px 32px;
         flex-basis: 50%;
@@ -157,6 +170,11 @@
         border-radius: 100%;
         background: url(../../assets/images/profile-pic.png) no-repeat;
         background-size: contain;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+        }
     }
     &__saler_inf {
         margin-left: 16px;
@@ -170,8 +188,19 @@
     &__saler_title {
         display: flex;
         span {
+            margin-left: 6px;
+        }
+    }
+    &__saler_rate{
+        display: flex;
+        align-items: center;
+        h2{
             margin-left: 12px;
         }
+    }
+    &__saler_stars{
+        width: 20px;
+        height: 20px;
     }
     &__send {
         margin-top: 16px;
@@ -229,6 +258,20 @@
             line-height: 20px;
             color: var(--text-title);
         }
+    }
+    &__saler_products{
+        margin-top: 128px;
+    }
+    &__saler_title{
+        align-items: center;
+    }
+    &__saler_body{
+        display: flex;
+        width: 100%;
+        row-gap: 72px;
+        column-gap: 24px;
+        flex-wrap: wrap;
+        margin-top: 48px;
     }
 }
 

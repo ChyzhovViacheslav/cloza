@@ -38,7 +38,9 @@ export default function SignupModal() {
         await registerUser({
             username: username,
             password: password,
-            email: email
+            email: email,
+            votes: 0,
+            rating: 0
         }).then(() => {
             dispatch(setUser({
                 username: username,

@@ -7,9 +7,10 @@ export const extraApi = createApi({
     }),
     endpoints: (build) => ({
         getAllBrands: build.query({
-            query: () => ({
-                url: 'brands/',
-                method: 'GET'
+            query: ({page, params}) => ({
+                url: `brands/?page=${page}`,
+                method: 'GET',
+                params
             })
         }),
         getCategories: build.query({

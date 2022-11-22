@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 interface IRegisterUser {
     username: string,
     password: string,
-    email: string
+    email: string,
+    votes: number,
+    rating: any
 }
 
 interface ILoginUser {
@@ -18,7 +20,11 @@ export const authUser = createApi({
     }),
     endpoints: (build) => ({
         fetchAllUsers: build.query({
-            query: () => '/users'
+            query: ({page, limit, sortByRating, params}) => ({
+                url: `/users?page=${page}&limit=${limit}&rating=${sortByRating}`,
+                method: 'GET',
+                params
+            })
         }),
         registerUser: build.mutation<IRegisterUser, IRegisterUser>({
             query: (body) => ({
@@ -33,6 +39,9 @@ export const authUser = createApi({
                 method: 'POST',
                 body
             })
+        }),
+        fetchOneUser: build.query({
+            query: ({email}:any) => `/user${email ? `?email=${email}` : ''}`
         })
     })
 })

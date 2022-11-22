@@ -1,5 +1,5 @@
 export default interface IProduct {
-    saler: string,
+    saler: any,
     name: string,
     condition: string,
     mainCategory: string,

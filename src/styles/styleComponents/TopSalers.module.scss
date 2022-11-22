@@ -1,0 +1,31 @@
+.topsalers {
+    margin-top: 64px;
+    &__titles {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--main-color);
+        }
+    }
+    &__title {
+        span {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-paragraph);
+        }
+    }
+    &__content {
+        display: flex;
+        column-gap: 24px;
+        margin-top: 62px;
+    }
+    &__loader {
+        width: 100%;
+        justify-content: center;
+    }
+}

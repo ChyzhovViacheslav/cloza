@@ -1,0 +1,32 @@
+.brandsitem {
+    &__body {
+        width: 267px;
+    }
+    &__img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 267px;
+        border-radius: 16px;
+        border: 1px solid #EFF0F2;
+        overflow: hidden;
+    }
+    &__link {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        span {
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 25px;
+            flex-grow: 1;
+            color: var(--text-title);
+        }
+    }
+    &__ico{
+        path{
+            fill: var(--text-paragraph);
+        }
+    }
+}

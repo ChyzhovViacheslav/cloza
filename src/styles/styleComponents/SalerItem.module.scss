@@ -1,0 +1,32 @@
+.saleritem {
+    &__body {
+        width: 267px;
+    }
+    &__img {
+        border-radius: 100%;
+        overflow: hidden;
+        img {
+            object-fit: contain;
+            width: 100%;
+        }
+    }
+    &__name {
+        margin-top: 24px;
+    }
+    &__stats {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        span {
+            margin-left: 12px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--text-paragraph);
+        }
+    }
+    &__start {
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -3,7 +3,7 @@ import React from 'react'
 interface ISelector {
   className?: string;
   id: string;
-  onClick?: (e:any) => void;
+  onClick?: (e: any) => void;
 }
 
 export default function IconSelector({ className, id, onClick }: ISelector) {
@@ -84,7 +84,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'search':
       return (
-        <svg onClick={onClick} className={`${className}`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg onClick={onClick} className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_8_53)">
             <path d="M23.6804 22.1377L16.2421 14.6994C17.4571 13.1535 18.1826 11.2056 18.1826 9.09134C18.1826 4.07833 14.1043 0 9.09127 0C4.07833 0 0 4.07833 0 9.09127C0 14.1042 4.07833 18.1825 9.09127 18.1825C11.2055 18.1825 13.1535 17.4571 14.6993 16.2421L22.1377 23.6804C22.3507 23.8935 22.6299 24 22.9091 24C23.1883 24 23.4675 23.8935 23.6804 23.6804C24.1065 23.2545 24.1065 22.5637 23.6804 22.1377ZM2.18182 9.09127C2.18182 5.28138 5.28138 2.18182 9.09127 2.18182C12.9012 2.18182 16.0008 5.28138 16.0008 9.09127C16.0008 12.9012 12.9012 16.0007 9.09127 16.0007C5.28138 16.0007 2.18182 12.9012 2.18182 9.09127Z" fill="#121720" />
           </g>
@@ -97,20 +97,20 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'inst':
       return (
-        <svg onClick={onClick} className={`${className}`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg onClick={onClick} className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M16.1276 3H7.87244C5.18573 3 3 5.18573 3 7.87244V16.1277C3 18.8143 5.18573 21 7.87244 21H16.1277C18.8143 21 21 18.8143 21 16.1277V7.87244C21 5.18573 18.8143 3 16.1276 3V3ZM12 16.9217C9.2861 16.9217 7.07826 14.7139 7.07826 12C7.07826 9.2861 9.2861 7.07826 12 7.07826C14.7139 7.07826 16.9217 9.2861 16.9217 12C16.9217 14.7139 14.7139 16.9217 12 16.9217ZM17.0394 8.23897C16.2374 8.23897 15.5851 7.58665 15.5851 6.78465C15.5851 5.98265 16.2374 5.3302 17.0394 5.3302C17.8414 5.3302 18.4939 5.98265 18.4939 6.78465C18.4939 7.58665 17.8414 8.23897 17.0394 8.23897Z" fill="#121720" />
           <path d="M12 8.13348C9.86815 8.13348 8.13354 9.86795 8.13354 12C8.13354 14.1319 9.86815 15.8665 12 15.8665C14.1321 15.8665 15.8665 14.1319 15.8665 12C15.8665 9.86795 14.1321 8.13348 12 8.13348Z" fill="#121720" />
         </svg>
       )
     case 'arrowLeft':
       return (
-        <svg className={`${className}`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M14.71 15.88L10.83 12L14.71 8.12001C15.1 7.73001 15.1 7.10001 14.71 6.71001C14.32 6.32001 13.69 6.32001 13.3 6.71001L8.70998 11.3C8.31998 11.69 8.31998 12.32 8.70998 12.71L13.3 17.3C13.69 17.69 14.32 17.69 14.71 17.3C15.09 16.91 15.1 16.27 14.71 15.88Z" fill="#121720" />
         </svg>
       )
     case 'arrowRight':
       return (
-        <svg className={`${className}`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9.29006 15.88L13.1701 12L9.29006 8.12001C8.90006 7.73001 8.90006 7.10001 9.29006 6.71001C9.68006 6.32001 10.3101 6.32001 10.7001 6.71001L15.2901 11.3C15.6801 11.69 15.6801 12.32 15.2901 12.71L10.7001 17.3C10.3101 17.69 9.68006 17.69 9.29006 17.3C8.91006 16.91 8.90006 16.27 9.29006 15.88Z" fill="#121720" />
         </svg>
       )
@@ -122,7 +122,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'southEast':
       return (
-        <svg className={`${className}`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_8_127)">
             <path d="M18 9C17.44 9 17 9.45 17 10V15.59L6.11998 4.7C5.72998 4.31 5.09998 4.31 4.70998 4.7C4.31998 5.09 4.31998 5.72 4.70998 6.11L15.59 17H9.99998C9.44998 17 8.99998 17.45 8.99998 18C8.99998 18.55 9.44998 19 9.99998 19H18C18.55 19 19 18.55 19 18V10C19 9.45 18.55 9 18 9Z" fill="#121720" />
           </g>
@@ -135,7 +135,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'sec-1':
       return (
-        <svg className={`${className}`} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
           <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
           <g clipPath="url(#clip0_2424_6194)">
@@ -150,7 +150,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'sec-2':
       return (
-        <svg className={`${className}`} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
           <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
           <g clipPath="url(#clip0_2444_3770)">
@@ -166,7 +166,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'sec-3':
       return (
-        <svg className={`${className}`} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
           <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
           <g clipPath="url(#clip0_2444_3757)">
@@ -182,7 +182,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'sec-4':
       return (
-        <svg className={`${className}`} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
           <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
           <g clipPath="url(#clip0_2444_3804)">
@@ -197,7 +197,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'okay':
       return (
-        <svg className={`${className}`} width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle opacity="0.1" cx="20" cy="28" r="20" fill="#7984C0" />
           <g clipPath="url(#clip0_2447_8830)">
             <path d="M36.8409 13.6539C37.4513 14.2642 37.4513 15.2536 36.8409 15.8636L26.3588 26.3461C25.7484 26.9562 24.7593 26.9562 24.149 26.3461L19.1591 21.3559C18.5487 20.7458 18.5487 19.7565 19.1591 19.1464C19.7691 18.5361 20.7585 18.5361 21.3685 19.1464L25.2537 23.0316L34.6312 13.6539C35.2415 13.0438 36.2309 13.0438 36.8409 13.6539V13.6539ZM48 20C48 31.055 39.0535 40 28 40C16.945 40 8 31.0535 8 20C8 8.94501 16.9465 0 28 0C39.055 0 48 8.94653 48 20ZM44.875 20C44.875 10.6723 37.3265 3.125 28 3.125C18.6723 3.125 11.125 10.6735 11.125 20C11.125 29.3277 18.6735 36.875 28 36.875C37.3277 36.875 44.875 29.3265 44.875 20Z" fill="#7984C0" />
@@ -257,7 +257,7 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
       )
     case 'second-loader':
       return (
-        <svg className={className} xmlns="http://www.w3.org/2000/svg"  width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <svg className={className} xmlns="http://www.w3.org/2000/svg" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
           <g transform="rotate(0 50 50)">
             <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff">
               <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="-1.171875s" repeatCount="indefinite"></animate>
@@ -322,7 +322,8 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
             <rect x="47.5" y="2" rx="0" ry="0" width="5" height="26" fill="#ffffff" >
               <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1.25s" begin="0s" repeatCount="indefinite" ></animate>
             </rect>
-          </g></svg>)
+          </g></svg>
+      )
     case 'plus':
       return (
         <svg className={className} onClick={onClick} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -378,6 +379,105 @@ export default function IconSelector({ className, id, onClick }: ISelector) {
           <defs>
             <clipPath id="clip0_24_1778">
               <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
+    case 'adidas':
+      return (
+        <svg className={className} width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.5">
+            <path d="M60.2414 37.017L47.2409 15.3945L41.8859 18.6165L33.3809 23.7285L41.8859 37.89L53.1134 56.6055H60.2414H71.9999L60.2414 37.017Z" fill="#9095A9" />
+            <path d="M41.8861 48.9015L30.5596 30.0555L17.1406 38.133L16.6816 38.403L17.1406 39.1635L27.6211 56.6055H41.8861H46.4941L41.8861 48.9015Z" fill="#9095A9" />
+            <path d="M17.1405 50.1614L13.8735 44.7344L0 53.0684L2.1195 56.6054H17.1405H21.006L17.1405 50.1614Z" fill="#9095A9" />
+          </g>
+        </svg>
+
+      )
+    case 'star-fill':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_31_288)">
+            <path d="M12 17.27L16.15 19.78C16.91 20.24 17.8399 19.56 17.6399 18.7L16.54 13.98L20.2099 10.8C20.8799 10.22 20.5199 9.12001 19.6399 9.05001L14.81 8.64001L12.92 4.18001C12.58 3.37001 11.42 3.37001 11.08 4.18001L9.18995 8.63001L4.35995 9.04001C3.47995 9.11001 3.11995 10.21 3.78995 10.79L7.45995 13.97L6.35995 18.69C6.15995 19.55 7.08995 20.23 7.84995 19.77L12 17.27Z" fill="#7984C0" />
+          </g>
+          <defs>
+            <clipPath id="clip0_31_288">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
+    case 'star-half':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_31_297)">
+            <path d="M19.65 9.04L14.81 8.62L12.92 4.17C12.58 3.36 11.42 3.36 11.08 4.17L9.18995 8.63L4.35995 9.04C3.47995 9.11 3.11995 10.21 3.78995 10.79L7.45995 13.97L6.35995 18.69C6.15995 19.55 7.08995 20.23 7.84995 19.77L12 17.27L16.15 19.78C16.91 20.24 17.8399 19.56 17.6399 18.7L16.54 13.97L20.2099 10.79C20.8799 10.21 20.5299 9.11 19.65 9.04ZM12 15.4V6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="#7984C0" />
+          </g>
+          <defs>
+            <clipPath id="clip0_31_297">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
+    case 'star-empty':
+      return (
+        <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clipPath="url(#clip0_31_294)">
+            <path d="M19.65 9.04L14.81 8.62L12.92 4.17C12.58 3.36 11.42 3.36 11.08 4.17L9.18995 8.63L4.35995 9.04C3.47995 9.11 3.11995 10.21 3.78995 10.79L7.45995 13.97L6.35995 18.69C6.15995 19.55 7.08995 20.23 7.84995 19.77L12 17.27L16.15 19.78C16.91 20.24 17.8399 19.56 17.6399 18.7L16.54 13.97L20.2099 10.79C20.8799 10.21 20.5299 9.11 19.65 9.04ZM12 15.4L8.23995 17.67L9.23995 13.39L5.91995 10.51L10.3 10.13L12 6.1L13.71 10.14L18.09 10.52L14.77 13.4L15.77 17.68L12 15.4Z" fill="#7984C0" />
+          </g>
+          <defs>
+            <clipPath id="clip0_31_294">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
+    case 'shoping':
+      return (
+        <svg className={className} width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
+          <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
+          <path d="M79.0342 80.3292L76.6002 53.2227C76.5337 52.4824 75.9133 51.9154 75.1702 51.9154H70.1507V49.6516C70.1507 45.4325 66.7184 42 62.4995 42C58.2808 42 54.8489 45.4325 54.8489 49.6516V51.9154H49.826C49.0829 51.9154 48.4624 52.4824 48.396 53.2227L45.9524 80.4358C45.9164 80.8375 46.0508 81.2354 46.3228 81.5329C46.5949 81.8304 46.9794 81.9998 47.3824 81.9998H77.614C77.6151 81.9998 77.6167 81.9998 77.6178 81.9998C78.4109 81.9998 79.0535 81.357 79.0535 80.5641C79.0533 80.4843 79.0468 80.4056 79.0342 80.3292ZM57.7203 49.6516C57.7203 47.0158 59.8643 44.8714 62.4997 44.8714C65.1353 44.8714 67.2795 47.0158 67.2795 49.6516V51.9154H57.7203V49.6516ZM48.9529 79.1286L51.1386 54.7869H54.8489V57.3543C54.8489 58.1472 55.4915 58.79 56.2846 58.79C57.0777 58.79 57.7203 58.1472 57.7203 57.3543V54.7869H67.2795V57.3543C67.2795 58.1472 67.9221 58.79 68.7152 58.79C69.5083 58.79 70.1509 58.1472 70.1509 57.3543V54.7869H73.8578L76.0435 79.1286H48.9529V79.1286Z" fill="#7984C0" />
+        </svg>
+      )
+    case 'original':
+      return (
+        <svg width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
+          <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
+          <g clipPath="url(#clip0_3237_3813)">
+            <path d="M71.3409 55.6539C71.9513 56.2642 71.9513 57.2536 71.3409 57.8636L60.8588 68.3461C60.2484 68.9562 59.2593 68.9562 58.649 68.3461L53.6591 63.3559C53.0487 62.7458 53.0487 61.7565 53.6591 61.1464C54.2691 60.5361 55.2585 60.5361 55.8685 61.1464L59.7537 65.0316L69.1312 55.6539C69.7415 55.0438 70.7309 55.0438 71.3409 55.6539V55.6539ZM82.5 62C82.5 73.055 73.5535 82 62.5 82C51.445 82 42.5 73.0535 42.5 62C42.5 50.945 51.4465 42 62.5 42C73.555 42 82.5 50.9465 82.5 62ZM79.375 62C79.375 52.6723 71.8265 45.125 62.5 45.125C53.1723 45.125 45.625 52.6735 45.625 62C45.625 71.3277 53.1735 78.875 62.5 78.875C71.8277 78.875 79.375 71.3265 79.375 62Z" fill="#7984C0" />
+          </g>
+          <defs>
+            <clipPath id="clip0_3237_3813">
+              <rect width="40" height="40" fill="white" transform="translate(42.5 42)" />
+            </clipPath>
+          </defs>
+        </svg>
+      )
+    case 'settings':
+      return (
+        <svg width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
+          <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
+          <path d="M76.3073 50.7865H58.4588C57.9681 49.3291 56.5896 48.2761 54.9688 48.2761C53.348 48.2761 51.9695 49.3291 51.4788 50.7865H48.6928C48.0456 50.7865 47.5209 51.3112 47.5209 51.9584C47.5209 52.6056 48.0456 53.1303 48.6928 53.1303H51.4789C51.9696 54.5877 53.3481 55.6407 54.9689 55.6407C56.5897 55.6407 57.9682 54.5877 58.4589 53.1303H76.3074C76.9546 53.1303 77.4793 52.6056 77.4793 51.9584C77.4793 51.3112 76.9546 50.7865 76.3073 50.7865V50.7865ZM54.9688 53.2969C54.2307 53.2969 53.6303 52.6964 53.6303 51.9584C53.6303 51.2203 54.2307 50.6199 54.9688 50.6199C55.7068 50.6199 56.3073 51.2203 56.3073 51.9584C56.3073 52.6964 55.7068 53.2969 54.9688 53.2969Z" fill="#7984C0" />
+          <path d="M76.3073 60.8283H73.5212C73.0305 59.3708 71.6519 58.3179 70.0312 58.3179C68.4105 58.3179 67.032 59.3708 66.5413 60.8283H48.6928C48.0456 60.8283 47.5209 61.3529 47.5209 62.0001C47.5209 62.6473 48.0456 63.172 48.6928 63.172H66.5413C67.032 64.6294 68.4106 65.6824 70.0313 65.6824C71.652 65.6824 73.0306 64.6294 73.5213 63.172H76.3074C76.9546 63.172 77.4793 62.6473 77.4793 62.0001C77.4793 61.3529 76.9546 60.8283 76.3073 60.8283ZM70.0313 63.3387C69.2932 63.3387 68.6928 62.7382 68.6928 62.0001C68.6928 61.2621 69.2932 60.6616 70.0313 60.6616C70.7693 60.6616 71.3698 61.2621 71.3698 62.0001C71.3698 62.7382 70.7693 63.3387 70.0313 63.3387Z" fill="#7984C0" />
+          <path d="M76.3073 70.87H63.4797C62.989 69.4126 61.6104 68.3596 59.9897 68.3596C58.3689 68.3596 56.9904 69.4126 56.4997 70.87H48.6928C48.0456 70.87 47.5209 71.3947 47.5209 72.0419C47.5209 72.6891 48.0456 73.2138 48.6928 73.2138H56.4997C56.9904 74.6712 58.3689 75.7242 59.9897 75.7242C61.6104 75.7242 62.989 74.6712 63.4797 73.2138H76.3074C76.9546 73.2138 77.4793 72.6891 77.4793 72.0419C77.4793 71.3947 76.9546 70.87 76.3073 70.87ZM59.9897 73.3805C59.2516 73.3805 58.6511 72.78 58.6511 72.042C58.6511 71.3039 59.2516 70.7034 59.9897 70.7034C60.7277 70.7034 61.3282 71.3038 61.3282 72.0419C61.3282 72.7799 60.7277 73.3805 59.9897 73.3805V73.3805Z" fill="#7984C0" />
+        </svg>
+      )
+    case 'money':
+      return (
+        <svg width="125" height="124" viewBox="0 0 125 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="62.5" cy="62" r="61.5" fill="white" stroke="#EFF0F2" />
+          <circle opacity="0.1" cx="54" cy="70" r="20" fill="#7984C0" />
+          <g clipPath="url(#clip0_3237_3841)">
+            <path d="M62.5 82C57.1578 82 52.1353 79.9197 48.3578 76.1422C44.5803 72.3647 42.5 67.3422 42.5 62C42.5 56.6578 44.5804 51.6354 48.3578 47.8578C52.1352 44.0802 57.1578 42 62.5 42C67.8422 42 72.8647 44.0803 76.6422 47.8578C80.4197 51.6353 82.5 56.6578 82.5 62C82.5 67.3422 80.4196 72.3646 76.6422 76.1422C72.8648 79.9198 67.8422 82 62.5 82V82ZM62.5 44.5C52.8505 44.5 45 52.3505 45 62C45 71.6495 52.8505 79.5 62.5 79.5C72.1495 79.5 80 71.6495 80 62C80 52.3505 72.1495 44.5 62.5 44.5Z" fill="#7984C0" />
+            <path d="M62.5 60.75C60.7769 60.75 59.375 59.3481 59.375 57.625C59.375 55.9019 60.7769 54.5 62.5 54.5C64.2231 54.5 65.625 55.9019 65.625 57.625C65.625 58.3153 66.1846 58.875 66.875 58.875C67.5654 58.875 68.125 58.3153 68.125 57.625C68.125 54.953 66.2517 52.7119 63.75 52.1417V50.75C63.75 50.0597 63.1904 49.5 62.5 49.5C61.8096 49.5 61.25 50.0597 61.25 50.75V52.1417C58.7483 52.7119 56.875 54.953 56.875 57.625C56.875 60.7266 59.3984 63.25 62.5 63.25C64.2231 63.25 65.625 64.6519 65.625 66.375C65.625 68.0981 64.2231 69.5 62.5 69.5C60.7769 69.5 59.375 68.0981 59.375 66.375C59.375 65.6847 58.8154 65.125 58.125 65.125C57.4346 65.125 56.875 65.6847 56.875 66.375C56.875 69.047 58.7483 71.2881 61.25 71.8583V73.25C61.25 73.9403 61.8096 74.5 62.5 74.5C63.1904 74.5 63.75 73.9403 63.75 73.25V71.8583C66.2517 71.2881 68.125 69.047 68.125 66.375C68.125 63.2734 65.6016 60.75 62.5 60.75Z" fill="#7984C0" />
+          </g>
+          <defs>
+            <clipPath id="clip0_3237_3841">
+              <rect width="40" height="40" fill="white" transform="translate(42.5 42)" />
             </clipPath>
           </defs>
         </svg>

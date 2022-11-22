@@ -31,7 +31,7 @@ export default function NewProducts() {
     })
 
     return (
-        <div className={s.newproducts}>
+        <section className={s.newproducts}>
             <div className={s.newproducts__body}>
                 <div className={s.newproducts__nav}>
                     <div className={s.newproducts__nav_body}>
@@ -66,6 +66,6 @@ export default function NewProducts() {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }

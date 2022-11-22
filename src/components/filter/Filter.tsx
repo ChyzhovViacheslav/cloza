@@ -11,7 +11,7 @@ import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
 import { extraApi } from '../../services/ExtraService'
 import { useLocation, useNavigate } from 'react-router'
 
-export default function Filter({ fancyUrl }: any) {
+export default function Filter() {
     const {
         setSubCategories,
         setPrice,
@@ -24,19 +24,20 @@ export default function Filter({ fancyUrl }: any) {
     } = filterSlice.actions
 
     const { data: categories, isLoading: isLoadingCategories } = extraApi.useGetCategoriesQuery(null)
-    const { data: brandsDB, isLoading: isLoadingBrands } = extraApi.useGetAllBrandsQuery(null)
-    const { 
-        newConditions, 
-        conditions, 
-        clothSize, 
-        newClothSize, 
+    const { data: brandsDB, isLoading: isLoadingBrands } = extraApi.useGetAllBrandsQuery({ page: '', params: 'limit=undefined' })
+    const {
+        newConditions,
+        conditions,
+        clothSize,
+        newClothSize,
         colors,
         price,
-        newColors, 
-        brands, 
-        newBrands, 
-        currentCategory 
+        newColors,
+        brands,
+        newBrands,
+        currentCategory
     } = useAppSelector(state => state.filterReducer)
+
     const { openModal } = filterModalSlice.actions
     const dispatch = useAppDispatch()
 
@@ -50,9 +51,12 @@ export default function Filter({ fancyUrl }: any) {
         }
 
         if (!isLoadingBrands) {
-            dispatch(setInitialBrands(brandsDB[0].brands))
+            dispatch(setInitialBrands(brandsDB.brands))
         }
 
+    }, [isLoadingCategories])
+
+    useEffect(() => {
         setFilter(
             [
                 { arr: newColors, filter: 'colors' },
@@ -60,11 +64,11 @@ export default function Filter({ fancyUrl }: any) {
                 { arr: newConditions, filter: 'condition' },
                 { arr: newBrands, filter: 'brands' },
                 { arr: currentCategory, filter: 'subcategory' },
-                { arr: price, filter: 'price'}
+                { arr: price, filter: 'price' }
             ]
         )
+    }, [newConditions, newClothSize, newColors, isLoadingBrands, newBrands, currentCategory, price])
 
-    }, [isLoadingCategories, newConditions, newClothSize, newColors, isLoadingBrands, newBrands, currentCategory, price])
 
     const setFilter = (arrs: any) => {
         let newArr = ''
@@ -120,7 +124,8 @@ export default function Filter({ fancyUrl }: any) {
                 }}
                 className={s.filter__filter_brands}
                 isMulti={true}
-                data={customData} />
+                data={customData}
+                defaultValue={newBrands.length ? {value: newBrands[0], label: newBrands[0]} : null}/>
         )
     }
 

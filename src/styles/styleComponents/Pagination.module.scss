@@ -21,4 +21,8 @@
         padding: 6px;
         border-radius: 10px;
     }
+    &__row{
+        display: flex;
+        align-items: center;
+    }
 }

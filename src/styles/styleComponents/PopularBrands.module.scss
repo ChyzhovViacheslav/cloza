@@ -1,0 +1,24 @@
+.popbrands {
+    margin-top: 64px;
+    &__body {
+    }
+    &__title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+            color: var(--main-color);
+        }
+    }
+    &__content {
+        margin-top: 48px;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__loader {
+        width: 100%;
+    }
+}

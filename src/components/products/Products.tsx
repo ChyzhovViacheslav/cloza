@@ -1,23 +1,24 @@
 import React from 'react'
 import IconSelector from '../../assets/icons/icons'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import sortedProducts from '../productarea/SortedProduct'
 import s from '../../styles/styleComponents/Products.module.scss'
 import { productApi } from '../../services/ProductService'
 
 type IProducts = {
     limit: number,
-    sortByPrice: any,
-    currentMainCategory: string
+    sortByPrice?: any,
+    currentMainCategory?: string,
+    salerEmail?: string
 }
 
-export default function Products({currentMainCategory, sortByPrice, limit }: IProducts) {
+export default function Products({currentMainCategory, sortByPrice, limit, salerEmail }: IProducts) {
     const { data: products, isLoading, isFetching } = productApi.useGetAllProductsQuery(
         {
             page: 1,
             limit: limit,
             maincategory: currentMainCategory,
-            sortByPrice: sortByPrice
+            sortByPrice: sortByPrice,
+            params: `salerEmail=${salerEmail}`
         }
     )
 

@@ -5,6 +5,7 @@ interface IgetAllProducts {
     page: number,
     limit: number,
     maincategory: string,
+    saler: string,
     sortByPrice: number | null
     params: any
 }

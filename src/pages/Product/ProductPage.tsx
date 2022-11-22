@@ -3,15 +3,33 @@ import IconSelector from '../../assets/icons/icons';
 import s from '../../styles/styleComponents/ProductPage.module.scss';
 import Button from '../../components/interface/button/Button';
 import Line from '../../components/interface/line/Line';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { productApi } from '../../services/ProductService';
+import { authUser } from '../../services/AuthUser';
+import Products from '../../components/products/Products';
+import Rating from '../../components/interface/rating/Rating';
 
-export default function Product() {
+export default function ProductPage() {
     const { id } = useParams()
     const { data: item, isLoading } = productApi.useGetProductQuery(id)
     const [initialAmount, setInitialAmount] = useState(1)
     const [currentTab, setCurrentTab] = useState('Описание')
     const descriptionTabs = ['Описание', 'Доставка']
+
+    const { data: products, isLoading: productsIsLoading } = productApi.useGetAllProductsQuery({
+        page: 1,
+        limit: 999,
+        mainCategory: undefined,
+        sortByPrice: 0,
+        params: `salerEmail=${item?.saler.email}`
+    })
+
+    const { data: currentSaler, isLoading: currentSalerIsLoading } = authUser.useFetchOneUserQuery({ email: item?.saler.email })
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location.pathname])
 
     const incAmount = () => {
         if (initialAmount === item.amount) {
@@ -66,7 +84,6 @@ export default function Product() {
         }
     }
 
-
     const renderTabs = descriptionTabs.map((el: string, i: number) => {
         return (
             <div
@@ -105,7 +122,10 @@ export default function Product() {
                                 <div className={s.product__other}>
 
                                 </div>
-                                <div className={s.product__price}><h5>{item.price}</h5><IconSelector id='uah' /></div>
+                                <div className={s.product__price}>
+                                    <h5>{item.discount ? item.discount : item.price}</h5>
+                                    <IconSelector id='uah' />
+                                </div>
                                 <div className={s.product__props}>
                                     <div className={s.product__size}>
                                         <h2>Размер:</h2><span>{item.size}</span>
@@ -147,19 +167,26 @@ export default function Product() {
                                 <Line className={s.product__line} />
                                 <div className={s.product__saler}>
                                     <div className={s.product__saler_img}>
-
+                                        {currentSalerIsLoading ?
+                                            <IconSelector id='loader' />
+                                            : <img src={`data:image/jpeg;base64,${currentSaler?.image}`}
+                                                alt='salerImg' />}
                                     </div>
                                     <div className={s.product__saler_inf}>
                                         <div className={s.product__saler_title}>
-                                            <h2>Константин Паладий</h2>
+                                            <h2>{item.saler.name}</h2>
                                             <span><h2>на cloza с 11.09.22</h2></span>
                                         </div>
                                         <div className={s.product__saler_rate}>
-                                            <div className={s.product__stars}></div>
-                                            <h2>261 голосов</h2>
+                                            <Rating className={s.product__saler_stars} rating={currentSaler?.rating}/>
+                                            <h2>{currentSaler?.votes} голосов</h2>
                                         </div>
                                         <div className={s.product__amount_products}>
-                                            <h2>8 товаров в наличии</h2>
+                                            <h2>Товаров в наличии:</h2>
+                                            {productsIsLoading ?
+                                                <IconSelector className={s.product__amount_loader} id='loader' />
+                                                :
+                                                <h2>{products.products.length}</h2>}
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +212,15 @@ export default function Product() {
                                     Доставка
                                 </div>}
                         </div>
-                        
+                        <div className={s.product__saler_products}>
+                            <div className={s.product__saler_title}>
+                                <h1>Товары продавца</h1>
+                                <span>Все товары</span>
+                            </div>
+                            <div className={s.product__saler_body}>
+                                <Products limit={4} salerEmail={item.saler.email} />
+                            </div>
+                        </div>
                     </>
                 }
             </div>
