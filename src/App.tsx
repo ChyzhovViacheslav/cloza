@@ -18,6 +18,7 @@ import Sell from './pages/Sell/Sell';
 import Product from './pages/Product/ProductPage';
 import Brands from './pages/Brands/Brands';
 import Salers from './pages/Salers/Salers';
+import Categories from './pages/Categories/Categories';
 
 export default function App() {
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path='/product/:id' element={<Product />} />
             <Route path='/brands' element={<Brands/>}/>
             <Route path='/salers' element={<Salers/>}/>
+            <Route path='/categories' element={<Categories/>}/>
             <Route path='*' element={<Navigate to='/404' replace />} />
             <Route path='/404' element={<PageNotFound />} />
           </Routes>

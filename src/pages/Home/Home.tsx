@@ -4,6 +4,7 @@ import Line from '../../components/interface/line/Line';
 import Slider from '../../components/interface/slider/Slider';
 import NewPoducts from '../../components/newproducts/NewProducts';
 import PopularBrands from '../../components/popularbrands/PopularBrands';
+import PopularCategories from '../../components/popularcategories/PopularCategories';
 import TopSalers from '../../components/topsalers/TopSalers';
 import s from '../../styles/styleComponents/Home.module.scss';
 
@@ -81,6 +82,8 @@ export default function Home() {
         <div className={s.home__body}>
           <Slider/>
           <NewPoducts/>
+          <Line style={{marginTop: '64px'}}/>
+          <PopularCategories/>
           <Line style={{marginTop: '64px'}}/>
           <PopularBrands/>
           <Line style={{marginTop: '64px'}}/>

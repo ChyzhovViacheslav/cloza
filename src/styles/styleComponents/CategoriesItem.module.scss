@@ -1,0 +1,33 @@
+.categories{
+    width: 267px;
+    &__img{
+        border-radius: 16px;
+        overflow: hidden;
+        img{
+            width: 100%;
+        }
+    }
+    &__links{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        cursor: pointer;
+        &:hover{
+            .categories__ico{
+                margin-right: 12px;
+                path{
+                    fill: var(--main-color);
+                    transition: fill 0.3s ease-in-out;
+                }
+            }
+        }
+    }
+    &__ico{
+        opacity: 0.5;
+        transition: margin 0.3s ease-in-out;
+        path{
+            fill: var(--text-paragraph);
+            transition: fill 0.3s ease-in-out;
+        }
+    }
+}

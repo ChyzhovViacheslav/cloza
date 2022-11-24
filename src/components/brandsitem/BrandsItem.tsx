@@ -25,7 +25,7 @@ export default function BrandsItem({ name }: IBrandsItem) {
           dispatch(setBrands([name]))
           navigate(`/male`)
         }}>
-          <span>{name}</span>
+          <h4>{name}</h4>
           <IconSelector className={s.brandsitem__ico} id='east' /></div>
       </div>
     </div>

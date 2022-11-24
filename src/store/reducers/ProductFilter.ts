@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 interface IFilter {
     currentCategory: [],
-    mainCategories: any
-    newProducts: any,
+    mainCategories: any,
     price: any,
     brands: any,
     newBrands: any,
@@ -18,7 +17,6 @@ interface IFilter {
 const initialState: IFilter = {
     currentCategory: [],
     mainCategories: ['female', 'male', 'unisex'],
-    newProducts: null,
     price: [],
     brands: null,
     newBrands: [],

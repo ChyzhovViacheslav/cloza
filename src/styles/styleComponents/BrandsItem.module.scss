@@ -16,13 +16,7 @@
         margin-top: 16px;
         display: flex;
         align-items: center;
-        span {
-            font-weight: 500;
-            font-size: 20px;
-            line-height: 25px;
-            flex-grow: 1;
-            color: var(--text-title);
-        }
+        justify-content: space-between;
     }
     &__ico{
         path{
