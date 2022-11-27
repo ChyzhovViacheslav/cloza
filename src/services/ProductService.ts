@@ -8,6 +8,7 @@ interface IgetAllProducts {
     saler: string,
     sortByPrice: number | null
     params: any
+    email: string
 }
 
 export const productApi = createApi({
@@ -18,8 +19,8 @@ export const productApi = createApi({
     }),
     endpoints: (build) => ({
         getAllProducts: build.query<any, Object>({
-            query: ({ page, limit, maincategory, sortByPrice, params }: IgetAllProducts) => ({
-                url: `/?page=${page}&limit=${limit}&maincategory=${maincategory}&sortByPrice=${sortByPrice}`,
+            query: ({ page, limit, maincategory, sortByPrice, email, params }: IgetAllProducts) => ({
+                url: `/?page=${page}&limit=${limit}&maincategory=${maincategory}&sortByPrice=${sortByPrice}${email ? `&salerEmail=${email}` : ''}`,
                 method: 'GET',
                 params
             }),

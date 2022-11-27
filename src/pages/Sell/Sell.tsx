@@ -28,7 +28,10 @@ export default function Sell() {
 
   const { username, email } = useAuth()
   const [addProduct, { isLoading }] = productApi.useAddProductMutation()
-  const { data: brands } = extraApi.useGetAllBrandsQuery(null)
+  const { data: brands } = extraApi.useGetAllBrandsQuery({
+    page: 1,
+    params: `limit=999`
+  })
   const { data: categories } = extraApi.useGetCategoriesQuery(null)
   const { clothSize, colors, conditions, mainCategories } = useAppSelector(state => state.filterReducer)
 
@@ -98,7 +101,7 @@ export default function Sell() {
   }
 
   const renderBrands = () => {
-    const customData = brands && brands[0].brands.map((el: string) => {
+    const customData = brands && brands.brands.map((el: string) => {
       return ({
         value: el, label: el
       })
@@ -110,7 +113,7 @@ export default function Sell() {
         isMulti={false}
         onChange={(e: any) => setBrand(e.value)}
         data={customData}
-        defaultValue={null}/>
+        defaultValue={null} />
     )
   }
 

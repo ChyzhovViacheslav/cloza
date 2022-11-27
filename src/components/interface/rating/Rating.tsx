@@ -20,7 +20,7 @@ export default function Rating({className, rating}: IRating) {
         } else {
             indexes.push(2)
             for (let index = 0; index < 4; index++) {
-                if (Math.trunc(rating - 1) > index) {
+                if (Math.trunc(rating) > index) {
                     indexes.unshift(1)
                 } else indexes.push(0)
             }

@@ -58,7 +58,7 @@
     }
     &__discount_price{
         margin-left: 6px;
-        display: flex;
+        justify-content: flex-end;
         align-items: center;
     }
     &__dis_price{
@@ -73,7 +73,6 @@
         flex-shrink: 0;
         height: 16px;
         width: 16px;
-        margin-right: 12px;
         path {
             fill: var(--main-red);
         }

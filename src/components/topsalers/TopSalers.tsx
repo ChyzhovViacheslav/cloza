@@ -17,8 +17,9 @@ export default function TopSalers() {
             users?.users.map((el: any, i: number) => {
                 return (
                     <SalerItem
-                        name={el.username}
-                        photo={el.image}
+                        _id={el._id}
+                        username={el.username}
+                        image={el.image}
                         rating={el.rating}
                         votes={el.votes}
                         key={i} />

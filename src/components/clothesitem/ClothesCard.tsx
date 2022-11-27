@@ -38,10 +38,14 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
           </div>
           {discount ?
             <div className={s.item__discount_price}>
-              <span className={s.item__dis_price}>{price}</span>
-              <IconSelector className={s.item__price_uah_dis} id='uah' />
-              <span className={s.item__price}>{discount}</span>
-              <IconSelector className={s.item__price_uah} id='uah' />
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+                <span className={s.item__dis_price}>{price}</span>
+                <IconSelector className={s.item__price_uah_dis} id='uah' />
+              </div>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>
+                <span className={s.item__price}>{discount}</span>
+                <IconSelector className={s.item__price_uah} id='uah' />
+              </div>
             </div>
             :
             <>

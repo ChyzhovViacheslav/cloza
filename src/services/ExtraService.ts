@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import IReview from "../models/IReview";
 
 export const extraApi = createApi({
     reducerPath: 'extraApi',
@@ -7,7 +8,7 @@ export const extraApi = createApi({
     }),
     endpoints: (build) => ({
         getAllBrands: build.query({
-            query: ({page, params}) => ({
+            query: ({ page, params }) => ({
                 url: `brands/?page=${page}`,
                 method: 'GET',
                 params
@@ -17,6 +18,20 @@ export const extraApi = createApi({
             query: () => ({
                 url: 'categories/',
                 method: 'GET'
+            })
+        }),
+        addReview: build.mutation<IReview, IReview>({
+            query: (body) => ({
+                url: 'review/',
+                method: 'POST',
+                body
+            })
+        }),
+        getAllReview: build.query({
+            query: ({ page, limit, userId, params }) => ({
+                url: `review/?page=${page}&limit=${limit}&userId=${userId}`,
+                method: 'GET',
+                params
             })
         })
     })

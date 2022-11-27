@@ -1,0 +1,26 @@
+.loader {
+    width: 280px;
+    height: 100px;
+    display: block;
+    background-image: 
+    linear-gradient(100deg, transparent, rgb(255, 255, 255) 50%, transparent 80%),
+        radial-gradient(circle 48px at 48px 48px, rgb(239, 240, 242) 99%, transparent 0),
+        linear-gradient(rgb(239, 240, 242) 20px, transparent 0), 
+        linear-gradient(rgb(239, 240, 242) 20px, transparent 0),
+        linear-gradient(rgb(239, 240, 242) 20px, transparent 0),
+        linear-gradient(rgb(239, 240, 242) 20px, transparent 0);
+    background-repeat: no-repeat;
+    background-size: 75px 100px, 100px 100px, 110px 12px, 150px 12px, 260px 12px, 135px 12px;
+    background-position: -50% 0, 0 0, 80px 0px, 80px 40px, 80px 80px, 80px 80px, 80px 100px;
+    box-sizing: border-box;
+    animation: animloader 1s ease-in-out infinite;
+}
+
+@keyframes animloader {
+    0% {
+        background-position: -20% 0, 0 0, 110px 0, 110px 28px, 110px 58px, 110px 88px;
+    }
+    100% {
+        background-position: 120% 0, 0 0, 110px 0, 110px 28px, 110px 58px, 110px 88px;
+    }
+}

@@ -8,6 +8,8 @@ import { productApi } from '../../services/ProductService';
 import { authUser } from '../../services/AuthUser';
 import Products from '../../components/products/Products';
 import Rating from '../../components/interface/rating/Rating';
+import UserCard from '../../components/usercard/UserCard';
+import { extraApi } from '../../services/ExtraService';
 
 export default function ProductPage() {
     const { id } = useParams()
@@ -15,7 +17,6 @@ export default function ProductPage() {
     const [initialAmount, setInitialAmount] = useState(1)
     const [currentTab, setCurrentTab] = useState('Описание')
     const descriptionTabs = ['Описание', 'Доставка']
-
     const { data: products, isLoading: productsIsLoading } = productApi.useGetAllProductsQuery({
         page: 1,
         limit: 999,
@@ -26,6 +27,13 @@ export default function ProductPage() {
 
     const { data: currentSaler, isLoading: currentSalerIsLoading } = authUser.useFetchOneUserQuery({ email: item?.saler.email })
     const location = useLocation()
+
+    const { data: reviews, isLoading: reviewsIsLoading } = extraApi.useGetAllReviewQuery({
+        page: 1,
+        limit: 999,
+        userId: currentSaler._id,
+        params: ''
+    })
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -166,29 +174,15 @@ export default function ProductPage() {
                                 </div>
                                 <Line className={s.product__line} />
                                 <div className={s.product__saler}>
-                                    <div className={s.product__saler_img}>
-                                        {currentSalerIsLoading ?
-                                            <IconSelector id='loader' />
-                                            : <img src={`data:image/jpeg;base64,${currentSaler?.image}`}
-                                                alt='salerImg' />}
-                                    </div>
-                                    <div className={s.product__saler_inf}>
-                                        <div className={s.product__saler_title}>
-                                            <h2>{item.saler.name}</h2>
-                                            <span><h2>на cloza с 11.09.22</h2></span>
-                                        </div>
-                                        <div className={s.product__saler_rate}>
-                                            <Rating className={s.product__saler_stars} rating={currentSaler?.rating}/>
-                                            <h2>{currentSaler?.votes} голосов</h2>
-                                        </div>
-                                        <div className={s.product__amount_products}>
-                                            <h2>Товаров в наличии:</h2>
-                                            {productsIsLoading ?
-                                                <IconSelector className={s.product__amount_loader} id='loader' />
-                                                :
-                                                <h2>{products.products.length}</h2>}
-                                        </div>
-                                    </div>
+                                    <UserCard
+                                        imageSize='64px'
+                                        salerName={item.saler.name}
+                                        salerRating={currentSaler?.rating}
+                                        salerVotes={currentSaler?.votes}
+                                        salerLoading={productsIsLoading}
+                                        productsLength={products?.products.length}
+                                        salerImage={currentSaler?.image}
+                                        reviews={reviews}/>
                                 </div>
                                 <button className={s.product__send}>
                                     <span>Написать</span>

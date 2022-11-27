@@ -19,6 +19,7 @@ import Product from './pages/Product/ProductPage';
 import Brands from './pages/Brands/Brands';
 import Salers from './pages/Salers/Salers';
 import Categories from './pages/Categories/Categories';
+import SalerPage from './pages/SalerPage/SalerPage';
 
 export default function App() {
 
@@ -41,9 +42,10 @@ export default function App() {
             <Route path='/female' element={<Female />} />
             <Route path='/unisex' element={<Unisex />} />
             <Route path='/product/:id' element={<Product />} />
-            <Route path='/brands' element={<Brands/>}/>
-            <Route path='/salers' element={<Salers/>}/>
-            <Route path='/categories' element={<Categories/>}/>
+            <Route path='/brands' element={<Brands />} />
+            <Route path='/salers' element={<Salers />} />
+            <Route path='/categories' element={<Categories />} />
+            <Route path='/saler/:id' element={<SalerPage />} />
             <Route path='*' element={<Navigate to='/404' replace />} />
             <Route path='/404' element={<PageNotFound />} />
           </Routes>

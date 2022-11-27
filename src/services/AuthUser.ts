@@ -42,6 +42,9 @@ export const authUser = createApi({
         }),
         fetchOneUser: build.query({
             query: ({email}:any) => `/user${email ? `?email=${email}` : ''}`
+        }),
+        fetchOneUserById: build.query({
+            query: (id) => `/user/${id}`
         })
     })
 })
