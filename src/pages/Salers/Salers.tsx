@@ -13,7 +13,6 @@ export default function Salers() {
     const [sortByRating, setSortByRating] = useState(0)
 
     const { data: users, isLoading: usersIsLoading, isFetching: usersIsFethcing } = authUser.useFetchAllUsersQuery({
-        sortByRating: sortByRating,
         page: currentPage,
         limit: 12
     })
@@ -26,8 +25,6 @@ export default function Salers() {
                         _id={el._id}
                         username={el.username}
                         image={el.image}
-                        rating={el.rating}
-                        votes={el.votes}
                         key={i} />
                 )
             })

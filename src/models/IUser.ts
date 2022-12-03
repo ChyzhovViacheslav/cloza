@@ -1,10 +1,8 @@
 export default interface IUser {
-    username: string,
+    username?: string,
     password?: string,
     email?: string,
     roles?: [{ type: String, ref: 'Role' }],
     image: string,
-    rating: number,
-    votes: number,
     _id?: any
 }

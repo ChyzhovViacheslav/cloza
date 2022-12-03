@@ -20,6 +20,7 @@ import Brands from './pages/Brands/Brands';
 import Salers from './pages/Salers/Salers';
 import Categories from './pages/Categories/Categories';
 import SalerPage from './pages/SalerPage/SalerPage';
+import Ordering from './pages/Ordering/Ordering';
 
 export default function App() {
 
@@ -45,6 +46,7 @@ export default function App() {
             <Route path='/brands' element={<Brands />} />
             <Route path='/salers' element={<Salers />} />
             <Route path='/categories' element={<Categories />} />
+            <Route path='/ordering' element={<Ordering />} />
             <Route path='/saler/:id' element={<SalerPage />} />
             <Route path='*' element={<Navigate to='/404' replace />} />
             <Route path='/404' element={<PageNotFound />} />

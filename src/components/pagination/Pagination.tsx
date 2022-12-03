@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import s from '../../styles/styleComponents/Pagination.module.scss'
 
@@ -23,7 +23,9 @@ export default function Pagination({ currentPage, totalPages, setCurrentPage, cl
         }
 
         return (
-            <div className={s.pagination__body}>
+            <div
+                className={s.pagination__body}
+                style={totalPages === 1 ? { display: 'none' } : { display: 'flex' }}>
                 <IconSelector onClick={() => {
                     if (currentPage !== 1) {
                         setCurrentPage(currentPage - 1)
@@ -77,8 +79,8 @@ export default function Pagination({ currentPage, totalPages, setCurrentPage, cl
                                         onClick={() => {
                                             setCurrentPage(totalPages)
                                             window.scrollTo(0, 0)
-                                        }}>{totalPages}</h2></> : 
-                                <></>}
+                                        }}>{totalPages}</h2></> :
+                                    <></>}
                             </>
                             :
                             <>

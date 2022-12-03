@@ -8,6 +8,7 @@ import smModalReducer from './reducers/SmModalSlice'
 import loaderReducer from './reducers/LoaderSlice'
 import filterReducer from './reducers/ProductFilter'
 import FilterModalReducer from "./reducers/FilterModalSlice";
+import ExtraReducer from './reducers/ExtraSlice';
 import storage from 'redux-persist/lib/storage'
 import {persistStore, persistReducer} from 'redux-persist'
 
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     loaderReducer,
     filterReducer,
     FilterModalReducer,
+    ExtraReducer,
     [productApi.reducerPath]: productApi.reducer,
     [authUser.reducerPath]: authUser.reducer,
     [extraApi.reducerPath]: extraApi.reducer
@@ -26,7 +28,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['userReducer', 'filterReducer']
+    whitelist: ['userReducer', 'filterReducer', 'ExtraReducer']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -30,7 +30,7 @@ export default function Reviews({ userId, reviewTime, reviewDescription, reviewR
                             <span>Дата публикации: {reviewTime}</span>
                         </div>
                         <p>{reviewDescription}</p>
-                        <Rating rating={reviewRating} />
+                        <Rating reviews={reviewRating} />
                     </div>
                 </div>
             </div> : 

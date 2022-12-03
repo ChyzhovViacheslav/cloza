@@ -1,45 +1,26 @@
 import React from 'react'
 import IconSelector from '../../../assets/icons/icons'
-import s from './Rating.module.scss'
 
 interface IRating {
-    rating: number,
     className?: string
+    reviews: any
 }
 
-export default function Rating({className, rating}: IRating) {
-    const renderRating = () => {
-        const indexes = []
-
-        if (Number.isInteger(rating)) {
-            for (let index = 0; index < 5; index++) {
-                if (rating > index) {
-                    indexes.push(1)
-                } else indexes.push(0)
-            }
+export default function Rating({ reviews, className }: IRating) {
+    const ratingSum = (rating: any) => {
+        if (rating?.length === undefined || Number.isInteger(rating)) {
+            return (rating / 5) * 100
         } else {
-            indexes.push(2)
-            for (let index = 0; index < 4; index++) {
-                if (Math.trunc(rating) > index) {
-                    indexes.unshift(1)
-                } else indexes.push(0)
+            let sum = 0
+            for (let index = 0; index < rating?.length; index++) {
+                sum = sum + rating[index]?.rating
             }
+            return ((sum / rating?.length) / 5) * 100
         }
-
-        return (
-            indexes.map((el: number, i: number) => {
-                switch (el) {
-                    case 1: return <IconSelector className={className} id='star-fill' key={i}/>
-                    case 2: return <IconSelector className={className} id='star-half' key={i}/>
-                    case 0: return <IconSelector className={className} id='star-empty' key={i}/>
-                }
-            })
-        )
     }
 
-    return (
-        <div style={{display: 'flex', alignItems: "center"}}>
-            {renderRating()}
-        </div>
-    )
+    return <IconSelector
+        className={className}
+        id='rating'
+        percent={ratingSum(reviews)} />
 }

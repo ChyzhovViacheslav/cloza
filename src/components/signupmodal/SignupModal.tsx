@@ -38,13 +38,15 @@ export default function SignupModal() {
         await registerUser({
             username: username,
             password: password,
-            email: email,
-            votes: 0,
-            rating: 0
-        }).then(() => {
+            email: email
+        }).then(({data}:any) => {
             dispatch(setUser({
                 username: username,
-                email: email
+                email: email,
+                wishlist: data.wishlist,
+                cartlist: data.cartlist,
+                image: data.image,
+                _id: data._id
             }))
             setError(false)
             dispatch(closeModal())

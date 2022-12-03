@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useParams } from 'react-router'
 import IconSelector from '../../assets/icons/icons'
 import ClothesCard from '../../components/clothesitem/ClothesCard'
 import Filter from '../../components/filter/Filter'
 import MySelect from '../../components/interface/inputs/MySelect'
 import Line from '../../components/interface/line/Line'
+import Pagination from '../../components/pagination/Pagination'
 import Reviews from '../../components/reviews/Reviews'
 import UserCard from '../../components/usercard/UserCard'
 import IReview from '../../models/IReview'
@@ -18,18 +19,22 @@ export default function SalerPage() {
     const location = useLocation()
 
     const [sortByRating, setSortByRating] = useState(0)
+    const [currentPageReview, setCurrentPageReview] = useState(1)
 
     const { data: user, isLoading: userIsLoading } = authUser.useFetchOneUserByIdQuery(id)
     const { data: reviews, isLoading: reviewsIsLoading } = extraApi.useGetAllReviewQuery({
         page: 1,
-        limit: 999,
-        userId: id,
-        params: ''
+        limit: 10,
+        userId: id
     })
 
     const [currentTab, setCurrentTab] = useState('Товары продавца')
     const [sortByPrice, setSortByPrice] = useState(1)
     const tabs = ['Товары продавца', 'Отзывы']
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [currentTab])
 
     const fancyUrl = () => {
         if (location.search) {
@@ -94,7 +99,7 @@ export default function SalerPage() {
 
     const renderReviews = () => {
         return (
-            reviews?.map((el: IReview, i: number) => {
+            reviews?.reviews.map((el: IReview, i: number) => {
                 return (
                     <Reviews
                         reviewRating={el.rating}
@@ -117,10 +122,10 @@ export default function SalerPage() {
                         salerImage={user?.image}
                         salerName={user?.username}
                         salerLoading={productIsLoading}
-                        salerVotes={user?.votes}
+                        salerVotes={reviews?.totalReviews}
                         salerRating={user?.rating}
                         productsLength={products?.totalProducts}
-                        reviews={reviews}/>
+                        reviews={reviews?.allReviews}/>
                 </div>
                 <div className={s.saler__tabs}>
                     <div className={s.saler__tabs_body}>
@@ -173,6 +178,10 @@ export default function SalerPage() {
                         <div className={s.saler__reviews_body}>
                             {renderReviews()}
                         </div>
+                        <Pagination 
+                            currentPage={currentPageReview}
+                            setCurrentPage={setCurrentPageReview}
+                            totalPages={reviews?.totalPages}/>
                     </div>
                 }
             </div>

@@ -7,16 +7,19 @@ import { useLocation, useParams } from 'react-router';
 import { productApi } from '../../services/ProductService';
 import { authUser } from '../../services/AuthUser';
 import Products from '../../components/products/Products';
-import Rating from '../../components/interface/rating/Rating';
 import UserCard from '../../components/usercard/UserCard';
 import { extraApi } from '../../services/ExtraService';
 
 export default function ProductPage() {
     const { id } = useParams()
-    const { data: item, isLoading } = productApi.useGetProductQuery(id)
+    const location = useLocation()
+
+    const { data: item, isLoading, isFetching } = productApi.useGetProductQuery(id)
+
     const [initialAmount, setInitialAmount] = useState(1)
     const [currentTab, setCurrentTab] = useState('Описание')
     const descriptionTabs = ['Описание', 'Доставка']
+
     const { data: products, isLoading: productsIsLoading } = productApi.useGetAllProductsQuery({
         page: 1,
         limit: 999,
@@ -25,14 +28,14 @@ export default function ProductPage() {
         params: `salerEmail=${item?.saler.email}`
     })
 
-    const { data: currentSaler, isLoading: currentSalerIsLoading } = authUser.useFetchOneUserQuery({ email: item?.saler.email })
-    const location = useLocation()
+    const [currentPhoto, setCurrentPhoto] = useState<any>()
 
-    const { data: reviews, isLoading: reviewsIsLoading } = extraApi.useGetAllReviewQuery({
+    const { data: currentSaler } = authUser.useFetchOneUserQuery(item?.saler.email)
+
+    const { data: reviews } = extraApi.useGetAllReviewQuery({
         page: 1,
-        limit: 999,
-        userId: currentSaler._id,
-        params: ''
+        limit: 10,
+        userId: currentSaler?._id
     })
 
     useEffect(() => {
@@ -103,22 +106,43 @@ export default function ProductPage() {
         )
     })
 
+    const renderImages = () => {
+        return (
+            item.additionalsPhotos.map((el: string, i: number) => {
+                return <img
+                    className={currentPhoto === el ? s.current : ''}
+                    onClick={() => setCurrentPhoto(el)}
+                    key={i}
+                    src={el}
+                    alt='additionalImg' />
+            })
+        )
+    }
+
     return (
         <div className={s.product}>
             <div className={s.product__body}>
-                {isLoading && !item ? <IconSelector className={s.product__loader} id='loader' /> :
+                {isLoading && isFetching ? <IconSelector className={s.product__loader} id='loader' /> :
                     <>
                         <div className={s.product__content}>
                             <div className={s.product__imgs}>
                                 <div className={s.product__other_img}>
-                                    {item.additionalsPhotos.map((el: string, i: number) => {
-                                        return <img key={i} src={el} alt='additionalImg' />
-                                    })}
+                                    <img 
+                                        className={currentPhoto === item.mainPhoto || currentPhoto === undefined ? s.current : ''} 
+                                        onClick={() => setCurrentPhoto(item.mainPhoto)} 
+                                        src={item.mainPhoto} 
+                                        alt='img' />
+                                    {renderImages()}
                                 </div>
                                 <div className={s.product__current_img}>
-                                    <img
-                                        src={item.mainPhoto}
-                                        alt='img' />
+                                    {currentPhoto === undefined ?
+                                        <img
+                                            src={item.mainPhoto}
+                                            alt='img' />
+                                        :
+                                        <img
+                                            src={currentPhoto}
+                                            alt='img' />}
                                 </div>
                             </div>
                             <div className={s.product__info}>
@@ -178,11 +202,11 @@ export default function ProductPage() {
                                         imageSize='64px'
                                         salerName={item.saler.name}
                                         salerRating={currentSaler?.rating}
-                                        salerVotes={currentSaler?.votes}
+                                        salerVotes={reviews?.totalReviews}
                                         salerLoading={productsIsLoading}
                                         productsLength={products?.products.length}
                                         salerImage={currentSaler?.image}
-                                        reviews={reviews}/>
+                                        reviews={reviews?.reviews} />
                                 </div>
                                 <button className={s.product__send}>
                                     <span>Написать</span>

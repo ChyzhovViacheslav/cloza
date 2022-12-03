@@ -32,7 +32,10 @@ export default function LoginModal() {
             dispatch(setUser({
                 username: data.username,
                 email: email,
-                image: data.image
+                image: data.image,
+                _id: data._id,
+                wishlist: data.wishlist,
+                cartlist: data.cartlist
             }))
             setError(false)
             dispatch(closeModal())
