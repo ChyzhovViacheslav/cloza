@@ -15,7 +15,7 @@ interface ILoginUser {
 export const authUser = createApi({
     reducerPath: 'authUser',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'cloza-api.vercel.app/authUser'
+        baseUrl: 'https://cloza-api.vercel.app/authUser'
     }),
     endpoints: (build) => ({
         fetchAllUsers: build.query({

@@ -18,7 +18,7 @@ export const productApi = createApi({
     reducerPath: 'productApi',
     tagTypes: ['Products'],
     baseQuery: fetchBaseQuery({
-        baseUrl: 'cloza-api.vercel.app/products'
+        baseUrl: 'https://cloza-api.vercel.app/products'
     }),
     endpoints: (build) => ({
         getAllProducts: build.query<any, Object>({
