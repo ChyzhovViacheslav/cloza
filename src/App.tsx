@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './styles/App.module.scss';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import Rules from './pages/Rules/Rules';
@@ -21,8 +21,15 @@ import Salers from './pages/Salers/Salers';
 import Categories from './pages/Categories/Categories';
 import SalerPage from './pages/SalerPage/SalerPage';
 import Ordering from './pages/Ordering/Ordering';
+import Sale from './pages/Sale/Sale';
+import useAuth from './hooks/userAuth';
 
 export default function App() {
+  const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location])
 
   return (
     <main className={styles.page}>
@@ -42,6 +49,7 @@ export default function App() {
             <Route path='/male' element={<Male />} />
             <Route path='/female' element={<Female />} />
             <Route path='/unisex' element={<Unisex />} />
+            <Route path='/sale' element={<Sale />} />
             <Route path='/product/:id' element={<Product />} />
             <Route path='/brands' element={<Brands />} />
             <Route path='/salers' element={<Salers />} />

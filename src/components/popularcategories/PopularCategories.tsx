@@ -4,16 +4,21 @@ import IconSelector from '../../assets/icons/icons'
 import { extraApi } from '../../services/ExtraService'
 import s from '../../styles/styleComponents/PopularCategories.module.scss'
 import CategoriesItem from '../categoriesitem/CategoriesItem'
+import ErrorConnection from '../interface/errorconnection/ErrorConnection'
 
 export default function PopularCategories() {
-    const { data: categories, isLoading: categoriesIsLoading } = extraApi.useGetCategoriesQuery(null)
+    const { data: categories, isLoading: categoriesIsLoading, isError } = extraApi.useGetCategoriesQuery(null)
 
     const renderCategories = () => {
-        return (
-            categories[0].top.slice(0, 4).map((el:string, i:number) => {
-                return <CategoriesItem currentCategory='male' name={el} key={i}/>
-            })
-        )
+        if(isError){
+            return <ErrorConnection/>
+        } else {
+            return (
+                categories[0].top.slice(0, 4).map((el:string, i:number) => {
+                    return <CategoriesItem currentCategory='male' name={el} key={i}/>
+                })
+            )
+        }
     }
 
     return (

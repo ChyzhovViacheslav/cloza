@@ -9,8 +9,13 @@ import { userSlice } from '../../store/reducers/UserSlice';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
 import { authUser } from '../../services/AuthUser';
 
-export default function SignupModal() {
-    const { closeModal, changeModalTypeLogin } = loginModalSlice.actions
+interface ISignupModal {
+    modalIsActive: boolean
+    setModalIsActive: any
+}
+
+export default function SignupModal({modalIsActive, setModalIsActive}:ISignupModal) {
+    const { changeModalTypeLogin } = loginModalSlice.actions
     const { active } = useAppSelector(state => state.modalReducer)
     const { setUser } = userSlice.actions
     const dispatch = useAppDispatch()
@@ -34,27 +39,36 @@ export default function SignupModal() {
     }, [active])
 
     const handleSignUp = async (username: string, password: string, email: string) => {
+        const currentDate = new Date().toLocaleString("ru", {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            timeZone: 'Europe/Kiev',
+        })
         dispatch(openLoader())
         await registerUser({
             username: username,
             password: password,
-            email: email
-        }).then(({data}:any) => {
+            email: email,
+            registerDate: currentDate
+        }).then(({ data }: any) => {
             dispatch(setUser({
                 username: username,
                 email: email,
                 wishlist: data.wishlist,
                 cartlist: data.cartlist,
+                delivery_info: data.delivery_info,
                 image: data.image,
-                _id: data._id
+                _id: data._id,
+                registerDate: data.registerDate
             }))
             setError(false)
-            dispatch(closeModal())
+            setModalIsActive(false)
         }).catch(() => setError(true))
-        .finally(() => {
-            dispatch(closeLoader())
-            window.location.reload()
-        })
+            .finally(() => {
+                dispatch(closeLoader())
+                window.location.reload()
+            })
     }
     const vaildatorEmail = (email: string) => {
         const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -62,7 +76,7 @@ export default function SignupModal() {
     }
 
     return (
-        <Modal active={active} closeModal={closeModal}>
+        <Modal active={modalIsActive} closeModal={setModalIsActive}>
             <div className={s.modal}>
                 <div className={s.modal__title}>
                     <h1>Регистрация</h1>
@@ -128,13 +142,7 @@ export default function SignupModal() {
                 <div style={{ marginTop: "32px", textAlign: 'center' }}>
                     <p className={s.modal__link}>У вас уже есть аккаунт? <span onClick={() => {
                         dispatch(changeModalTypeLogin())
-                    }} style={{ color: 'var(--main-color)', fontWeight: '500' }}>Войдите в свою учетную запись</span></p>
-                </div>
-                <div
-                    style={{ display: 'flex', alignItems: 'center', marginTop: '32px' }}>
-                    <Line />
-                    <span className={s.modal__link} style={{ padding: '0px 16px' }}>или</span>
-                    <Line />
+                    }} style={{ color: 'var(--main-color)', fontWeight: '500', cursor: 'pointer' }}>Войдите в свою учетную запись</span></p>
                 </div>
             </div>
         </Modal>

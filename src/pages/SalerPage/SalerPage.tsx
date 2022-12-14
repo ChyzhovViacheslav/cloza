@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router'
 import IconSelector from '../../assets/icons/icons'
 import ClothesCard from '../../components/clothesitem/ClothesCard'
 import Filter from '../../components/filter/Filter'
+import CategoriesModal from '../../components/interface/categoriesmodal/CategoriesModal'
 import MySelect from '../../components/interface/inputs/MySelect'
 import Line from '../../components/interface/line/Line'
 import Pagination from '../../components/pagination/Pagination'
@@ -17,6 +18,8 @@ import s from '../../styles/styleComponents/SalerPage.module.scss'
 export default function SalerPage() {
     const { id } = useParams()
     const location = useLocation()
+
+    const [modalIsActive, setModalIsActive] = useState(false)
 
     const [sortByRating, setSortByRating] = useState(0)
     const [currentPageReview, setCurrentPageReview] = useState(1)
@@ -125,7 +128,8 @@ export default function SalerPage() {
                         salerVotes={reviews?.totalReviews}
                         salerRating={user?.rating}
                         productsLength={products?.totalProducts}
-                        reviews={reviews?.allReviews}/>
+                        reviews={reviews?.allReviews}
+                        registerDate={user?.registerDate}/>
                 </div>
                 <div className={s.saler__tabs}>
                     <div className={s.saler__tabs_body}>
@@ -156,7 +160,7 @@ export default function SalerPage() {
                             </div>
                         </div>
                         <div className={s.saler__products_filter}>
-                            <Filter />
+                            <Filter setModalIsActive={setModalIsActive} />
                         </div>
                     </div> :
                     <div className={s.saler__reviews}>
@@ -185,6 +189,7 @@ export default function SalerPage() {
                     </div>
                 }
             </div>
+            <CategoriesModal modalIsActive={modalIsActive} setModalIsActive={setModalIsActive}/>
         </div>
     )
 }

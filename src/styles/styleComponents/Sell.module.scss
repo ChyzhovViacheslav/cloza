@@ -31,11 +31,11 @@
         
         .sell__images_wrapper{
             position: relative;
-            width: 130px;
+            width: 166px;
             height: 130px;
             img{
                 border-radius: 8px;
-                width: 130px;
+                width: 166px;
                 height: 130px;
                 object-fit: cover;
             }
@@ -67,11 +67,12 @@
             display: flex;
             width: 700px;
             column-gap: 12px;
+            
         }
         .sell__image_multiple{
             display: flex;
             flex-direction: column;
-            width: 130px;
+            width: 166px;
             row-gap: 12px;
             img{
                 border-radius: 8px;
@@ -128,6 +129,9 @@
         display: flex;
         align-items: center;
         margin-right: 16px;
+        label{
+            cursor: pointer;
+        }
         input {
             margin-left: 8px;
         }

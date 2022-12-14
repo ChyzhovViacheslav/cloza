@@ -1,0 +1,84 @@
+.btn {
+    &__wishlist_container {
+        position: relative;
+        width: 20px;
+        height: 20px;
+    }
+    &__wishlist_container24 {
+        position: relative;
+        width: 24px;
+        height: 24px;
+    }
+    &__anim {
+        cursor: none;
+        position: absolute;
+        z-index: 1;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        transition: all 0.3s ease-in-out;
+        path {
+            fill: white;
+        }
+    }
+    &__anim24 {
+        cursor: none;
+        position: absolute;
+        z-index: 1;
+        width: 24px;
+        height: 24px;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        transition: all 0.3s ease-in-out;
+        path {
+            fill: white;
+        }
+    }
+    &__icon {
+        cursor: pointer;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+        width: 20px;
+        height: 20px;
+        path {
+            fill: white;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+    &__icon24{
+        cursor: pointer;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+        width: 24px;
+        height: 24px;
+        path {
+            fill: white;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+}
+
+.favor20 {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+}
+
+.favor24{
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+}
+
+.active {
+    path {
+        fill: var(--main-color);
+    }
+}

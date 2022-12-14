@@ -20,6 +20,7 @@
         flex-direction: column;
         row-gap: 16px;
         img {
+            cursor: pointer;
             width: 100px;
             height: 100px;
             object-fit: cover;
@@ -44,7 +45,6 @@
         display: flex;
         align-items: center;
         h1 {
-            margin-left: 8px;
             flex: 1 1 auto;
         }
     }
@@ -55,12 +55,25 @@
         }
     }
     &__favorite {
+        position: relative;
+        display: flex;
+        align-items: center;
         margin-left: 8px;
         flex-shrink: 0;
-        width: 24px;
-        height: 24px;
+        svg {
+            width: 24px;
+            height: 24px;
+            path {
+                fill: #fff;
+            }
+        }
+    }
+    &__inwish {
+        position: absolute;
+        top: 0;
+        transform: translate(-50%, -50%);
         path {
-            fill: var(--text-paragraph);
+            fill: #fff;
         }
     }
     &__price {
@@ -127,6 +140,27 @@
         justify-content: center;
         flex-basis: 50%;
     }
+    &__buy_btn_disactive {
+        padding: 14.5px 16px;
+        background-color: var(--main-red);
+        &:hover {
+            background-color: #7c2c44;
+        }
+    }
+    &__buy_inactive {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border-radius: 16px;
+        flex-basis: 50%;
+        background-color: var(--gray-light);
+        span {
+            font-weight: 500;
+            font-size: 16px;
+            color: var(--text-paragraph);
+        }
+    }
     &__safe_transaction {
         display: flex;
         padding: 14px 0px;
@@ -151,32 +185,6 @@
     &__saler {
         margin-top: 32px;
         display: flex;
-    }
-    &__send {
-        margin-top: 16px;
-        padding: 9.5px 16px;
-        display: flex;
-        font-size: 14px;
-        color: var(--text-paragraph);
-        font-weight: 500;
-        line-height: 18px;
-        align-items: center;
-        border-radius: 12px;
-        border: 1px solid var(--gray-light);
-        width: 123px;
-        background-color: inherit;
-        transition: background-color 0.2s ease-in-out;
-        &:hover {
-            background-color: var(--gray-light);
-        }
-    }
-    &__send_ico {
-        height: 18px;
-        width: 18px;
-        margin-left: 10px;
-        path {
-            fill: var(--text-paragraph);
-        }
     }
     &__description {
         margin-top: 32px;
@@ -209,10 +217,37 @@
             color: var(--text-title);
         }
     }
-    &__saler_products{
+    &__delivery{
+        margin-top: 32px;
+        span{
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        p{
+            display: flex;
+            align-items: center;
+        }
+        svg{
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+        }
+    }
+    &__saler_products {
         margin-top: 128px;
     }
-    &__saler_body{
+    &__saler_title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        span {
+            color: var(--main-color);
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+    &__saler_body {
         display: flex;
         width: 100%;
         row-gap: 72px;
@@ -229,6 +264,6 @@
     }
 }
 
-.current{
+.current {
     outline: 2px solid var(--main-color);
 }

@@ -11,6 +11,7 @@ interface IgetAllProducts {
     email: string,
     id: any,
     emptyField: string;
+    discount: string
 }
 
 export const productApi = createApi({
@@ -21,8 +22,17 @@ export const productApi = createApi({
     }),
     endpoints: (build) => ({
         getAllProducts: build.query<any, Object>({
-            query: ({ page, limit, maincategory, sortByPrice, email, params, emptyField }: IgetAllProducts) => ({
-                url: `/?page=${page}&limit=${limit}&maincategory=${maincategory}&sortByPrice=${sortByPrice}&salerEmail=${email}&emptyField=${emptyField}`,
+            query: ({
+                page,
+                limit,
+                maincategory,
+                sortByPrice,
+                email,
+                params,
+                emptyField,
+                discount
+            }: IgetAllProducts) => ({
+                url: `/?page=${page}&limit=${limit}&maincategory=${maincategory}&sortByPrice=${sortByPrice}&salerEmail=${email}&emptyField=${emptyField}&discount=${discount}`,
                 method: 'GET',
                 params
             }),

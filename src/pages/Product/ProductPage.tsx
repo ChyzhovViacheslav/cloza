@@ -9,10 +9,19 @@ import { authUser } from '../../services/AuthUser';
 import Products from '../../components/products/Products';
 import UserCard from '../../components/usercard/UserCard';
 import { extraApi } from '../../services/ExtraService';
+import useAuth from '../../hooks/userAuth';
+import ICartList from '../../models/ICartList';
+import useCartlist from '../../hooks/useCartlist';
+import VerifiedUser from '../../components/interface/verifieduser/VerifiedUser';
+import WishlistBtn from '../../components/interface/wishlistbtn/WishlistBtn';
+import { Link } from 'react-router-dom';
 
 export default function ProductPage() {
     const { id } = useParams()
     const location = useLocation()
+
+    const { cartlist, _id, isAuth } = useAuth()
+    const { addToCartlist, removeFromCartlist } = useCartlist()
 
     const { data: item, isLoading, isFetching } = productApi.useGetProductQuery(id)
 
@@ -28,9 +37,10 @@ export default function ProductPage() {
         params: `salerEmail=${item?.saler.email}`
     })
 
-    const [currentPhoto, setCurrentPhoto] = useState<any>()
+    const [currentPhoto, setCurrentPhoto] = useState<string>()
+    const [showVerified, setShowVerified] = useState(false)
 
-    const { data: currentSaler } = authUser.useFetchOneUserQuery(item?.saler.email)
+    const { data: currentSaler, isLoading: salerIsLoading } = authUser.useFetchOneUserQuery(item?.saler.email)
 
     const { data: reviews } = extraApi.useGetAllReviewQuery({
         page: 1,
@@ -119,6 +129,20 @@ export default function ProductPage() {
         )
     }
 
+    const checkCartlist = () => {
+        let inCart = false
+        if(isAuth){
+            cartlist.forEach((el: ICartList) => {
+                if (inCart === false) {
+                    if (el.id === id) {
+                        inCart = true
+                    }
+                }
+            })
+        }
+        return inCart
+    }
+
     return (
         <div className={s.product}>
             <div className={s.product__body}>
@@ -127,10 +151,10 @@ export default function ProductPage() {
                         <div className={s.product__content}>
                             <div className={s.product__imgs}>
                                 <div className={s.product__other_img}>
-                                    <img 
-                                        className={currentPhoto === item.mainPhoto || currentPhoto === undefined ? s.current : ''} 
-                                        onClick={() => setCurrentPhoto(item.mainPhoto)} 
-                                        src={item.mainPhoto} 
+                                    <img
+                                        className={currentPhoto === item.mainPhoto || currentPhoto === undefined ? s.current : ''}
+                                        onClick={() => setCurrentPhoto(item.mainPhoto)}
+                                        src={item.mainPhoto}
                                         alt='img' />
                                     {renderImages()}
                                 </div>
@@ -147,9 +171,13 @@ export default function ProductPage() {
                             </div>
                             <div className={s.product__info}>
                                 <div className={s.product__title}>
-                                    <IconSelector className={s.product__verified} id='verified-user' />
+                                    <VerifiedUser
+                                        setShowVerified={setShowVerified}
+                                        showVerified={showVerified}
+                                        userId={currentSaler?._id}
+                                        size={24} />
                                     <h1>{item.name}</h1>
-                                    <IconSelector className={s.product__favorite} id='heart' />
+                                    {currentSaler?._id === _id ? null : <WishlistBtn size={24} productId={id} />}
                                 </div>
                                 <div className={s.product__other}>
 
@@ -189,7 +217,20 @@ export default function ProductPage() {
                                             id='minus'
                                             onClick={decAmount} />
                                     </div>
-                                    <Button className={s.product__buy_btn} text='Купить' />
+                                    {item?.saler.id === _id ? <div className={s.product__buy_inactive}><span>Это ваш товар</span></div> : <Button
+                                        className={checkCartlist() ? `${s.product__buy_btn} ${s.product__buy_btn_disactive}` : s.product__buy_btn}
+                                        text={checkCartlist() ? 'Удалить из корзины' : 'В корзину'}
+                                        onClick={() => {
+                                            if(isAuth){
+                                                if (checkCartlist()) {
+                                                    removeFromCartlist(_id, id)
+                                                } else {
+                                                    addToCartlist(_id, id, initialAmount)
+                                                }
+                                            } else {
+
+                                            }
+                                        }} />}
                                 </div>
                                 <div className={s.product__safe_transaction}>
                                     <h2>Безопасная сделка</h2>
@@ -203,15 +244,12 @@ export default function ProductPage() {
                                         salerName={item.saler.name}
                                         salerRating={currentSaler?.rating}
                                         salerVotes={reviews?.totalReviews}
-                                        salerLoading={productsIsLoading}
+                                        salerLoading={productsIsLoading && salerIsLoading}
                                         productsLength={products?.products.length}
                                         salerImage={currentSaler?.image}
-                                        reviews={reviews?.reviews} />
+                                        reviews={reviews?.reviews}
+                                        registerDate={currentSaler?.registerDate} />
                                 </div>
-                                <button className={s.product__send}>
-                                    <span>Написать</span>
-                                    <IconSelector className={s.product__send_ico} id='email' />
-                                </button>
                             </div>
                         </div>
                         <div className={s.product__description}>
@@ -227,13 +265,15 @@ export default function ProductPage() {
                                 </div>
                                 :
                                 <div className={s.product__delivery}>
-                                    Доставка
+                                    <p><span>Почта:</span>150 <IconSelector id='uah' /></p>
+                                    <p><span>Личная встреча:</span>Бесплатно</p>
                                 </div>}
                         </div>
+                        <Line style={{ marginTop: '64px' }} />
                         <div className={s.product__saler_products}>
                             <div className={s.product__saler_title}>
                                 <h1>Товары продавца</h1>
-                                <span>Все товары</span>
+                                <Link to={`/saler/${currentSaler?._id}`}><span>Все товары</span></Link>
                             </div>
                             <div className={s.product__saler_body}>
                                 <Products limit={4} salerEmail={item.saler.email} />

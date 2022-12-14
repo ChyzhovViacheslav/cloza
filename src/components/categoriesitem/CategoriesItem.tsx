@@ -18,17 +18,18 @@ export default function CategoriesItem({ currentCategory, name }: ICategoriesIte
     const dispatch = useDispatch()
 
     return (
-        <div className={s.categories}>
+        <div
+            className={s.categories}
+            onClick={() => {
+                dispatch(setSubCategories([name]))
+                navigate(`/${currentCategory}?subcategory=${name}`)
+            }}>
             <div className={s.categories__body}>
                 <div className={s.categories__img}>
                     <img alt='placeholderJpg' src={placeholder} />
                 </div>
                 <div
-                    className={s.categories__links}
-                    onClick={() => {
-                        dispatch(setSubCategories([name]))
-                        navigate(`/${currentCategory}?subcategory=${name}`)
-                    }}>
+                    className={s.categories__links}>
                     <h4>{name}</h4>
                     <IconSelector className={s.categories__ico} id='east' />
                 </div>

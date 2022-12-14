@@ -1,0 +1,29 @@
+.modal{
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 16px;
+    top: -50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--main-green);
+    transition: top 0.3s ease-in-out;
+    span{
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--white-bg);
+    }
+    svg{
+        margin-left: 8px;
+        path{
+            fill: var(--white-bg);
+        }
+    }
+}
+
+.active{
+    top: 50px;
+}

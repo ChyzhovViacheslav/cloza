@@ -1,19 +1,20 @@
 import React from 'react'
 import Modal from '../interface/modal/Modal'
 import s from '../../styles/styleComponents/SmModal.module.scss';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { smModalSlice } from '../../store/reducers/SmModalSlice';
+import { useAppDispatch } from '../../hooks/redux';
 import Button from '../interface/button/Button';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
 
 interface IFavModal {
     type: string
+    favModalIsActive: boolean,
+    setFavModalIsActive: (value: boolean) => void,
+    modalIsActive: boolean,
+    setModalIsActive: (value: boolean) => void
 }
 
-export default function FavModal({ type }: IFavModal) {
-    const { closeSmModal } = smModalSlice.actions
-    const { openModal, changeModalTypeRegister, changeModalTypeLogin } = loginModalSlice.actions
-    const { active } = useAppSelector(state => state.smModalReducer)
+export default function FavModal({ type, favModalIsActive, setFavModalIsActive, modalIsActive, setModalIsActive }: IFavModal) {
+    const { changeModalTypeRegister, changeModalTypeLogin } = loginModalSlice.actions
     const dispatch = useAppDispatch()
 
     const subtitle = () => {
@@ -36,7 +37,7 @@ export default function FavModal({ type }: IFavModal) {
     }
 
     return (
-        <Modal active={active} closeModal={closeSmModal}>
+        <Modal active={favModalIsActive} closeModal={setFavModalIsActive}>
             <div className={s.modal}>
                 <div className={s.modal__title}>
                     <h1>Необходима авторизация</h1>
@@ -48,15 +49,15 @@ export default function FavModal({ type }: IFavModal) {
                     <Button
                         onClick={() => {
                             dispatch(changeModalTypeLogin())
-                            dispatch(closeSmModal())
-                            dispatch(openModal())
+                            setFavModalIsActive(false)
+                            setModalIsActive(true)
                         }}
                         text='Войти' />
                     <Button
                         onClick={() => {
                             dispatch(changeModalTypeRegister())
-                            dispatch(closeSmModal())
-                            dispatch(openModal())
+                            setFavModalIsActive(false)
+                            setModalIsActive(true)
                         }}
                         className={s.modal__reg}
                         text='Зарегистрироваться' />

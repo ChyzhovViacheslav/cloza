@@ -46,6 +46,7 @@ textarea {
 
 input[type="checkbox"],
 input[type='radio'] {
+  cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
   background: url(../assets/icons/check_box_outline_blank.svg) center no-repeat;
@@ -156,7 +157,7 @@ span {
 :root {
   --main-color: #7984c0;
   --main-red: #eb5783;
-  --text-title: #121720;
+  --text-title: rgb(18, 23, 32);
   --text-paragraph: #9095a9;
   --item-bg: #c4c4c4;
   --gray-light: #eff0f2;

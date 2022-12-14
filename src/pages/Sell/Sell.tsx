@@ -8,6 +8,8 @@ import MyReactSelect from '../../components/interface/inputs/MyReactSelect';
 import { productApi } from '../../services/ProductService';
 import { extraApi } from '../../services/ExtraService';
 import { useAppSelector } from '../../hooks/redux';
+import WarningModal from '../../components/interface/warningmodal/WarningModal';
+import SuccessModal from '../../components/interface/successmodal/SuccessModal';
 
 export default function Sell() {
   const [name, setName] = useState('')
@@ -19,19 +21,23 @@ export default function Sell() {
   const [size, setSize] = useState('')
   const [color, setColor] = useState('')
   const [description, setDescription] = useState('')
-  const [price, setPrice] = useState(null)
-  const [discount, setDiscount] = useState(null)
+  const [price, setPrice] = useState('')
+  const [discount, setDiscount] = useState('')
   const [amount, setAmount] = useState(1)
-  const [trade, setTrade] = useState(false)
   const [mainPhoto, setMainPhoto] = useState<string>()
   const [additionalPhoto, setAdditionalPhoto] = useState<any>([])
 
-  const { username, email } = useAuth()
+  const [warnIsActive, setWarnIsActive] = useState(false)
+  const [succesIsActive, setSuccessIsActive] = useState(false)
+
+  const { username, email, _id } = useAuth()
   const [addProduct, { isLoading }] = productApi.useAddProductMutation()
+
   const { data: brands } = extraApi.useGetAllBrandsQuery({
     page: 1,
     params: `limit=999`
   })
+
   const { data: categories } = extraApi.useGetCategoriesQuery(null)
   const { clothSize, colors, conditions, mainCategories } = useAppSelector(state => state.filterReducer)
 
@@ -155,7 +161,7 @@ export default function Sell() {
 
   const renderAdditionalImages = () => {
     const indexes = []
-    for (let index = 0; index < additionalPhoto.length + 1 && index < 5; index++) {
+    for (let index = 0; index < additionalPhoto.length + 1 && index < 4; index++) {
       indexes.push(index)
     }
     return (
@@ -244,10 +250,20 @@ export default function Sell() {
   }
 
   const postProduct = async () => {
+    const currentDate = new Date().toLocaleString("ru", {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      timeZone: 'Europe/Kiev',
+    })
+
     await addProduct({
       saler: {
         name: username,
-        email: email
+        email: email,
+        id: _id
       },
       name: name,
       condition: condition,
@@ -258,13 +274,16 @@ export default function Sell() {
       size: size,
       color: color,
       description: description,
-      price: price,
-      discount: discount,
+      price: parseInt(price),
+      discount: parseInt(discount),
       amount: amount,
-      trade: trade,
+      trade: false,
       mainPhoto: mainPhoto,
-      additionalsPhotos: additionalPhoto
+      additionalsPhotos: additionalPhoto,
+      createdTime: currentDate
     })
+
+    setSuccessIsActive(true)
   }
 
   const toBase64 = (file: File): Promise<string> => new Promise<string>((resolve, reject) => {
@@ -281,66 +300,70 @@ export default function Sell() {
           <h1>Выставить товар на продажу</h1>
         </div>
         <div className={s.sell__form}>
-          <div className={`${s.sell__name} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Название</p>
             <input
-              className={`${s.sell__product_name} ${s.sell__inputs}`}
+              className={s.sell__inputs}
               value={name}
               onChange={(e) => setName(e.target.value)} />
           </div>
-          <div className={`${s.sell__condition} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Состояние</p>
             <MySelect
+              className={s.sell__inputs}
               defaultValue='Без бирки'
               onChange={(e) => setCondition(e.target.value)}
               data={conditions} />
           </div>
-          <div className={`${s.sell__main_category} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Основная категория</p>
             <MySelect
+              className={s.sell__inputs}
               defaultValue='Выберите категорию'
               onChange={(e) => setMainCategory(e.target.value)}
               data={mainCategories} />
           </div>
-          <div className={`${s.sell__categories} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Подкатегория</p>
             <MySelect
+              className={s.sell__inputs}
               defaultValue='Выберите подкатегорию'
               onChange={(e) => setCategory(e.target.value)}
               data={["top", "bottom", "shoes", "accessories"]} />
           </div>
-          <div className={`${s.sell__subcategories} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Субкатегория</p>
             <MySelect
+              className={s.sell__inputs}
               defaultValue='Выберите субкатегорию'
               onChange={(e) => setSubCategory(e.target.value)}>
               {renderSubCategory()}
             </MySelect>
           </div>
-          <div className={`${s.sell__brands} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Бренд</p>
             {renderBrands()}
           </div>
           {renderMainImage()}
           <div className={s.sell__label}>
-            <p>Галерея (максимум 5 фото)</p>
+            <p>Галерея (максимум 4 фото)</p>
             <div className={s.sell__inputs_wrapper}>
               {renderAdditionalImages()}
             </div>
           </div>
-          <div className={`${s.sell__size} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Размер</p>
             <div className={s.sell__inputs}>
               {renderSize()}
             </div>
           </div>
-          <div className={`${s.sell__color} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Цвет (Выберите основной цвет.)</p>
             <div className={s.sell__inputs}>
               {renderColors()}
             </div>
           </div>
-          <div className={`${s.sell__description} ${s.sell__label}`}>
+          <div className={s.sell__label}>
             <p>Описание товара</p>
             <textarea
               onChange={(e) => setDescription(e.target.value)}
@@ -348,12 +371,21 @@ export default function Sell() {
               className={s.sell__inputs} />
           </div>
           <div className={`${s.sell__price} ${s.sell__label}`}>
-            <p>Цена</p>
+            <p>Цена (Максимальна цена за продукт 200 000 грн.)</p>
             <div className={s.sell__inputs}>
               <input
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => {
+                  if (parseInt(e.target.value) > 200000) {
+                    setPrice('200000')
+                  } else if(parseInt(e.target.value) < 0){
+                    setPrice('0')
+                  } else {
+                    setPrice(e.target.value)
+                  }
+                }}
+                value={price}
                 style={{ flex: '1 1 auto' }}
-                type={'text'} />
+                type={'number'} />
               <IconSelector className={s.sell__uah} id='uah' />
             </div>
           </div>
@@ -361,9 +393,18 @@ export default function Sell() {
             <p>Цена со скидкой</p>
             <div className={s.sell__inputs}>
               <input
-                onChange={(e) => setDiscount(e.target.value)}
+                onChange={(e) => {
+                  if(parseInt(price) <= parseInt(e.target.value)){
+                    setDiscount(`${parseInt(price) - 1}`)
+                  } else if(parseInt(e.target.value) < 0){
+                    setDiscount('0')
+                  } else{
+                    setDiscount(e.target.value)
+                  }
+                }}
                 style={{ flex: '1 1 auto' }}
-                type={'text'} />
+                type={'number'}
+                value={discount}/>
               <IconSelector className={s.sell__uah} id='uah' />
             </div>
           </div>
@@ -373,25 +414,28 @@ export default function Sell() {
               <input onChange={(e) => setAmount(parseInt(e.target.value))} type={'number'} />
             </div>
           </div>
-          <div className={`${s.sell__trade} ${s.sell__label}`}>
-            <p>Обмен</p>
-            <div className={s.sell__inputs}>
-              <div className={s.sell__checkbox}>
-                <input onChange={(e) => setTrade(e.target.checked)} id='trade' type={'checkbox'} />
-                <label htmlFor="trade">Возможен обмен</label>
-              </div>
-            </div>
-          </div>
           <Button
             id={isLoading ? 'second-loader' : 'check-mark'}
             className={s.sell__btn}
             text='Создать обьявление'
             onClick={(e) => {
               e.preventDefault()
-              postProduct()
+              if (name && condition && mainCategory && category && subCategory && brand && size && color && price && mainPhoto && additionalPhoto) {
+                postProduct()
+              } else {
+                setWarnIsActive(true)
+              }
             }} />
         </div>
       </div>
+      <WarningModal
+        modalIsActive={warnIsActive}
+        setModalIsActive={setWarnIsActive}
+        warnText={'Заполните все поля'} />
+      <SuccessModal
+        modalIsActive={succesIsActive}
+        setModalIsActive={setSuccessIsActive}
+        successText={'Обьявление создано'} />
     </div>
   )
 }

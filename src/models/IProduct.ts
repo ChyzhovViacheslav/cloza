@@ -16,5 +16,6 @@ export default interface IProduct {
     id?: any,
     key?: any,
     mainPhoto: string,
-    additionalsPhotos: any
+    additionalsPhotos: any,
+    createdTime?: any
 }

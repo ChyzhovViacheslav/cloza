@@ -4,6 +4,7 @@ interface IRegisterUser {
     username: string,
     password: string,
     email: string
+    registerDate: string
 }
 
 interface ILoginUser {

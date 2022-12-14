@@ -3,27 +3,31 @@ import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
 import { authUser } from '../../services/AuthUser'
 import s from '../../styles/styleComponents/TopSalers.module.scss'
+import ErrorConnection from '../interface/errorconnection/ErrorConnection'
 import SalerItem from '../salerItem/SalerItem'
 
 export default function TopSalers() {
-    const { data: users, isLoading: usersIsLoading } = authUser.useFetchAllUsersQuery({
-        sortByRating: -1,
+    const { data: users, isLoading: usersIsLoading, isError } = authUser.useFetchAllUsersQuery({
         page: 1,
         limit: 4
     })
 
     const renderUsers = () => {
-        return (
-            users?.users.map((el: any, i: number) => {
-                return (
-                    <SalerItem
-                        _id={el._id}
-                        username={el.username}
-                        image={el.image}
-                        key={i} />
-                )
-            })
-        )
+        if (isError) {
+            return <ErrorConnection />
+        } else {
+            return (
+                users?.users.map((el: any, i: number) => {
+                    return (
+                        <SalerItem
+                            _id={el._id}
+                            username={el.username}
+                            image={el.image}
+                            key={i} />
+                    )
+                })
+            )
+        }
     }
 
     return (
@@ -37,7 +41,7 @@ export default function TopSalers() {
                     <Link to='/salers'><span>Все продавцы</span></Link>
                 </div>
                 <div className={s.topsalers__content}>
-                    {usersIsLoading ? <IconSelector className={s.topsalers__loader} id='loader'/> : renderUsers()}
+                    {usersIsLoading ? <IconSelector className={s.topsalers__loader} id='loader' /> : renderUsers()}
                 </div>
             </div>
         </section>

@@ -1,10 +1,14 @@
 .item {
     width: 267px;
+    &__body {
+        border-radius: 16px;
+    }
     &__img {
         position: relative;
         img {
             border-radius: 16px;
             width: 100%;
+            max-height: 267px;
             object-fit: cover;
         }
     }
@@ -28,15 +32,6 @@
             color: #ffffff;
         }
     }
-    &__verified {
-        flex-shrink: 0;
-        margin-right: 8px;
-        width: 20px;
-        height: 20px;
-        path {
-            fill: var(--main-color);
-        }
-    }
     &__inf {
         display: flex;
         align-items: center;
@@ -56,12 +51,12 @@
         line-height: 20px;
         color: var(--text-title);
     }
-    &__discount_price{
+    &__discount_price {
         margin-left: 6px;
         justify-content: flex-end;
         align-items: center;
     }
-    &__dis_price{
+    &__dis_price {
         font-size: 16px;
         font-weight: 500;
         line-height: 20px;
@@ -105,68 +100,41 @@
             color: var(--text-paragraph);
         }
     }
-    &__actions{
+    &__actions {
         display: flex;
         column-gap: 8px;
         margin-top: 16px;
     }
-    &__wishlist_container{
+    &__wishlist_container {
         position: relative;
         width: 20px;
         height: 20px;
     }
-    &__anim{
-        cursor: none;
-        position: absolute;
-        z-index: 1;
-        width: 20px;
-        height: 20px;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        top: 50%;
-        left: 50%;
-        transition: all 0.3s ease-in-out;
-        path{
-            fill: white;
-        }
-    }
-    &__icon {
+    &__cart {
+        cursor: pointer;
         flex-shrink: 0;
         position: relative;
         z-index: 2;
         width: 20px;
         height: 20px;
         path {
-            fill: white;
-            transition: all 0.3s ease-in-out;
-        }
-    }
-    &__cart{
-        flex-shrink: 0;
-        position: relative;
-        z-index: 2;
-        width: 20px;
-        height: 20px;
-        path{
             fill: var(--main-color);
         }
     }
-}
-
-.active{
-    path{
-        fill: var(--main-color)
+    &__your{
+        font-size: 18px;
+        color: var(--text-paragraph);
     }
 }
 
-.incart{
-    path{
+.active {
+    path {
+        fill: var(--main-color);
+    }
+}
+
+.incart {
+    path {
         fill: var(--main-red);
     }
-}
-
-.favor{
-    width: 60px;
-    height: 60px;
-    opacity: 0;
 }

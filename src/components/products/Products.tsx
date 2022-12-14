@@ -18,7 +18,7 @@ export default function Products({currentMainCategory, sortByPrice, limit, saler
             limit: limit,
             maincategory: currentMainCategory,
             sortByPrice: sortByPrice,
-            salerEmail: salerEmail,
+            email: salerEmail,
         }
     )
 

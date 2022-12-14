@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
 import s from '../../styles/styleComponents/LoginModal.module.scss'
 import Button from '../interface/button/Button';
-import Line from '../interface/line/Line';
 import Modal from '../interface/modal/Modal'
 import { userSlice } from '../../store/reducers/UserSlice';
 import { Link } from 'react-router-dom';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
 import { authUser } from '../../services/AuthUser';
 
-export default function LoginModal() {
+interface ILoginModal{
+    modalIsActive: boolean,
+    setModalIsActive: any
+}
+
+export default function LoginModal({modalIsActive, setModalIsActive}:ILoginModal) {
     const { changeModalTypeRegister } = loginModalSlice.actions
-    const { active } = useAppSelector(state => state.modalReducer)
-    const { closeModal } = loginModalSlice.actions
     const { setUser } = userSlice.actions
     const { openLoader, closeLoader } = loaderSlice.actions
 
@@ -35,10 +37,12 @@ export default function LoginModal() {
                 image: data.image,
                 _id: data._id,
                 wishlist: data.wishlist,
-                cartlist: data.cartlist
+                cartlist: data.cartlist,
+                delivery_info: data.delivery_info,
+                registerDate: data.registerDate
             }))
             setError(false)
-            dispatch(closeModal())
+            setModalIsActive(false)
         })
             .catch(() => {
                 setError(true)
@@ -47,7 +51,7 @@ export default function LoginModal() {
     }
 
     return (
-        <Modal active={active} closeModal={closeModal}>
+        <Modal active={modalIsActive} closeModal={setModalIsActive}>
             <div className={s.modal}>
                 <div className={s.modal__title}>
                     <h1>Вход</h1>
@@ -86,9 +90,6 @@ export default function LoginModal() {
                     <p className={s.modal__link}>У вас ещё нет аккаунта? <span onClick={() => {
                         dispatch(changeModalTypeRegister())
                     }} style={{ color: 'var(--main-color)', fontWeight: '500', cursor: 'pointer' }}>Пройдите процесс регистрации</span></p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '32px' }}>
-                    <Line /><span className={s.modal__link} style={{ padding: '0px 16px' }}>или</span><Line />
                 </div>
             </div>
         </Modal>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import s from '../../styles/styleComponents/ClothesItem.module.scss'
 import Line from '../interface/line/Line'
@@ -6,18 +6,17 @@ import IProduct from '../../models/IProduct'
 import { useNavigate } from 'react-router'
 import preview from '../../assets/images/hdplaceholder.jpg'
 import useAuth from '../../hooks/userAuth'
-import { useAppDispatch } from '../../hooks/redux'
-import { userSlice } from '../../store/reducers/UserSlice'
-import { authUser } from '../../services/AuthUser'
+import ICartList from '../../models/ICartList'
+import useCartlist from '../../hooks/useCartlist'
+import VerifiedUser from '../interface/verifieduser/VerifiedUser'
+import WishlistBtn from '../interface/wishlistbtn/WishlistBtn'
 
-export default function ClothesCard({ name, price, size, condition, id, mainPhoto, discount }: IProduct) {
+export default function ClothesCard({ name, price, size, condition, id, mainPhoto, discount, saler }: IProduct) {
+  const { isAuth, cartlist, _id } = useAuth() as any
+  const { addToCartlist, removeFromCartlist } = useCartlist()
   const navigate = useNavigate()
-  const { isAuth, wishlist, cartlist, _id } = useAuth() as any
-  const dispatch = useAppDispatch()
 
-  const { changeWishlist, changeCartlist } = userSlice.actions
-
-  const [changeUserInfo] = authUser.useChangeUserInfoMutation()
+  const [showVerified, setShowVerified] = useState(false)
 
   const renamedCondition = () => {
     switch (condition) {
@@ -30,48 +29,23 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
     }
   }
 
-  const filterWishlist = () => {
-    if (wishlist.includes(id)) {
-      const newWishlist = wishlist.filter((el: string) => el !== id)
-      dispatch(changeWishlist(newWishlist))
-
-      changeUserInfo({
-        id: _id,
-        body: {
-          wishlist: newWishlist
+  const cartlistIncludes = (id: string) => {
+    let boolean = false
+    cartlist.forEach((el: ICartList) => {
+      if (boolean === false) {
+        if (el.id === id) {
+          boolean = true
         }
-      })
-    } else {
-      const newWishlist = [...wishlist, id]
-      dispatch(changeWishlist(newWishlist))
-      changeUserInfo({
-        id: _id,
-        body: {
-          wishlist: newWishlist
-        }
-      })
-    }
+      }
+    })
+    return boolean
   }
 
   const filterCartlist = () => {
-    if (cartlist.includes(id)) {
-      const newCartlist = cartlist.filter((el: string) => el !== id)
-      dispatch(changeCartlist(newCartlist))
-      changeUserInfo({
-        id: _id,
-        body: {
-          cartlist: newCartlist
-        }
-      })
+    if (cartlistIncludes(id)) {
+      removeFromCartlist(_id, id)
     } else {
-      const newCartlist = [...cartlist, id]
-      dispatch(changeCartlist(newCartlist))
-      changeUserInfo({
-        id: _id,
-        body: {
-          cartlist: newCartlist
-        }
-      })
+      addToCartlist(_id, id, 1)
     }
   }
 
@@ -87,7 +61,11 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
             : null}
         </div>
         <div className={s.item__inf}>
-          <IconSelector id='verified-user' className={s.item__verified} />
+          <VerifiedUser
+            setShowVerified={setShowVerified}
+            showVerified={showVerified}
+            userId={saler.id}
+            size={20} />
           <div className={s.item__name}>
             <h2 onClick={() => { navigate(`/product/${id}`) }}>{name}</h2>
           </div>
@@ -112,22 +90,18 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
         <div className={s.item__condition}><span>{renamedCondition()}</span></div>
         <div className={s.item__size}><span>{size}</span></div>
         {isAuth ? <div className={s.item__actions}>
-          <div className={s.item__wishlist_container}>
-            <IconSelector
-              className={wishlist.includes(id) ? `${s.item__icon} ${s.active}` : s.item__icon}
-              id='heart'
-              onClick={() => filterWishlist()} />
-            {wishlist.includes(id) ?
-              <IconSelector className={`${s.item__anim} ${s.favor}`} id='heart' />
-              :
-              <IconSelector className={s.item__anim} id='heart' />}
-          </div>
-          <div className={s.item__cartlist_containter}>
-            <IconSelector
-              onClick={() => filterCartlist()}
-              id='cart-add'
-              className={cartlist.includes(id) ? `${s.item__cart} ${s.incart}` : s.item__cart} />
-          </div>
+          {saler.id !== _id ?
+            <>
+              <WishlistBtn size={20} productId={id} />
+              <div className={s.item__cartlist_containter}>
+                <IconSelector
+                  onClick={() => filterCartlist()}
+                  id='cart-add'
+                  className={cartlistIncludes(id) ? `${s.item__cart} ${s.incart}` : s.item__cart} />
+              </div>
+            </> 
+            : <span className={s.item__your}>Это ваш товар</span>
+          }
         </div> : null}
       </div>
     </div>

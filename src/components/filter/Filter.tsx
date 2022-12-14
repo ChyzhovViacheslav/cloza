@@ -7,11 +7,14 @@ import CollapsableItem from '../interface/collapsable/CollapsableItem'
 import IonRangeSlider from 'react-ion-slider'
 import MyReactSelect from '../interface/inputs/MyReactSelect'
 import { AnyObject } from 'immer/dist/internal'
-import { filterModalSlice } from '../../store/reducers/FilterModalSlice'
 import { extraApi } from '../../services/ExtraService'
 import { useLocation, useNavigate } from 'react-router'
 
-export default function Filter() {
+interface IFilter {
+    setModalIsActive: (e: boolean) => void
+}
+
+export default function Filter({ setModalIsActive }: IFilter) {
     const {
         setSubCategories,
         setPrice,
@@ -38,7 +41,6 @@ export default function Filter() {
         currentCategory
     } = useAppSelector(state => state.filterReducer)
 
-    const { openModal } = filterModalSlice.actions
     const dispatch = useAppDispatch()
 
     const location = useLocation()
@@ -125,7 +127,7 @@ export default function Filter() {
                 className={s.filter__filter_brands}
                 isMulti={true}
                 data={customData}
-                defaultValue={newBrands.length ? {value: newBrands[0], label: newBrands[0]} : null}/>
+                defaultValue={newBrands.length ? { value: newBrands[0], label: newBrands[0] } : null} />
         )
     }
 
@@ -244,7 +246,7 @@ export default function Filter() {
                         {renderCategories()}
                         <span
                             className={s.filter__categories_btn}
-                            onClick={() => dispatch(openModal())}>Показать ещё</span>
+                            onClick={() => setModalIsActive(true)}>Показать ещё</span>
                     </div>
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Бренды' className={s.filter__brands} tittleClassName={s.filter__title}>
@@ -255,9 +257,6 @@ export default function Filter() {
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Размер одежды' className={s.filter__size_clothing} tittleClassName={s.filter__title}>
                     {renderClothSize()}
-                </CollapsableItem>
-                <CollapsableItem isClosed={false} title='Размер обуви' className={s.filter__size_shoes} tittleClassName={s.filter__title}>
-
                 </CollapsableItem>
                 <CollapsableItem isClosed={false} title='Цвета' className={s.filter__colors} tittleClassName={s.filter__title}>
                     {renderColor()}

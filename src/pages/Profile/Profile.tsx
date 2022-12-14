@@ -5,26 +5,47 @@ import { useState, useRef, useEffect } from 'react'
 import Rating from '../../components/interface/rating/Rating';
 import { extraApi } from '../../services/ExtraService';
 import Line from '../../components/interface/line/Line';
-import Filter from '../../components/filter/Filter';
 import { productApi } from '../../services/ProductService';
 import { useLocation } from 'react-router';
 import ClothesCard from '../../components/clothesitem/ClothesCard';
 import Pagination from '../../components/pagination/Pagination';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { extraSlice } from '../../store/reducers/ExtraSlice';
+import DeliveryInfo from '../../components/deliveryinfo/deliveryinfo';
+import IDeliveryInfo from '../../models/IDeliveryInfo';
+import { authUser } from '../../services/AuthUser';
+import { userSlice } from '../../store/reducers/UserSlice';
+import ICartList from '../../models/ICartList';
+import Button from '../../components/interface/button/Button';
+import SuccessModal from '../../components/interface/successmodal/SuccessModal';
+import WarningModal from '../../components/interface/warningmodal/WarningModal';
 
 export default function Profile() {
-    const { username, image, _id, email, wishlist, cartlist } = useAuth()
+    const { username, image, _id, email, wishlist, cartlist, delivery_info, registerDate } = useAuth()
     const location = useLocation()
 
     const { currentProfileTab } = useAppSelector(state => state.ExtraReducer)
     const { changeProfileTab } = extraSlice.actions
+    const { changeDeliveryInfoList, changeUserName, changeUserPhoto } = userSlice.actions
     const dispatch = useAppDispatch()
 
     const refUsername = useRef<HTMLDivElement>(null)
     const [userName, setUserName] = useState(username)
-    const [userPhoto, setUserPhoto] = useState(image)
+    const [userPhoto, setUserPhoto] = useState<string>(image)
     const [contentEditable, setContentEditable] = useState(false)
+
+    const [modalIsActive, setModalIsActive] = useState(false)
+    const [warnIsActive, setWarnIsActive] = useState(false)
+
+    const [templateName, setTemplateName] = useState('')
+    const [templateEmail, setTemplateEmail] = useState('')
+    const [templatePhone, setTemplatePhone] = useState('') as any
+    const [templateCity, setTemplateCity] = useState('')
+    const [templateAddress, setTemplateAddress] = useState('')
+    const [templateIndex, setTemplateIndex] = useState('') as any
+
+    const [changeUserInfo, { isLoading }] = authUser.useChangeUserInfoMutation()
+    const [createOrder] = extraApi.useCreateOrderMutation()
 
     const [currentProductPage, setCurrentProductPage] = useState(1)
     const [currentWishListPage, setCurrentWishListPage] = useState(1)
@@ -50,12 +71,44 @@ export default function Profile() {
 
     const fancyCartlist = () => {
         let id = ``
-        cartlist.forEach((el: string) => {
-            id = id + `&id=${el}`
+        cartlist.forEach((el: ICartList) => {
+            id = id + `&id=${el.id}`
         })
         return id
     }
 
+    const currentDate = new Date().toLocaleString("ru", {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZone: 'Europe/Kiev',
+    })
+
+    const createOrderHandler = async (paymentType:string, deliveryType: string, costOfDelivery: number, costOfAllProducts: number, comment: string) => {
+        const products = cartlist.map((el) => {
+            return { productId: el, amount: 1 }
+        })
+
+        await createOrder({
+            address: templateAddress,
+            name: templateName,
+            phone: templatePhone,
+            city: templateCity,
+            index: templateIndex,
+            products: products,
+            orderTime: currentDate,
+            email: email,
+            paymentType: paymentType,
+            deliveryType: deliveryType,
+            costOfDelivery: costOfDelivery,
+            costOfAllProducts: costOfAllProducts,
+            comment: comment,
+            delivered: false,
+            paid: false
+        })
+    }
 
     const { data: reviews } = extraApi.useGetAllReviewQuery({
         page: 1,
@@ -63,14 +116,12 @@ export default function Profile() {
         userId: _id
     })
 
-
     const { data: products } = productApi.useGetAllProductsQuery({
         page: currentProductPage,
         limit: 15,
         email: email,
         params: fancyUrl()
     })
-
 
     const { data: wishlistProducts } = productApi.useGetAllProductsQuery({
         page: currentWishListPage,
@@ -95,7 +146,7 @@ export default function Profile() {
     }, [changeProfileTab])
 
     const renderTabs = () => {
-        const tabs = ['Ваши товары', 'Список желаемого', 'Корзина']
+        const tabs = ['Ваши товары', 'Список желаемого', 'Корзина', 'Данные для доставки']
         return (
             tabs.map((el: string, i: number) => {
                 return (
@@ -125,7 +176,6 @@ export default function Profile() {
                             setCurrentPage={setCurrentProductPage}
                             totalPages={products?.totalPages} />
                     </div>
-                    <Filter />
                 </div>
             )
             case 'Список желаемого': return (
@@ -169,7 +219,72 @@ export default function Profile() {
                     </div>
                 </div>
             )
+            case 'Данные для доставки': return (
+                <div className={s.profile__delivery_info}>
+                    <div className={s.profile__delivery_info_body}>
+                        <DeliveryInfo
+                            name={templateName}
+                            address={templateAddress}
+                            city={templateCity}
+                            email={templateEmail}
+                            index={templateIndex}
+                            phone={templatePhone}
+                            createOrderHandler={createOrderHandler}
+                            setAddress={setTemplateAddress}
+                            setCity={setTemplateCity}
+                            setEmail={setTemplateEmail}
+                            setIndex={setTemplateIndex}
+                            setName={setTemplateName}
+                            setPhone={setTemplatePhone}
+                            setSuccessModalIsActive={setModalIsActive}
+                            setTemplateWarnIsActive={setWarnIsActive}
+                            isTemplate={true} />
+                        <div className={s.profile__templates}>
+                            <h5>Ваши шаблоны</h5>
+                            <div className={s.profile__templates_body}>
+                                {renderTemplates()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
         }
+    }
+
+    const renderTemplates = () => {
+        const deleteCurrentTemplate = (id: any) => {
+            const filtredTemplate = delivery_info.filter((el: IDeliveryInfo) => el.id !== id)
+
+            dispatch(changeDeliveryInfoList(filtredTemplate))
+            changeUserInfo({
+                id: _id,
+                body: {
+                    delivery_info: filtredTemplate
+                }
+            })
+        }
+
+        return (
+            delivery_info.map((el: IDeliveryInfo, i: number) => {
+                return (
+                    <div
+                        key={el.id}
+                        className={s.profile__templates_item}>
+                        <label><h2>ФИО:</h2><span>{el.name}</span></label>
+                        <label><h2>Номер телефона:</h2><span>{el.phone}</span></label>
+                        <label><h2>Email:</h2><span>{el.email}</span></label>
+                        <label><h2>Город:</h2><span>{el.city}</span></label>
+                        <label><h2>Адрес:</h2><span>{el.address}</span></label>
+                        <label><h2>Индекс:</h2><span>{el.index}</span></label>
+                        <div className={s.profile__templates_btns}>
+                            <IconSelector
+                                onClick={() => deleteCurrentTemplate(el.id)}
+                                id='close' />
+                        </div>
+                    </div>
+                )
+            })
+        )
     }
 
     const renderProducts = () => {
@@ -250,6 +365,13 @@ export default function Profile() {
         )
     }
 
+    const toBase64 = (file: File): Promise<string> => new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result?.toString() || '');
+        reader.onerror = error => reject(error);
+    })
+
     return (
         <div className={s.profile}>
             <div className={s.profile__body}>
@@ -259,10 +381,18 @@ export default function Profile() {
                 <div className={s.profile__info}>
                     <div className={s.profile__main_info}>
                         <div className={s.profile__img}>
-                            <img alt='img' src={`data:image/png;base64,${image}`} />
-                            <div className={s.profile__img_btn}>
+                            <img alt='img' src={`data:image/png;base64,${userPhoto}`} />
+                            <label
+                                className={s.profile__img_btn}>
+                                <input
+                                    type='file'
+                                    accept="image/png, image/jpeg, image/jpg"
+                                    style={{ display: 'none' }}
+                                    onChange={async (e) => {
+                                        setUserPhoto((await toBase64(e.target.files[0])).split(',')[1])
+                                    }} />
                                 <IconSelector id='change-img' />
-                            </div>
+                            </label>
                         </div>
                         <div className={s.profile__content}>
                             <div className={s.profile__name}>
@@ -276,17 +406,35 @@ export default function Profile() {
                                     if (contentEditable === false) {
                                         setContentEditable(true)
                                     } else {
+                                        setUserName(refUsername.current.textContent)
                                         setContentEditable(false)
                                     }
                                 }} id='change-text' />
                             </div>
                             <div className={s.profile__date}>
-                                <span>Дата регистрации: 11.09.2022</span>
+                                <span>Дата регистрации: {registerDate}</span>
                             </div>
                             <div className={s.profile__rating}>
-                                <span>Ваш рейтинг:</span>
-                                <Rating reviews={reviews?.reviews} />
+                                <div>
+                                    <span>Ваш рейтинг:</span>
+                                    <Rating reviews={reviews?.reviews} />
+                                </div>
                             </div>
+                            <Button
+                                className={s.profile__save}
+                                text='Сохранить'
+                                id={isLoading ? 'second-loader' : ''}
+                                onClick={async () => {
+                                    dispatch(changeUserName(userName))
+                                    dispatch(changeUserPhoto(userPhoto))
+                                    await changeUserInfo({
+                                        id: _id,
+                                        body: {
+                                            image: userPhoto,
+                                            username: userName
+                                        }
+                                    })
+                                }} />
                         </div>
                     </div>
                 </div>
@@ -298,6 +446,14 @@ export default function Profile() {
                 </div>
                 {renderCurrentTab()}
             </div>
+            <SuccessModal
+                successText='Шаблон создан'
+                setModalIsActive={setModalIsActive}
+                modalIsActive={modalIsActive} />
+            <WarningModal
+                warnText='Заполните все поля'
+                modalIsActive={warnIsActive} 
+                setModalIsActive={setWarnIsActive}/>
         </div>
     )
 }

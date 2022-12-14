@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5282e080.css",
+    "main.js": "/static/js/main.c5b67b42.js",
+    "static/media/slider.png": "/static/media/slider.3ea5a29b799de4041a73.png",
+    "static/media/hdplaceholder.jpg": "/static/media/hdplaceholder.275e68e2197758a48a39.jpg",
+    "static/media/Ptrootuibold.woff": "/static/media/Ptrootuibold.d94e1d789348d7591dab.woff",
+    "static/media/Ptrootuimedium.woff": "/static/media/Ptrootuimedium.b0e3eea3461ed768f7ea.woff",
+    "static/media/Ptrootui.woff": "/static/media/Ptrootui.10a42f3ae432b663e98b.woff",
+    "static/media/Ptrootuibold.woff2": "/static/media/Ptrootuibold.89bf24dafb33442218c1.woff2",
+    "static/media/Ptrootuimedium.woff2": "/static/media/Ptrootuimedium.23925da31b47ea42144e.woff2",
+    "static/media/Ptrootui.woff2": "/static/media/Ptrootui.5a2adaa8ab2eea5301a8.woff2",
+    "static/media/radio_button_checked.svg": "/static/media/radio_button_checked.2d19c84b1cad9989a0d4.svg",
+    "static/media/check_box.svg": "/static/media/check_box.f193796939eecfedef19.svg",
+    "index.html": "/index.html",
+    "static/media/check_box_outline_blank.svg": "/static/media/check_box_outline_blank.1399338cbd511b350d46.svg",
+    "static/media/radio_button_unchecked.svg": "/static/media/radio_button_unchecked.4866ca4ce0bb74653113.svg",
+    "static/media/keyboard_arrow_down.svg": "/static/media/keyboard_arrow_down.27414b358912f78903a0.svg",
+    "static/media/checked.svg": "/static/media/checked.581c86ee245cded9d81c.svg",
+    "main.5282e080.css.map": "/static/css/main.5282e080.css.map",
+    "main.c5b67b42.js.map": "/static/js/main.c5b67b42.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5282e080.css",
+    "static/js/main.c5b67b42.js"
+  ]
+}

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import IOrder from "../models/IOrder";
 import IReview from "../models/IReview";
 
 export const extraApi = createApi({
@@ -32,6 +33,13 @@ export const extraApi = createApi({
                 url: `review/?page=${page}&limit=${limit}&userId=${userId}`,
                 method: 'GET',
                 params
+            })
+        }),
+        createOrder: build.mutation<IOrder, IOrder>({
+            query: (body) => ({
+                url: 'order/',
+                method: 'POST',
+                body
             })
         })
     })

@@ -7,8 +7,7 @@ import userReducer from './reducers/UserSlice'
 import smModalReducer from './reducers/SmModalSlice'
 import loaderReducer from './reducers/LoaderSlice'
 import filterReducer from './reducers/ProductFilter'
-import FilterModalReducer from "./reducers/FilterModalSlice";
-import ExtraReducer from './reducers/ExtraSlice';
+import ExtraReducer from './reducers/ExtraSlice'
 import storage from 'redux-persist/lib/storage'
 import {persistStore, persistReducer} from 'redux-persist'
 
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
     smModalReducer,
     loaderReducer,
     filterReducer,
-    FilterModalReducer,
     ExtraReducer,
     [productApi.reducerPath]: productApi.reducer,
     [authUser.reducerPath]: authUser.reducer,

@@ -48,7 +48,7 @@ export default function NewProducts() {
                         <div className={s.newproducts__area_sorted}>
                             <span>Сортировать: </span>
                             <MySelect
-                                data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
+                                data={["Цена по возрастанию", "Цена по убыванию"]}
                                 onChange={(e) => {
                                     switch (e.target.value) {
                                         case 'Цена по возрастанию': setSortByPrice(1)

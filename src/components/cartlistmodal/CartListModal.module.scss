@@ -1,0 +1,145 @@
+.modalwish {
+    position: absolute;
+    top: 100px;
+    right: 50%;
+    transform: translate(50%);
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    &__body {
+        background-color: var(--white-bg);
+        padding: 24px;
+        box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+    }
+    &__empty_cart{
+        white-space: nowrap;
+        font-size: 18px;
+        color: var(--text-paragraph);
+    }
+    &__item {
+        display: flex;
+        column-gap: 12px;
+        align-items: center;
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        h2 {
+            white-space: nowrap;
+        }
+    }
+    &__name {
+        height: 50px;
+        display: flex;
+        flex: 1 0 auto;
+        flex-direction: column;
+        justify-content: space-between;
+        span {
+            white-space: nowrap;
+            color: var(--text-paragraph);
+        }
+    }
+    &__amount{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 500;
+        span{
+            white-space: nowrap;
+        }
+        svg{
+            cursor: pointer;
+            path{
+                fill: var(--text-paragraph);
+                transition: fill 0.2s ease-in-out;
+            }
+            &:hover{
+                path{
+                    fill: var(--main-color)
+                }
+            }
+        }
+    }
+    &__price {
+        display: flex;
+        align-items: center;
+    }
+    &__uah {
+        width: 16px;
+        height: 16px;
+    }
+    &__buttons {
+        display: flex;
+        height: 50px;
+        width: 100%;
+        justify-content: space-between;
+        column-gap: 12px;
+    }
+    &__full {
+        cursor: pointer;
+        background-color: var(--gray-light);
+        border-radius: 12px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.2s ease-in-out;
+        span {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text-paragraph);
+            transition: color 0.2s ease-in-out;
+        }
+        &:hover {
+            background-color: var(--main-color);
+            span {
+                color: var(--white-bg);
+            }
+        }
+    }
+    &__cart_link {
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        background-color: var(--main-color);
+        transition: background-color 0.2s ease-in-out;
+        &:hover{
+            background-color: #4d547e;
+        }
+        svg{
+            path{
+                fill: var(--gray-light);
+            }
+        }
+    }
+    &__remove {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        transition: all 0.2s ease-in-out;
+        path{
+            fill: var(--main-red);
+        }
+        &:hover{
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.active {
+    top: 50px;
+    opacity: 1;
+    pointer-events: all;
+    .modal__link {
+        pointer-events: all;
+        cursor: pointer;
+    }
+}

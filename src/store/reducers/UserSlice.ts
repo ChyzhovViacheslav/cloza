@@ -3,10 +3,12 @@ import { createSlice } from "@reduxjs/toolkit"
 interface IPathname {
     username: string,
     email: string,
-    image: any,
+    image: string,
     _id: any,
     wishlist: [],
-    cartlist: []
+    cartlist: [],
+    delivery_info: [],
+    registerDate: string
 }
 
 const initialState: IPathname = {
@@ -15,7 +17,9 @@ const initialState: IPathname = {
     image: null,
     _id: null,
     wishlist: null,
-    cartlist: null
+    cartlist: null,
+    delivery_info: null,
+    registerDate: null
 }
 
 export const userSlice = createSlice({
@@ -29,6 +33,8 @@ export const userSlice = createSlice({
             state._id = action.payload._id
             state.wishlist = action.payload.wishlist
             state.cartlist = action.payload.cartlist
+            state.delivery_info = action.payload.delivery_info
+            state.registerDate = action.payload.registerDate
         },
         removeUser(state){
             state.email = null
@@ -37,12 +43,23 @@ export const userSlice = createSlice({
             state._id = null
             state.wishlist = null
             state.cartlist = null
+            state.delivery_info = null
+            state.registerDate = null
         },
         changeWishlist(state, action){
             state.wishlist = action.payload
         },
         changeCartlist(state, action){
             state.cartlist = action.payload
+        },
+        changeDeliveryInfoList(state, action){
+            state.delivery_info = action.payload
+        },
+        changeUserPhoto(state, action){
+            state.image = action.payload
+        },
+        changeUserName(state, action){
+            state.username = action.payload
         }
     }
 })

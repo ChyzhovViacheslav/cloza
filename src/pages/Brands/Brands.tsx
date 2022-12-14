@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import BrandsItem from '../../components/brandsitem/BrandsItem'
 import ShowTotalItems from '../../components/interface/showTotalItems/ShowTotalItems'
+import LocalSearch from '../../components/localsearch/LocalSearch'
 import Pagination from '../../components/pagination/Pagination'
 import { extraApi } from '../../services/ExtraService'
 import s from '../../styles/styleComponents/Brands.module.scss'
@@ -29,13 +30,7 @@ export default function Brands() {
     return (
     <div className={s.brands}>
         <div className={s.brands__body}>
-            <div className={s.brands__search}>
-                <IconSelector id='search'/>
-                <input
-                    value={searchTerm}
-                    placeholder='Найти'
-                    onChange={(e) => setSearchTerm(e.target.value)}/>
-            </div>
+            <LocalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <div className={s.brands__show}>
                 <ShowTotalItems currentPage={currentPage} currentItems={brands?.brands.length} totalItems={brands?.totalBrands} spreading={12}/>
             </div>

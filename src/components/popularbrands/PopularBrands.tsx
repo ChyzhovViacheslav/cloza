@@ -4,22 +4,26 @@ import IconSelector from '../../assets/icons/icons'
 import { extraApi } from '../../services/ExtraService'
 import s from '../../styles/styleComponents/PopularBrands.module.scss'
 import BrandsItem from '../brandsitem/BrandsItem'
-type Props = {}
+import ErrorConnection from '../interface/errorconnection/ErrorConnection'
 
-export default function PopularBrands({ }: Props) {
-    const { data: brands, isLoading: brandsIsLoading } = extraApi.useGetAllBrandsQuery({
+export default function PopularBrands() {
+    const { data: brands, isLoading: brandsIsLoading, isError } = extraApi.useGetAllBrandsQuery({
         page: 1,
         params: 'limit=4'
     }) as any
 
     const renderBrands = () => {
-        if (!brandsIsLoading) {
-            return (
-                brands.brands.map((el: string, i: number) => {
-                    return <BrandsItem name={el} key={i} />
-                })
-            )
-        } else return <IconSelector className={s.popbrands__loader} id='loader' />
+        if (isError) {
+            return <ErrorConnection/>
+        } else {
+            if (!brandsIsLoading) {
+                return (
+                    brands.brands.map((el: string, i: number) => {
+                        return <BrandsItem name={el} key={i} />
+                    })
+                )
+            } else return <IconSelector className={s.popbrands__loader} id='loader' />
+        }
     }
 
     return (
