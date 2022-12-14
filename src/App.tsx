@@ -22,7 +22,6 @@ import Categories from './pages/Categories/Categories';
 import SalerPage from './pages/SalerPage/SalerPage';
 import Ordering from './pages/Ordering/Ordering';
 import Sale from './pages/Sale/Sale';
-import useAuth from './hooks/userAuth';
 
 export default function App() {
   const location = useLocation()
