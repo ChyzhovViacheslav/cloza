@@ -5,7 +5,7 @@ import IReview from "../models/IReview";
 export const extraApi = createApi({
     reducerPath: 'extraApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:2000/'
+        baseUrl: 'cloza-api.vercel.app/'
     }),
     endpoints: (build) => ({
         getAllBrands: build.query({
