@@ -163,8 +163,6 @@ export default function Profile() {
         )
     }
 
-    console.log(cartlist)
-
     const renderCurrentTab = () => {
         switch (currentProfileTab) {
             case 'Ваши товары': return (

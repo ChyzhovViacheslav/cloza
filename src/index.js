@@ -15,9 +15,9 @@ const persistor = persistStore(store)
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <React>
+      <React.StrictMode>
         <MyRoutes />
-      </React>
+      </React.StrictMode>
     </PersistGate>
   </Provider>
 );
