@@ -1,6 +1,6 @@
 import IconSelector from '../../assets/icons/icons';
 import useAuth from '../../hooks/userAuth';
-import s from '../../styles/styleComponents/Profile.module.scss';
+import s from './Profile.module.scss';
 import { useState, useRef, useEffect } from 'react'
 import Rating from '../../components/interface/rating/Rating';
 import { extraApi } from '../../services/ExtraService';
@@ -86,7 +86,7 @@ export default function Profile() {
         timeZone: 'Europe/Kiev',
     })
 
-    const createOrderHandler = async (paymentType:string, deliveryType: string, costOfDelivery: number, costOfAllProducts: number, comment: string) => {
+    const createOrderHandler = async (paymentType: string, deliveryType: string, costOfDelivery: number, costOfAllProducts: number, comment: string) => {
         const products = cartlist.map((el) => {
             return { productId: el, amount: 1 }
         })
@@ -163,18 +163,28 @@ export default function Profile() {
         )
     }
 
+    console.log(cartlist)
+
     const renderCurrentTab = () => {
         switch (currentProfileTab) {
             case 'Ваши товары': return (
                 <div className={s.profile__products}>
                     <div className={s.profile__products_body}>
-                        <div className={s.profile__products_content}>
-                            {renderProducts()}
-                        </div>
-                        <Pagination
-                            currentPage={currentProductPage}
-                            setCurrentPage={setCurrentProductPage}
-                            totalPages={products?.totalPages} />
+                        {cartlist?.length >= 1 ?
+                            <>
+                                <div className={s.profile__products_content}>
+                                    {renderProducts()}
+                                </div>
+                                <Pagination
+                                    currentPage={currentProductPage}
+                                    setCurrentPage={setCurrentProductPage}
+                                    totalPages={products?.totalPages} />
+                            </>
+                            :
+                            <div className={s.profile__wishlist_empty}>
+                                <IconSelector id='search' />
+                                <span>Ваш список пуст</span>
+                            </div>}
                     </div>
                 </div>
             )
@@ -306,7 +316,7 @@ export default function Profile() {
                     price={el.price}
                     amount={el.amount}
                     trade={el.trade}
-                    id={el._id}
+                    _id={el._id}
                     mainPhoto={el.mainPhoto}
                     additionalsPhotos={el.additionalsPhotos} />
             })
@@ -332,7 +342,7 @@ export default function Profile() {
                     price={el.price}
                     amount={el.amount}
                     trade={el.trade}
-                    id={el._id}
+                    _id={el._id}
                     mainPhoto={el.mainPhoto}
                     additionalsPhotos={el.additionalsPhotos} />
             })
@@ -358,7 +368,7 @@ export default function Profile() {
                     price={el.price}
                     amount={el.amount}
                     trade={el.trade}
-                    id={el._id}
+                    _id={el._id}
                     mainPhoto={el.mainPhoto}
                     additionalsPhotos={el.additionalsPhotos} />
             })
@@ -452,8 +462,8 @@ export default function Profile() {
                 modalIsActive={modalIsActive} />
             <WarningModal
                 warnText='Заполните все поля'
-                modalIsActive={warnIsActive} 
-                setModalIsActive={setWarnIsActive}/>
+                modalIsActive={warnIsActive}
+                setModalIsActive={setWarnIsActive} />
         </div>
     )
 }

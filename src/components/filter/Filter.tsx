@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import IconSelector from '../../assets/icons/icons'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { filterSlice } from '../../store/reducers/ProductFilter'
-import s from '../../styles/styleComponents/Filter.module.scss'
+import s from './Filter.module.scss'
 import CollapsableItem from '../interface/collapsable/CollapsableItem'
 import IonRangeSlider from 'react-ion-slider'
 import MyReactSelect from '../interface/inputs/MyReactSelect'
@@ -75,14 +75,14 @@ export default function Filter({ setModalIsActive }: IFilter) {
     const setFilter = (arrs: any) => {
         let newArr = ''
 
-        arrs.forEach((el: any, i: any) => {
+        arrs.forEach((el: any) => {
             newArr = `${newArr}${el.arr.length > 0 ? `${el.filter}=` : ''}${el.arr.join(',')}${el.arr.length > 0 ? '/' : ''}`
         })
 
         navigate(`${location.pathname}?${newArr.substring(0, newArr.length - 1)}`)
     }
 
-    const dispatchFilter = (data: any, dispatchFunc: any, eValue: any, eChecked: any, dataLength: number) => {
+    const dispatchFilter = (data: any[], dispatchFunc: any, eValue: any, eChecked: boolean, dataLength: number) => {
         if (data.includes(eValue) && eChecked) {
             dispatch(dispatchFunc(data.filter((el: string) => el === eValue)))
         } else if (data.includes(eValue) && !eChecked) {

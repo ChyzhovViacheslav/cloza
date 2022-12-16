@@ -1,5 +1,5 @@
 import React from 'react'
-import s from '../../styles/styleComponents/UserCard.module.scss'
+import s from './UserCard.module.scss'
 import UserCardLoader from '../interface/loaders/UserCardLoader'
 import UserCardLoaderSmall from '../interface/loaders/UserCardLoaderSmall'
 import Rating from '../interface/rating/Rating'

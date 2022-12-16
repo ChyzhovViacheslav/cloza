@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import IconSelector from '../../assets/icons/icons';
-import s from '../../styles/styleComponents/ProductPage.module.scss';
+import s from './ProductPage.module.scss';
 import Button from '../../components/interface/button/Button';
 import Line from '../../components/interface/line/Line';
 import { useLocation, useParams } from 'react-router';
@@ -15,10 +15,23 @@ import useCartlist from '../../hooks/useCartlist';
 import VerifiedUser from '../../components/interface/verifieduser/VerifiedUser';
 import WishlistBtn from '../../components/interface/wishlistbtn/WishlistBtn';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { smModalSlice } from '../../store/reducers/SmModalSlice';
+import FavModal from '../../components/smModal/SmModal';
+import LoginModal from '../../components/loginModal/LoginModal';
+import SignupModal from '../../components/signupmodal/SignupModal';
 
 export default function ProductPage() {
     const { id } = useParams()
     const location = useLocation()
+
+    const { type } = useAppSelector(state => state.modalReducer)
+    const { typeSm } = useAppSelector(state => state.smModalReducer)
+    const { changeToCart } = smModalSlice.actions
+
+    const dispatch = useAppDispatch()
+    const [favModal, setFavModal] = useState(false)
+    const [loginModal, setLoginModal] = useState(false)
 
     const { cartlist, _id, isAuth } = useAuth()
     const { addToCartlist, removeFromCartlist } = useCartlist()
@@ -131,7 +144,7 @@ export default function ProductPage() {
 
     const checkCartlist = () => {
         let inCart = false
-        if(isAuth){
+        if (isAuth) {
             cartlist.forEach((el: ICartList) => {
                 if (inCart === false) {
                     if (el.id === id) {
@@ -221,14 +234,15 @@ export default function ProductPage() {
                                         className={checkCartlist() ? `${s.product__buy_btn} ${s.product__buy_btn_disactive}` : s.product__buy_btn}
                                         text={checkCartlist() ? 'Удалить из корзины' : 'В корзину'}
                                         onClick={() => {
-                                            if(isAuth){
+                                            if (isAuth) {
                                                 if (checkCartlist()) {
                                                     removeFromCartlist(_id, id)
                                                 } else {
                                                     addToCartlist(_id, id, initialAmount)
                                                 }
                                             } else {
-
+                                                dispatch(changeToCart())
+                                                setFavModal(true)
                                             }
                                         }} />}
                                 </div>
@@ -282,6 +296,18 @@ export default function ProductPage() {
                     </>
                 }
             </div>
+            <FavModal
+                type={typeSm}
+                favModalIsActive={favModal}
+                setFavModalIsActive={setFavModal}
+                setModalIsActive={setLoginModal} />
+            {type === 'login' ?
+                <LoginModal
+                    modalIsActive={loginModal}
+                    setModalIsActive={setLoginModal} /> :
+                <SignupModal
+                    modalIsActive={loginModal}
+                    setModalIsActive={setLoginModal} />}
         </div>
     )
 }

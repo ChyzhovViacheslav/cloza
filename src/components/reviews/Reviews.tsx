@@ -1,12 +1,12 @@
 import React from 'react'
 import { authUser } from '../../services/AuthUser'
 import Rating from '../interface/rating/Rating';
-import s from '../../styles/styleComponents/Review.module.scss'
+import s from './Review.module.scss'
 import ReviewLoader from '../interface/loaders/ReviewLoader';
 import Line from '../interface/line/Line';
 
 interface IReviews {
-    userId: any,
+    userId: string,
     reviewTime: string,
     reviewDescription: string,
     reviewRating: number;

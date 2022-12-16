@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
-import s from '../../styles/styleComponents/ClothesItem.module.scss'
+import s from './ClothesCard.module.scss'
 import Line from '../interface/line/Line'
 import IProduct from '../../models/IProduct'
 import { useNavigate } from 'react-router'
@@ -10,9 +10,10 @@ import ICartList from '../../models/ICartList'
 import useCartlist from '../../hooks/useCartlist'
 import VerifiedUser from '../interface/verifieduser/VerifiedUser'
 import WishlistBtn from '../interface/wishlistbtn/WishlistBtn'
+import IUseAuth from '../../models/IUseAuth'
 
-export default function ClothesCard({ name, price, size, condition, id, mainPhoto, discount, saler }: IProduct) {
-  const { isAuth, cartlist, _id } = useAuth() as any
+export default function ClothesCard({ name, price, size, condition, _id, mainPhoto, discount, saler }: IProduct) {
+  const { isAuth, cartlist, _id: userId } = useAuth() as IUseAuth
   const { addToCartlist, removeFromCartlist } = useCartlist()
   const navigate = useNavigate()
 
@@ -42,10 +43,10 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
   }
 
   const filterCartlist = () => {
-    if (cartlistIncludes(id)) {
-      removeFromCartlist(_id, id)
+    if (cartlistIncludes(_id)) {
+      removeFromCartlist(userId, _id)
     } else {
-      addToCartlist(_id, id, 1)
+      addToCartlist(userId, _id, 1)
     }
   }
 
@@ -67,7 +68,7 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
             userId={saler.id}
             size={20} />
           <div className={s.item__name}>
-            <h2 onClick={() => { navigate(`/product/${id}`) }}>{name}</h2>
+            <h2 onClick={() => { navigate(`/product/${_id}`) }}>{name}</h2>
           </div>
           {discount ?
             <div className={s.item__discount_price}>
@@ -90,14 +91,14 @@ export default function ClothesCard({ name, price, size, condition, id, mainPhot
         <div className={s.item__condition}><span>{renamedCondition()}</span></div>
         <div className={s.item__size}><span>{size}</span></div>
         {isAuth ? <div className={s.item__actions}>
-          {saler.id !== _id ?
+          {saler.id !== userId ?
             <>
-              <WishlistBtn size={20} productId={id} />
+              <WishlistBtn size={20} productId={_id} />
               <div className={s.item__cartlist_containter}>
                 <IconSelector
                   onClick={() => filterCartlist()}
                   id='cart-add'
-                  className={cartlistIncludes(id) ? `${s.item__cart} ${s.incart}` : s.item__cart} />
+                  className={cartlistIncludes(_id) ? `${s.item__cart} ${s.incart}` : s.item__cart} />
               </div>
             </> 
             : <span className={s.item__your}>Это ваш товар</span>

@@ -51,14 +51,25 @@
         flex-direction: column;
         row-gap: 24px;
     }
-    &__sort_review{
-        margin-bottom: 32px;
+    &__empty_reviews{
+        margin-top: 64px;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        span{
+        h5{
+            margin-top: 32px;
+            opacity: 0.5;
             color: var(--text-paragraph);
-            margin-right: 12px;
         }
+        svg{
+            width: 94px;
+            height: 94px;
+            path{
+                fill: var(--gray-light);
+            }
+        }
+        width: 100%;
     }
 }
 

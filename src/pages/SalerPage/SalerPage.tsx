@@ -13,19 +13,17 @@ import IReview from '../../models/IReview'
 import { authUser } from '../../services/AuthUser'
 import { extraApi } from '../../services/ExtraService'
 import { productApi } from '../../services/ProductService'
-import s from '../../styles/styleComponents/SalerPage.module.scss'
+import s from './SalerPage.module.scss'
 
 export default function SalerPage() {
     const { id } = useParams()
     const location = useLocation()
 
     const [modalIsActive, setModalIsActive] = useState(false)
-
-    const [sortByRating, setSortByRating] = useState(0)
     const [currentPageReview, setCurrentPageReview] = useState(1)
 
-    const { data: user, isLoading: userIsLoading } = authUser.useFetchOneUserByIdQuery(id)
-    const { data: reviews, isLoading: reviewsIsLoading } = extraApi.useGetAllReviewQuery({
+    const { data: user } = authUser.useFetchOneUserByIdQuery(id)
+    const { data: reviews } = extraApi.useGetAllReviewQuery({
         page: 1,
         limit: 10,
         userId: id
@@ -76,7 +74,7 @@ export default function SalerPage() {
                     price={el.price}
                     amount={el.amount}
                     trade={el.trade}
-                    id={el._id}
+                    _id={el._id}
                     mainPhoto={el.mainPhoto}
                     additionalsPhotos={el.additionalsPhotos} />
             })
@@ -129,7 +127,7 @@ export default function SalerPage() {
                         salerRating={user?.rating}
                         productsLength={products?.totalProducts}
                         reviews={reviews?.allReviews}
-                        registerDate={user?.registerDate}/>
+                        registerDate={user?.registerDate} />
                 </div>
                 <div className={s.saler__tabs}>
                     <div className={s.saler__tabs_body}>
@@ -143,7 +141,7 @@ export default function SalerPage() {
                             <div className={s.saler__sort_action}>
                                 <span>Сортировать:</span>
                                 <MySelect
-                                    data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
+                                    data={["Цена по возрастанию", "Цена по убыванию"]}
                                     onChange={(e) => {
                                         switch (e.target.value) {
                                             case 'Цена по возрастанию': setSortByPrice(1)
@@ -164,32 +162,23 @@ export default function SalerPage() {
                         </div>
                     </div> :
                     <div className={s.saler__reviews}>
-                        <div className={s.saler__sort_review}>
-                            <span>Сортировать:</span>
-                            <MySelect
-                                data={["По высокому рейтингу", "По низкому рейтингу"]}
-                                onChange={(e) => {
-                                    switch (e.target.value) {
-                                        case 'По высокому рейтингу': setSortByRating(1)
-                                            break;
-                                        case 'По низкому рейтингу': setSortByRating(-1)
-                                            break;
-                                        default: setSortByRating(0);
-                                    }
-                                }}
-                                defaultValue={"По дате"} />
-                        </div>
-                        <div className={s.saler__reviews_body}>
-                            {renderReviews()}
-                        </div>
-                        <Pagination 
+                        {reviews?.totalReviews <= 0 ?
+                            <div className={s.saler__empty_reviews}>
+                                <IconSelector id='search'/>
+                                <h5>Отзывы отсутствуют</h5>
+                            </div>
+                            :
+                            <div className={s.saler__reviews_body}>
+                                {renderReviews()}
+                            </div>}
+                        <Pagination
                             currentPage={currentPageReview}
                             setCurrentPage={setCurrentPageReview}
-                            totalPages={reviews?.totalPages}/>
+                            totalPages={reviews?.totalPages} />
                     </div>
                 }
             </div>
-            <CategoriesModal modalIsActive={modalIsActive} setModalIsActive={setModalIsActive}/>
+            <CategoriesModal modalIsActive={modalIsActive} setModalIsActive={setModalIsActive} />
         </div>
     )
 }

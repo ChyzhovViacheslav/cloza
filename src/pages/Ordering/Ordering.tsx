@@ -9,7 +9,7 @@ import WarningModal from '../../components/interface/warningmodal/WarningModal'
 import useAuth from '../../hooks/userAuth'
 import ICartList from '../../models/ICartList'
 import { productApi } from '../../services/ProductService'
-import s from '../../styles/styleComponents/Ordering.module.scss'
+import s from './Ordering.module.scss'
 
 export default function Ordering() {
     const { cartlist } = useAuth()

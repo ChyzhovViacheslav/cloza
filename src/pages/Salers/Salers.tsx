@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import IconSelector from '../../assets/icons/icons'
-import MySelect from '../../components/interface/inputs/MySelect'
 import ShowTotalItems from '../../components/interface/showTotalItems/ShowTotalItems'
 import LocalSearch from '../../components/localsearch/LocalSearch'
 import Pagination from '../../components/pagination/Pagination'
 import SalerItem from '../../components/salerItem/SalerItem'
 import IUser from '../../models/IUser'
 import { authUser } from '../../services/AuthUser'
-import s from '../../styles/styleComponents/Salers.module.scss'
+import s from './Salers.module.scss'
 
 export default function Salers() {
     const [currentPage, setCurrentPage] = useState(1)
@@ -56,6 +55,7 @@ export default function Salers() {
                 <LocalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className={s.salers__sort}>
                     <ShowTotalItems
+                        isLoading={usersIsLoading}
                         currentPage={currentPage}
                         spreading={12}
                         totalItems={users?.totalUsers}

@@ -49,7 +49,7 @@ export const authUser = createApi({
             })
         }),
         changeUserInfo: build.mutation({
-            query: ({id, body}:any) => ({
+            query: ({id, body}) => ({
                 url: `/user/${id}`,
                 method: 'PUT',
                 body

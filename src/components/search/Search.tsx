@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import IconSelector from '../../assets/icons/icons'
 import { useAppDispatch } from '../../hooks/redux'
+import IProduct from '../../models/IProduct'
+import IUser from '../../models/IUser'
 import { authUser } from '../../services/AuthUser'
 import { extraApi } from '../../services/ExtraService'
 import { productApi } from '../../services/ProductService'
 import { filterSlice } from '../../store/reducers/ProductFilter'
-import s from '../../styles/styleComponents/Search.module.scss'
+import s from './Search.module.scss'
 
 export default function Search() {
     const [currentValue, setCurrentValue] = useState('')
@@ -42,10 +44,10 @@ export default function Search() {
         const filterBrands = brands?.brands.filter((el: string) => {
             return el.toLowerCase().includes(currentValue.toLowerCase())
         })
-        const filterProducts = products?.products.filter((el: any) => {
+        const filterProducts = products?.products.filter((el: IProduct) => {
             return el.name.toLowerCase().includes(currentValue.toLowerCase())
         })
-        const filterUsers = users?.users.filter((el: any) => {
+        const filterUsers = users?.users.filter((el: IUser) => {
             return el.username.toLowerCase().includes(currentValue.toLowerCase())
         })
         if (currentValue.length >= 3) {
@@ -69,7 +71,7 @@ export default function Search() {
                                 </div>
                             )
                         })}
-                        {filterProducts?.map((el: any) => {
+                        {filterProducts?.map((el: IProduct) => {
                             return (
                                 <div
                                     key={el._id}

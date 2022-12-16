@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Modal from '../interface/modal/Modal'
-import s from '../../styles/styleComponents/SignupModal.module.scss'
+import s from './SignupModal.module.scss'
 import Button from '../interface/button/Button'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
-import Line from '../interface/line/Line';
 import { userSlice } from '../../store/reducers/UserSlice';
 import { loaderSlice } from '../../store/reducers/LoaderSlice';
 import { authUser } from '../../services/AuthUser';
@@ -14,7 +13,7 @@ interface ISignupModal {
     setModalIsActive: any
 }
 
-export default function SignupModal({modalIsActive, setModalIsActive}:ISignupModal) {
+export default function SignupModal({ modalIsActive, setModalIsActive }: ISignupModal) {
     const { changeModalTypeLogin } = loginModalSlice.actions
     const { active } = useAppSelector(state => state.modalReducer)
     const { setUser } = userSlice.actions
@@ -27,6 +26,7 @@ export default function SignupModal({modalIsActive, setModalIsActive}:ISignupMod
     const [verifiedPass, setVerifiedPass] = useState('')
     const verifiedPassRef = useRef(null)
     const [isError, setError] = useState(false)
+    const [valueIsError, setValueIsError] = useState(false)
 
     useEffect(() => {
         return () => {
@@ -70,7 +70,8 @@ export default function SignupModal({modalIsActive, setModalIsActive}:ISignupMod
                 window.location.reload()
             })
     }
-    const vaildatorEmail = (email: string) => {
+    
+    const validatorEmail = (email: string) => {
         const regExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return regExp.test(email.toLowerCase())
     }
@@ -89,7 +90,9 @@ export default function SignupModal({modalIsActive, setModalIsActive}:ISignupMod
                             value={email}
                             onChange={(e) => {
                                 setEmail(e.target.value)
-                                if (vaildatorEmail(e.target.value)) {
+                                if (validatorEmail(e.target.value) === false) {
+                                    e.target.style.border = '1px solid var(--main-red)'
+                                } else {
                                     e.target.style.border = '1px solid var(--gray-light)'
                                 }
                             }}
@@ -108,6 +111,11 @@ export default function SignupModal({modalIsActive, setModalIsActive}:ISignupMod
                             value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value)
+                                if(e.target.value.length <= 7){
+                                    e.target.style.border = '1px solid var(--main-red)'
+                                } else {
+                                    e.target.style.border = '1px solid var(--gray-light)'
+                                }
                             }}
                             placeholder='Пароль' />
                     </label>
@@ -129,12 +137,18 @@ export default function SignupModal({modalIsActive, setModalIsActive}:ISignupMod
                     <div className={s.modal__error} style={isError ? { display: 'block' } : { display: 'none' }}>
                         <span>Указаный e-mail уже существует</span>
                     </div>
+                    <div className={s.modal__error} style={valueIsError ? { display: 'block' } : { display: 'none' }}>
+                        <span>E-mail или пароль указаны неверно</span>
+                    </div>
                     <Button
                         className={s.modal__btn}
                         onClick={(e) => {
                             e.preventDefault()
-                            if (password === verifiedPass && vaildatorEmail(email)) {
+                            if (password === verifiedPass && password.length >= 8 && validatorEmail(email)) {
                                 handleSignUp(name, password, email)
+                                setValueIsError(false)
+                            } else {
+                                setValueIsError(true)
                             }
                         }}
                         text='Зарегистрироваться' />

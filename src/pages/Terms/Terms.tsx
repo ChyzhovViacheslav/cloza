@@ -1,8 +1,7 @@
 import React from 'react'
-import s from '../../styles/styleComponents/Terms.module.scss'
-type Props = {}
+import s from './Terms.module.scss'
 
-export default function Terms({}: Props) {
+export default function Terms() {
   return (
     <div className={s.terms}>
         <div className={s.terms__body}>

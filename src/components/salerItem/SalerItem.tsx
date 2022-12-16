@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import IUser from '../../models/IUser'
 import { extraApi } from '../../services/ExtraService'
-import s from '../../styles/styleComponents/SalerItem.module.scss'
+import s from './SalerItem.module.scss'
 import Rating from '../interface/rating/Rating'
 
 export default function SalerItem({ _id, username, image }: IUser) {

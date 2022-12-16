@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '../interface/modal/Modal'
-import s from '../../styles/styleComponents/SmModal.module.scss';
+import s from './SmModal.module.scss';
 import { useAppDispatch } from '../../hooks/redux';
 import Button from '../interface/button/Button';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
@@ -8,12 +8,11 @@ import { loginModalSlice } from '../../store/reducers/ModalSlice';
 interface IFavModal {
     type: string
     favModalIsActive: boolean,
-    setFavModalIsActive: (value: boolean) => void,
-    modalIsActive: boolean,
-    setModalIsActive: (value: boolean) => void
+    setFavModalIsActive: (value: boolean) => void
+    setModalIsActive?: any
 }
 
-export default function FavModal({ type, favModalIsActive, setFavModalIsActive, modalIsActive, setModalIsActive }: IFavModal) {
+export default function FavModal({ type, favModalIsActive, setFavModalIsActive, setModalIsActive }: IFavModal) {
     const { changeModalTypeRegister, changeModalTypeLogin } = loginModalSlice.actions
     const dispatch = useAppDispatch()
 
@@ -31,6 +30,11 @@ export default function FavModal({ type, favModalIsActive, setFavModalIsActive, 
                 return (
                     <p>Для размещения товара на продажу, необходимо войти или зарегистрироваться!</p>
                 )
+            case 'cart':
+                return (
+                    <p>Для добавления товара в корзину, необходимо войти или зарегистрироваться!</p>
+                )
+            
             default:
                 return null
         }

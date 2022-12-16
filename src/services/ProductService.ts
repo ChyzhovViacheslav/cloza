@@ -1,19 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import IProduct from '../models/IProduct'
 
-interface IgetAllProducts {
-    page: number,
-    limit: number,
-    maincategory: string,
-    saler: string,
-    sortByPrice: number | null
-    params: any
-    email: string,
-    id: any,
-    emptyField: string;
-    discount: string
-}
-
 export const productApi = createApi({
     reducerPath: 'productApi',
     tagTypes: ['Products'],
@@ -21,7 +8,7 @@ export const productApi = createApi({
         baseUrl: 'https://cloza-api.vercel.app/products'
     }),
     endpoints: (build) => ({
-        getAllProducts: build.query<any, Object>({
+        getAllProducts: build.query({
             query: ({
                 page,
                 limit,
@@ -31,14 +18,14 @@ export const productApi = createApi({
                 params,
                 emptyField,
                 discount
-            }: IgetAllProducts) => ({
+            }) => ({
                 url: `/?page=${page}&limit=${limit}&maincategory=${maincategory}&sortByPrice=${sortByPrice}&salerEmail=${email}&emptyField=${emptyField}&discount=${discount}`,
                 method: 'GET',
                 params
             }),
             providesTags: (result) => ['Products']
         }),
-        getProduct: build.query<IProduct, string>({
+        getProduct: build.query({
             query: (id) => ({
                 url: `/${id}`,
                 method: 'GET'

@@ -1,34 +1,17 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
 import Button from '../../components/interface/button/Button'
-import s from '../../styles/styleComponents/Contacts.module.scss'
+import SuccessModal from '../../components/interface/successmodal/SuccessModal'
+import WarningModal from '../../components/interface/warningmodal/WarningModal'
+import s from './Contacts.module.scss'
 
-type Props = {}
-
-export default function Contacts({ }: Props) {
+export default function Contacts() {
     const [email, setEmail] = useState('')
-    const [emailDirty, setEmailDirty] = useState(false)
     const [name, setName] = useState('')
-    const [nameDirty, setNameDirty] = useState(false)
     const [message, setMessage] = useState('')
-    const [messageDirty, setMessageDirty] = useState(false)
-
-    const blurHandle = (e: any) => {
-        switch (e.target.name) {
-            case 'email':
-                setEmailDirty(true)
-                break;
-            case 'message':
-                setMessageDirty(true)
-                break;
-            case 'name':
-                setNameDirty(true)
-                break;
-            default:
-                break;
-        }
-    }
+    const [successModal, setSuccessModal] = useState(false)
+    const [warnModal, setWarnModal] = useState(false)
 
     return (
         <div className={s.contacts}>
@@ -46,12 +29,12 @@ export default function Contacts({ }: Props) {
                             <div className={s.contacts__text_field}>
                                 <p>ИП Чижов Вячеслав Евгениевич,</p>
                                 <p>ИНН 711613495293, ОГРНИП 320715400016540</p>
-                                <p>Адрес: 74900, г. Новая Каховка, ул. Гагарина, дом 10.</p>
+                                <p>Адрес: 74900, г. Новая Каховка, ул. Довженко, дом 12.</p>
                                 <p>Адрес для корреспонденции: г. Херсон, ул. Шевченко, дом 20 кв.3</p>
                             </div>
                             <h5>Telegram, Whatsapp, E-mail</h5>
                             <div className={s.contacts__text_field}>
-                                <p>+38(099)70 131 73</p>
+                                <p>+38(099)70 131 76</p>
                                 <Link to='#' onClick={(e) => {
                                     window.location.href = 'mailto:Duffs@hotmail.com'
                                     e.preventDefault()
@@ -80,17 +63,40 @@ export default function Contacts({ }: Props) {
                             <form method='POST' action='./mail.php' id='contactsForm' className={s.contacts__form}>
                                 <label>
                                     <p>Имя</p>
-                                    <input onBlur={e => blurHandle(e)} style={nameDirty ? {border: '1px solid red'} : {border: 'none'}} name='name' className={s.contacts__input} type='text' placeholder='Имя' />
+                                    <input
+                                        name='name'
+                                        value={name}
+                                        className={s.contacts__input}
+                                        onChange={e => setName(e.target.value)}
+                                        type='text'
+                                        placeholder='Имя' />
                                 </label>
                                 <label>
                                     <p>E-mail</p>
-                                    <input onBlur={e => blurHandle(e)} name='email' className={s.contacts__input} type='text' placeholder='E-mail' />
+                                    <input
+                                        className={s.contacts__input}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={email}
+                                        name='email'
+                                        type='text'
+                                        placeholder='E-mail' />
                                 </label>
                                 <label style={{ height: 'auto' }}>
                                     <p>Сообщение</p>
-                                    <textarea onBlur={e => blurHandle(e)} name='message' className={`${s.contacts__input} ${s.contacts__input_area}`} placeholder='Сообщение' />
+                                    <textarea
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        name='message'
+                                        className={`${s.contacts__input} ${s.contacts__input_area}`}
+                                        placeholder='Сообщение' />
                                 </label>
                                 <Button
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        if (!email || !message || !name) {
+                                            setWarnModal(true)
+                                        } else setSuccessModal(true)
+                                    }}
                                     className={s.contacts__form_btn}
                                     text='Отправить'
                                     type='submit' />
@@ -99,6 +105,14 @@ export default function Contacts({ }: Props) {
                     </div>
                 </div>
             </div >
+            <SuccessModal
+                modalIsActive={successModal}
+                setModalIsActive={setSuccessModal}
+                successText='Сообщение отправлено' />
+            <WarningModal
+                modalIsActive={warnModal}
+                setModalIsActive={setWarnModal}
+                warnText='Заполните все поля' />
         </div >
     )
 }

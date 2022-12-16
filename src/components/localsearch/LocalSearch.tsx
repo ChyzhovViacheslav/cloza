@@ -1,6 +1,6 @@
 import React from 'react'
 import IconSelector from '../../assets/icons/icons'
-import s from '../../styles/styleComponents/LocalSearch.module.scss'
+import s from './LocalSearch.module.scss'
 
 interface ILocalSearch {
     searchTerm: string,

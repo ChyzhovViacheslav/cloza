@@ -1,8 +1,7 @@
 import React from 'react'
-import s from '../../styles/styleComponents/Rules.module.scss'
-type Props = {}
+import s from './Rules.module.scss'
 
-export default function Rules({ }: Props) {
+export default function Rules() {
     return (
         <div className={s.rules}>
             <div className={s.rules__body}>

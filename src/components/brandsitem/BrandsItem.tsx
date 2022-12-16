@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import IconSelector from '../../assets/icons/icons'
 import { filterSlice } from '../../store/reducers/ProductFilter'
-import s from '../../styles/styleComponents/BrandsItem.module.scss'
+import s from './BrandsItem.module.scss'
 
 type IBrandsItem = {
   name: string

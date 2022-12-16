@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Filter from '../filter/Filter'
-import s from '../../styles/styleComponents/ProductArea.module.scss'
+import s from './ProductArea.module.scss'
 import IconSelector from '../../assets/icons/icons'
 import Pagination from '../pagination/Pagination'
 import MySelect from '../interface/inputs/MySelect'
@@ -27,7 +27,7 @@ export default function ProductArea() {
         } else return ''
     }
 
-    const { data: products, isFetching: productsIsFetching } = productApi.useGetAllProductsQuery(
+    const { data: products, isFetching: productsIsFetching, isLoading: productsIsLoading } = productApi.useGetAllProductsQuery(
         {
             page: currentPage,
             limit: 15,
@@ -42,7 +42,7 @@ export default function ProductArea() {
 
     const productIsEmpty = sortedProduct?.length === 0 ? <div className={s.productarea__empty}>
         <IconSelector id='search' />
-        <span>Нед подходящих товаров</span>
+        <span>Нет подходящих товаров</span>
     </div> : null
 
     const checkedProduct = () => {
@@ -59,6 +59,7 @@ export default function ProductArea() {
                     <div className={s.productarea__sort}>
                         <div className={s.productarea__show}>
                             <ShowTotalItems
+                                isLoading={productsIsLoading}
                                 totalItems={products?.totalProducts}
                                 currentItems={sortedProduct?.length}
                                 currentPage={currentPage}
@@ -67,7 +68,7 @@ export default function ProductArea() {
                         <div className={s.productarea__sort_action}>
                             <span>Сортировать:</span>
                             <MySelect
-                                data={["Новые предложения", "Цена по возрастанию", "Цена по убыванию"]}
+                                data={["Цена по возрастанию", "Цена по убыванию"]}
                                 onChange={(e) => {
                                     switch (e.target.value) {
                                         case 'Цена по возрастанию': setSortByPrice(1)

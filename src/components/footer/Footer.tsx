@@ -1,10 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import IconSelector from '../../assets/icons/icons';
-import s from '../../styles/styleComponents/Footer.module.scss';
+import { useAppDispatch } from '../../hooks/redux';
+import useAuth from '../../hooks/userAuth';
+import s from './Footer.module.scss';
 import Line from '../interface/line/Line';
+import { smModalSlice } from '../../store/reducers/SmModalSlice';
 
-export default function Footer() {
+interface IFooter {
+    setFavModalIsActive: any
+}
+
+export default function Footer({ setFavModalIsActive }: IFooter) {
+    const { isAuth } = useAuth()
+    const dispatch = useAppDispatch()
+
+    const { changeToFav } = smModalSlice.actions
     return (
         <footer className={s.footer}>
             <div className={`${s.footer} _container`}>
@@ -35,9 +46,20 @@ export default function Footer() {
                                 <h3>Мой аккаунт</h3>
                             </div>
                             <div className={s.footer__text}>
-                                <Link to='/orders'><span>Заказы</span></Link>
-                                <Link to='/favorite'><span>Список желаний</span></Link>
-                                <Link to='/login'><span>Войти</span></Link>
+                                <Link onClick={(e) => {
+                                    e.preventDefault()
+                                    if (!isAuth) {
+                                        dispatch(changeToFav())
+                                        setFavModalIsActive(true)
+                                    }
+                                }} to='/profile'><span>Список желаний</span></Link>
+                                <Link onClick={(e) => {
+                                    e.preventDefault()
+                                    if (!isAuth) {
+                                        dispatch(changeToFav())
+                                        setFavModalIsActive(true)
+                                    }
+                                }} to='/profile'><span>Корзина</span></Link>
                             </div>
                         </div>
                         <div className={s.footer__item}>
@@ -47,7 +69,6 @@ export default function Footer() {
                             <div className={s.footer__text}>
                                 <Link to='/security'><span>Безопасная сделка</span></Link>
                                 <Link to='/rules'><span>Правила оказания услуг</span></Link>
-                                <Link to='/blog'><span>Блог</span></Link>
                             </div>
                         </div>
                         <div className={s.footer__contacts}>
@@ -61,10 +82,10 @@ export default function Footer() {
                             <IconSelector onClick={() => { console.log('inst') }} id='inst' className={s.footer__inst_ico} />
                         </div>
                     </div>
-                    <Line style={{marginTop: '32px'}}/>
+                    <Line style={{ marginTop: '32px' }} />
                     <div className={s.footer__terms}>
                         <div className={s.footer__terms_field}>
-                            <div style={{flex: '1 1 auto'}}>
+                            <div style={{ flex: '1 1 auto' }}>
                                 <Link to='/terms'><span>Пользовательское соглашение</span></Link> и <Link to='/privacy'><span>политика конфиденциальности</span></Link>
                             </div>
                             <p>©CLOZA 2022. Все права защищены</p>

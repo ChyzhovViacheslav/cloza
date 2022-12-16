@@ -1,0 +1,59 @@
+.header {
+    position: relative;
+    &__body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 95px;
+    }
+    &__logo {
+        path {
+            transition: fill 0.2s ease-in-out;
+        }
+        &:hover {
+            path {
+                fill: var(--main-color);
+            }
+        }
+    }
+    &__links {
+        display: flex;
+        align-items: center;
+        column-gap: 22px;
+        h2 {
+            white-space: nowrap;
+            &:hover {
+                font-weight: 500;
+            }
+        }
+    }
+    &__actives {
+        display: flex;
+        column-gap: 24px;
+        align-items: center;
+    }
+    &__cart {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        path {
+            fill: var(--main-color);
+        }
+    }
+    &__counter {
+        position: absolute;
+        top: -5px;
+        font-family: "PTRoot";
+        font-size: 12px;
+        line-height: 15px;
+        color: var(--main-color);
+        pointer-events: none;
+    }
+    &__person {
+        opacity: 0.5;
+        cursor: pointer;
+        path {
+            fill: var(--text-paragraph);
+        }
+    }
+}

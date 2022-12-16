@@ -13,7 +13,7 @@ export default interface IProduct {
     discount?: number,
     amount: any,
     trade: boolean,
-    id?: any,
+    _id?: any,
     key?: any,
     mainPhoto: string,
     additionalsPhotos: any,

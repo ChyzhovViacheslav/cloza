@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import s from '../../styles/styleComponents/NewProducts.module.scss'
+import React, { useState } from 'react'
+import s from './NewProducts.module.scss'
 import MySelect from '../interface/inputs/MySelect'
 import Line from '../interface/line/Line'
 import Products from '../products/Products'

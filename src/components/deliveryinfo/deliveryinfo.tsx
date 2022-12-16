@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
-import s from '../../styles/styleComponents/DeliveryInfo.module.scss'
+import s from './DeliveryInfo.module.scss'
 import Button from '../interface/button/Button'
 import Line from '../interface/line/Line'
 import { authUser } from '../../services/AuthUser'
@@ -9,6 +9,7 @@ import useAuth from '../../hooks/userAuth'
 import { useAppDispatch } from '../../hooks/redux'
 import { userSlice } from '../../store/reducers/UserSlice'
 import IDeliveryInfo from '../../models/IDeliveryInfo'
+import IUseAuth from '../../models/IUseAuth'
 
 interface IDeliveryInfoCompnent {
     isTemplate: boolean,
@@ -22,9 +23,9 @@ interface IDeliveryInfoCompnent {
     setPhone: (value: any) => void,
     setEmail: (value: string) => void,
     setCity: (valie: string) => void,
-    setAddress: any,
+    setAddress: (value: string) => void,
     setIndex: (value: any) => void,
-    setDeliveryType?: any
+    setDeliveryType?: (value: string) => void
     setModalIsActive?: (value: boolean) => void
     setSuccessModalIsActive: (value: boolean) => void
     templateWarnIsActive?: boolean
@@ -38,7 +39,7 @@ export default function DeliveryInfo({
     setAddress, setCity, setEmail, setIndex, setName, setPhone, setDeliveryType, setModalIsActive,
     setSuccessModalIsActive, setTemplateWarnIsActive, setOrderingWarnModal, createOrderHandler }: IDeliveryInfoCompnent) {
 
-    const { delivery_info, _id } = useAuth() as any
+    const { delivery_info, _id } = useAuth() as IUseAuth
     const { changeDeliveryInfoList } = userSlice.actions
     const dispatch = useAppDispatch()
 
@@ -131,7 +132,7 @@ export default function DeliveryInfo({
                         <div onClick={() => rigthClickHandle()}><IconSelector id='arrowRight' /></div>
                     </div> : null}
                 </div>
-                {!isTemplate ? <div className={s.delivery_info__templates}>
+                {!isTemplate && delivery_info.length >= 1 ? <div className={s.delivery_info__templates}>
                     <div className={s.delivery_info__templates_window}>
                         <div
                             className={s.delivery_info__templates_container}

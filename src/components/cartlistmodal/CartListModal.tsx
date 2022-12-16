@@ -11,7 +11,12 @@ import { userSlice } from "../../store/reducers/UserSlice"
 import Line from "../interface/line/Line"
 import s from './CartListModal.module.scss'
 
-export default function CartListModal({ cartModal, setCartModal }: any) {
+interface ICartListModal {
+    cartModal: boolean,
+    setCartModal: (value: boolean) => void
+}
+
+export default function CartListModal({ cartModal, setCartModal }: ICartListModal) {
     const { _id, cartlist } = useAuth()
     const { removeFromCartlist } = useCartlist()
     const { changeCartlist } = userSlice.actions
@@ -46,7 +51,7 @@ export default function CartListModal({ cartModal, setCartModal }: any) {
         })
     }
 
-    const decAmount = (amount: any, id: string) => {
+    const decAmount = (amount: number, id: string) => {
         if (amount === 1) {
             removeFromCartlist(_id, id)
         } else {

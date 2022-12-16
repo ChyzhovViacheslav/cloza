@@ -28,6 +28,9 @@ export const smModalSlice = createSlice({
         },
         changeToSell(state){
             state.typeSm = 'sell'
+        },
+        changeToCart(state){
+            state.typeSm = 'cart'
         }
     }
 })

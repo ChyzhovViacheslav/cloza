@@ -29,7 +29,8 @@ export default function MyRoutes() {
         <Breadcrumbs />
         <App />
         <Line />
-        <Footer />
+        <Footer 
+          setFavModalIsActive={setFavModalIsActive}/>
         {type === 'login' ?
           <LoginModal
             modalIsActive={modalIsActive}
@@ -38,7 +39,6 @@ export default function MyRoutes() {
             modalIsActive={modalIsActive}
             setModalIsActive={setModalIsActive}/>}
         <FavModal
-          modalIsActive={modalIsActive}
           setModalIsActive={setModalIsActive}
           favModalIsActive={favModalIsActive}
           setFavModalIsActive={setFavModalIsActive}

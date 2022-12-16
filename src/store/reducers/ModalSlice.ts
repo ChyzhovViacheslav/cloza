@@ -14,11 +14,8 @@ export const loginModalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        openModal(state) {
-            state.active = true
-        },
-        closeModal(state){
-            state.active = false
+        setModal(state, action) {
+            state.active = action.payload
         },
         changeModalTypeLogin(state){
             state.type = 'login'

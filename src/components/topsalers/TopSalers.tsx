@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
 import { authUser } from '../../services/AuthUser'
-import s from '../../styles/styleComponents/TopSalers.module.scss'
+import s from './TopSalers.module.scss'
 import ErrorConnection from '../interface/errorconnection/ErrorConnection'
 import SalerItem from '../salerItem/SalerItem'
+import IUser from '../../models/IUser'
 
 export default function TopSalers() {
     const { data: users, isLoading: usersIsLoading, isError } = authUser.useFetchAllUsersQuery({
@@ -17,13 +18,13 @@ export default function TopSalers() {
             return <ErrorConnection />
         } else {
             return (
-                users?.users.map((el: any, i: number) => {
+                users?.users.map((el: IUser) => {
                     return (
                         <SalerItem
                             _id={el._id}
                             username={el.username}
                             image={el.image}
-                            key={i} />
+                            key={el._id} />
                     )
                 })
             )

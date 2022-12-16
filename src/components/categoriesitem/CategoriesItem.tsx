@@ -1,5 +1,5 @@
 import React from 'react'
-import s from '../../styles/styleComponents/CategoriesItem.module.scss'
+import s from './CategoriesItem.module.scss'
 import placeholder from '../../assets/images/hdplaceholder.jpg'
 import IconSelector from '../../assets/icons/icons'
 import { useNavigate } from 'react-router'

@@ -3,7 +3,7 @@ import IconSelector from '../../assets/icons/icons'
 import CategoriesItem from '../../components/categoriesitem/CategoriesItem'
 import CollapsableItem from '../../components/interface/collapsable/CollapsableItem'
 import { extraApi } from '../../services/ExtraService'
-import s from '../../styles/styleComponents/Categories.module.scss'
+import s from './Categories.module.scss'
 
 export default function Categories() {
   const [currentCategory, setCurrentCategory] = useState<string>('male')

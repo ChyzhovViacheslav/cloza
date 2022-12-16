@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import IconSelector from '../../assets/icons/icons'
 import { extraApi } from '../../services/ExtraService'
-import s from '../../styles/styleComponents/PopularBrands.module.scss'
+import s from './PopularBrands.module.scss'
 import BrandsItem from '../brandsitem/BrandsItem'
 import ErrorConnection from '../interface/errorconnection/ErrorConnection'
 
@@ -18,8 +18,8 @@ export default function PopularBrands() {
         } else {
             if (!brandsIsLoading) {
                 return (
-                    brands.brands.map((el: string, i: number) => {
-                        return <BrandsItem name={el} key={i} />
+                    brands.brands.map((el: string) => {
+                        return <BrandsItem name={el} key={el} />
                     })
                 )
             } else return <IconSelector className={s.popbrands__loader} id='loader' />

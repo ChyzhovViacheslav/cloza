@@ -1,5 +1,5 @@
 import React from 'react'
-import s from '../../styles/styleComponents/Faq.module.scss';
+import s from './Faq.module.scss';
 import CollapsableItem from '../../components/interface/collapsable/CollapsableItem';
 
 

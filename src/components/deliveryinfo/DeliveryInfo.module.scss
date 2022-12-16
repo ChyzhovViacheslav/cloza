@@ -28,12 +28,16 @@
             height: 32px;
             border-radius: 8px;
             border: 1px solid var(--gray-light);
+            transition: all 0.2s ease-in-out;
             svg {
                 width: 20px;
                 height: 20px;
                 path {
                     fill: var(--text-paragraph);
                 }
+            }
+            &:hover{
+                background-color: var(--gray-light);
             }
         }
     }

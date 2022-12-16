@@ -5,7 +5,7 @@ import ShowTotalItems from '../../components/interface/showTotalItems/ShowTotalI
 import LocalSearch from '../../components/localsearch/LocalSearch'
 import Pagination from '../../components/pagination/Pagination'
 import { extraApi } from '../../services/ExtraService'
-import s from '../../styles/styleComponents/Brands.module.scss'
+import s from './Brands.module.scss'
 
 export default function Brands() {
     const [currentPage, setCurrentPage] = useState(1)
@@ -32,7 +32,12 @@ export default function Brands() {
         <div className={s.brands__body}>
             <LocalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             <div className={s.brands__show}>
-                <ShowTotalItems currentPage={currentPage} currentItems={brands?.brands.length} totalItems={brands?.totalBrands} spreading={12}/>
+                <ShowTotalItems
+                    isLoading={brandsIsLoading} 
+                    currentPage={currentPage} 
+                    currentItems={brands?.brands.length} 
+                    totalItems={brands?.totalBrands} 
+                    spreading={12}/>
             </div>
             <div className={s.brands__content}>
                 {renderBrands()}

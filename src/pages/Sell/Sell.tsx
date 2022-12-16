@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import IconSelector from '../../assets/icons/icons';
 import Button from '../../components/interface/button/Button';
 import useAuth from '../../hooks/userAuth';
-import s from '../../styles/styleComponents/Sell.module.scss';
+import s from './Sell.module.scss';
 import MySelect from '../../components/interface/inputs/MySelect';
 import MyReactSelect from '../../components/interface/inputs/MyReactSelect';
 import { productApi } from '../../services/ProductService';
@@ -133,7 +133,7 @@ export default function Sell() {
           <input
             type={'file'}
             name='mainPhoto'
-            accept="image/png, image/jpeg, image/jpg"
+            accept="image/png, image/jpeg, image/jpg, image/webp"
             style={{ display: 'none' }}
             onChange={async (e) => {
               setMainPhoto(await toBase64(e.target.files[0]));
@@ -191,7 +191,7 @@ export default function Sell() {
               <input
                 type='file'
                 name='multipleFile'
-                accept="image/png, image/jpeg, image/jpg"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
                 style={{ display: 'none' }}
                 onChange={async (e) => setAdditionalPhoto([...additionalPhoto, await toBase64(e.target.files[0])])} />
             </label>

@@ -1,8 +1,9 @@
 import React from 'react'
+import IProduct from '../../models/IProduct'
 import ClothesCard from '../clothesitem/ClothesCard'
 
 export default function productCards(data: any) {
-    return data?.map((el: any) => {
+    return data?.map((el: IProduct) => {
         return (
             <ClothesCard
                 key={el._id}
@@ -20,7 +21,7 @@ export default function productCards(data: any) {
                 price={el.price}
                 amount={el.amount}
                 trade={el.trade}
-                id={el._id} 
+                _id={el._id} 
                 mainPhoto={el.mainPhoto}
                 additionalsPhotos={el.additionalsPhotos}/>
         )

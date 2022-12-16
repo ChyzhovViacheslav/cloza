@@ -1,8 +1,7 @@
 import React from 'react'
-import s from '../../styles/styleComponents/Privacy.module.scss'
-type Props = {}
+import s from './Privacy.module.scss'
 
-export default function Privacy({ }: Props) {
+export default function Privacy() {
     return (
         <div className={s.privacy}>
             <div className={s.privacy__body}>

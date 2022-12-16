@@ -3,6 +3,7 @@
     &__body {
         display: flex;
         padding: 32px 0px 64px 0px;
+        column-gap: 24px;
     }
     &__content {
         position: relative;

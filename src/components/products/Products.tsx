@@ -1,12 +1,12 @@
 import React from 'react'
 import IconSelector from '../../assets/icons/icons'
 import sortedProducts from '../productarea/SortedProduct'
-import s from '../../styles/styleComponents/Products.module.scss'
+import s from './Products.module.scss'
 import { productApi } from '../../services/ProductService'
 
 type IProducts = {
     limit: number,
-    sortByPrice?: any,
+    sortByPrice?: number,
     currentMainCategory?: string,
     salerEmail?: string
 }
@@ -31,7 +31,7 @@ export default function Products({currentMainCategory, sortByPrice, limit, saler
             return (
                 <div className={s.product__empty}>
                     <IconSelector id='search' />
-                    <span>Нед подходящих товаров</span>
+                    <span>Нет подходящих товаров</span>
                 </div>
             )
         } else {

@@ -6,7 +6,7 @@ import NewPoducts from '../../components/newproducts/NewProducts';
 import PopularBrands from '../../components/popularbrands/PopularBrands';
 import PopularCategories from '../../components/popularcategories/PopularCategories';
 import TopSalers from '../../components/topsalers/TopSalers';
-import s from '../../styles/styleComponents/Home.module.scss';
+import s from './Home.module.scss';
 
 export default function Home() {
 

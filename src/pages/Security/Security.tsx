@@ -1,10 +1,9 @@
 import React from 'react'
 import IconSelector from '../../assets/icons/icons';
 import Line from '../../components/interface/line/Line';
-import s from '../../styles/styleComponents/Security.module.scss';
-type Props = {}
+import s from './Security.module.scss';
 
-export default function Security({ }: Props) {
+export default function Security() {
     return (
         <div className={s.sec}>
             <div className={s.sec__body}>

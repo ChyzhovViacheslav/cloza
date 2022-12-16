@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAppDispatch } from '../../hooks/redux';
 import { loginModalSlice } from '../../store/reducers/ModalSlice';
-import s from '../../styles/styleComponents/LoginModal.module.scss'
+import s from './LoginModal.module.scss'
 import Button from '../interface/button/Button';
 import Modal from '../interface/modal/Modal'
 import { userSlice } from '../../store/reducers/UserSlice';
