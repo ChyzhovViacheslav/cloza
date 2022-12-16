@@ -14,6 +14,8 @@ interface IFilter {
     setModalIsActive: (e: boolean) => void
 }
 
+console.log('');
+
 export default function Filter({ setModalIsActive }: IFilter) {
     const {
         setSubCategories,
