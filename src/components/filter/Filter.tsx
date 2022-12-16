@@ -49,14 +49,14 @@ export default function Filter({ setModalIsActive }: IFilter) {
 
     useEffect(() => {
         if (!isLoadingCategories) {
-            setAllCategories([...categories[0].top, ...categories[0].bottom, ...categories[0].accessories, ...categories[0].shoes].slice(0, 5))
+            setAllCategories([...categories[0]?.top, ...categories[0]?.bottom, ...categories[0]?.accessories, ...categories[0]?.shoes].slice(0, 5))
         }
 
         if (!isLoadingBrands) {
-            dispatch(setInitialBrands(brandsDB.brands))
+            dispatch(setInitialBrands(brandsDB?.brands))
         }
 
-    }, [isLoadingCategories])
+    }, [isLoadingCategories, isLoadingBrands])
 
     useEffect(() => {
         setFilter(
