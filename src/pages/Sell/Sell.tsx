@@ -45,7 +45,7 @@ export default function Sell() {
   const additionPhotoRef = useRef([])
 
   useEffect(() => {
-
+        
   }, [mainPhoto, additionalPhoto.length])
 
   const renderSubCategory = () => {

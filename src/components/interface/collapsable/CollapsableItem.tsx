@@ -27,9 +27,7 @@ export default function CollapsableItem({ title, children, className, isClosed, 
     } as React.CSSProperties
 
     const open = {
-        maxHeight: `${scroll}px`,
-        opacity: '1',
-        marginTop: '24px'
+        
     } as React.CSSProperties
 
     return (

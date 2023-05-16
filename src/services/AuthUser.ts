@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import IUser from "../models/IUser";
 
 interface IRegisterUser {
     username: string,

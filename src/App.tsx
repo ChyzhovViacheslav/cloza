@@ -25,8 +25,6 @@ import Sale from './pages/Sale/Sale';
 
 export default function App() {
   const location = useLocation()
-  
-  const check = 'string check 3'
 
   useEffect(() => {
     window.scrollTo(0, 0)
